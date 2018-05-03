@@ -53,8 +53,8 @@ debug = True
 Component = 'Leptonic' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
-PATH_HERE = "../pipelines/" #Path where we are running
-PATH_MODEL = "../models/" #Path where the model to simulate is stored
+PATH_HERE = "../pipes_in_py" #Path where we are running
+PATH_MODEL = "../../models/" #Path where the model to simulate is stored
 PATH_OBS = config.DATA_PATH+"/Obs_test"+Component+"/" #Path to store the observation files. I create a different directory to store  each component (or set of components) data. 
 if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create it.
     os.makedirs(PATH_OBS)

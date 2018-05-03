@@ -1,0 +1,12 @@
+#! /bin/bash
+
+#Change the path for LMC folder
+
+LMC_PATH=`pwd` #LMC folder
+DATA_PATH='/scratch/bernardos/LMC/'
+
+file=`grep -rl 'LMC_PATH = ' $LMC_PATH/tools/tools_in_py/ | head -1` 
+
+sed 's|LMC_PATH = ||g' $file
+
+#find $HERE -name *.xml | xargs sed -i 's%/afs/ciemat.es/user/b/bernardos/Documentos/LMC/%/afs/ciemat.es/user/b/bernardos/Documentos/LMC/%g'

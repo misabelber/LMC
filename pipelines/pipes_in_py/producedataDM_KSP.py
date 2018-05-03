@@ -12,9 +12,9 @@ import os
 import random
 import config
 
-PATH_MODEL = "../models/" #Path where models are stored
+PATH_MODEL = "../../models/" #Path where models are stored
 PATH_OBS = config.DATA_PATH+"/Obs_DM/" #Path to store resulting .fits files.
-PATH_HERE = "../pipelines/pipes_in_py/" #Path where we are running
+PATH_HERE = "../pipes_in_py/" #Path where we are running
 
 #Pointing
 centerx = 80.0
