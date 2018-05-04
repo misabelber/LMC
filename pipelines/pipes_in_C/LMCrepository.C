@@ -1,5 +1,5 @@
-#include "/afs/ciemat.es/user/b/bernardos/CTA_Model/Codes/Math/matrixes.h"
-#include "/afs/ciemat.es/user/b/bernardos/CTA_Model/Codes/Math/linear_fitter.h"
+#include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h"
+#include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/linear_fitter.h"
 #include "TMatrixD.h"
 #include "TFITS.h"
 #include "TH2D.h"
