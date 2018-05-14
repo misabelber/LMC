@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <source_library title="source library">
   <source name="J0601.5-7237" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/Documentos/LMC/spectra/sources/spec_J0601.5-7237_ebl_0.3.dat">
+    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0601.5-7237_ebl_0.3.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">

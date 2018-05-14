@@ -40,7 +40,7 @@ LMC_PATH=`pwd` #THIS FOLDER IS LMC FOLDER
 var=`grep -r -h 'LMC_PATH = ' $LMC_PATH/tools/tools_in_py/ | head -1`
 #tr -d $var 'LMC_PATH'
 OLD_LMC_PATH=`echo $var | awk '{print $3}' | sed -e 's/^.//' -e 's/.$//'`
-#OLD_LMC_PATH='/afs/ciemat.es/user/b/bernardos/GitHub/LMC'
+OLD_LMC_PATH='/afs/ciemat.es/user/b/bernardos/GitHub/LMC'
 
 find $HERE -type f | xargs sed -i "s%${OLD_LMC_PATH}%${LMC_PATH}%g"
 

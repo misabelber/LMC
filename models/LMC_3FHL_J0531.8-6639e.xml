@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <source_library title="Source Library">
 <source  name="3FHL J0531.8-6639e" type="DiffuseSource"  tscalc="1">
-<spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/Documentos/LMC/spectra/sources/spec_J0531.8-6639e.dat">
+<spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0531.8-6639e.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
     <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-North.fits" map_based_integral="true" type="SpatialMap">
