@@ -1,9 +1,9 @@
 
 # DO NOT DELETE
 
-LMCrepository_C.so: //home/queenmab/GitHub/Math/matrixes.h
-LMCrepository_C.so: //home/queenmab/GitHub/Math/linear_fitter.h
-LMCrepository_C.so: //home/queenmab/GitHub/Math/matrixes.h
+LMCrepository_C.so: /afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h
+LMCrepository_C.so: /afs/ciemat.es/user/b/bernardos/GitHub/Math/linear_fitter.h
+LMCrepository_C.so: /afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h
 LMCrepository_C.so: /opt/root-5.34.36/include/TMatrixD.h
 LMCrepository_C.so: /opt/root-5.34.36/include/TMatrixT.h
 LMCrepository_C.so: /opt/root-5.34.36/include/TMatrixTBase.h

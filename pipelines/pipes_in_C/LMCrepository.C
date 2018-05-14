@@ -1,5 +1,5 @@
-#include "//home/queenmab/GitHub/Math/matrixes.h"
-#include "//home/queenmab/GitHub/Math/linear_fitter.h"
+#include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h"
+#include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/linear_fitter.h"
 #include "TMatrixD.h"
 #include "TFITS.h"
 #include "TH2D.h"
@@ -112,8 +112,8 @@ void FillDataM(Number &dm_mass){
   
   // Read Background model components data
   // Components files
-  TString dir = "/home/queenmab/DATA/LMCObs_";
-  TString dir_PS = "/home/queenmab/DATA/LMCObs_PS";
+  TString dir = "/scratch/bernardos/LMC/Obs_";
+  TString dir_PS = "/scratch/bernardos/LMC/Obs_PS";
   //TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0454.6-6825","J0529.8-7242","J0525.2-6614","J0537.0-7113","J0509.9-6418","J0601.5-7237","J0524.5-6937","J0535.3-6559","J0601.2-7035","J0537-691","J0525-696","J0534.1-6732","J0535-691"};
   TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691"};
   //TString components[N] = {"Leptonic","Hadronic"};
@@ -129,17 +129,17 @@ void FillDataM(Number &dm_mass){
   
   //Read Observations data
   
-  //filename = "/home/queenmab/DATA/LMCObs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_300h.fits";
-  //filename = "/home/queenmab/DATA/LMCObs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_003-100_300h.fits";
-  //TString filename = "/home/queenmab/DATA/LMCObs_Leptonic+Hadronic/cntcube_LMC_Leptonic+Hadronic_prod3_003-100_300h.fits";
-  //TString filename = "/home/queenmab/DATA/LMCObs_Leptonic/cntcube_LMC_Leptonic_prod3_003-100_300h.fits";
-  //filename = "/home/queenmab/DATA/LMCObs_Irf/cntcube_LMC_Irf_prod3_003-100_300h.fits";
+  //filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_300h.fits";
+  //filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_003-100_300h.fits";
+  //TString filename = "/scratch/bernardos/LMC/Obs_Leptonic+Hadronic/cntcube_LMC_Leptonic+Hadronic_prod3_003-100_300h.fits";
+  //TString filename = "/scratch/bernardos/LMC/Obs_Leptonic/cntcube_LMC_Leptonic_prod3_003-100_300h.fits";
+  //filename = "/scratch/bernardos/LMC/Obs_Irf/cntcube_LMC_Irf_prod3_003-100_300h.fits";
  
-  //filename = "/home/queenmab/DATA/LMCObs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
+  //filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
 
-  //filename = "/home/queenmab/DATA/LMCObs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
+  //filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
   
-  filename = "/home/queenmab/DATA/LMCObs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
+  filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
 
   ReadFits(obs_data,filename);
   
@@ -160,13 +160,13 @@ void FillDataM(Number &dm_mass){
   }
   
   TString modelname = "dm_LMC_"+particle+masstr;
-  /*if (dm_mass==1) filename = "/home/queenmab/DATA/LMCObs_DM/modcube_"+modelname+"_003-100_300h_40ebins_002binning.fits";
-  else if(dm_mass==0.500) filename = "/home/queenmab/DATA/LMCObs_DM/modcube_"+modelname+"_003-100_300h_40ebins_025binning.fits";
-  else*/// filename = "/home/queenmab/DATA/LMCObs_DM/modcube_"+modelname+"_003-100_300h_40ebins_01binning.fits";
-  //filename = "/home/queenmab/DATA/LMCObs_DM/modcube_"+modelname+"_003-100_300h.fits";
-  if (dm_mass == 0) filename = "/home/queenmab/DATA/LMCObs_DM/modcube_dm_PowerLaw_003-100_KSP.fits";
-  //else filename = "/home/queenmab/DATA/LMCObs_DM/modcube_"+modelname+"_003-100_300h.fits";
-  else filename = "/home/queenmab/DATA/LMCObs_DM/modcube_"+modelname+"_003-100_KSP_v2.fits";
+  /*if (dm_mass==1) filename = "/scratch/bernardos/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_002binning.fits";
+  else if(dm_mass==0.500) filename = "/scratch/bernardos/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_025binning.fits";
+  else*/// filename = "/scratch/bernardos/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_01binning.fits";
+  //filename = "/scratch/bernardos/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h.fits";
+  if (dm_mass == 0) filename = "/scratch/bernardos/LMC/Obs_DM/modcube_dm_PowerLaw_003-100_KSP.fits";
+  //else filename = "/scratch/bernardos/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h.fits";
+  else filename = "/scratch/bernardos/LMC/Obs_DM/modcube_"+modelname+"_003-100_KSP_v2.fits";
   
   ReadFits(dm_data,filename);
 
@@ -186,11 +186,11 @@ void FillDataM(Number &dm_mass){
 void DataSim(VM &data){
   gRandom->SetSeed(0); 
   //Observations Model Cube
-  //TString filename = "/home/queenmab/DATA/LMCObs_Irf+CR+DiffuseSources/modcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
+  //TString filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources/modcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
   
-  //TString filename = "/home/queenmab/DATA/LMCObs_Irf+CR+DiffuseSources+1PS/modcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
+  //TString filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+1PS/modcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
   
-  TString filename = "/home/queenmab/DATA/LMCObs_Irf+CR+DiffuseSources+PS/modcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
+  TString filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+PS/modcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
 
   ReadFits(data,filename);
 
