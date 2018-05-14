@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<source_library title="Source Library">
+  <source  name="LeptonicDiffuse" type="DiffuseSource" tscalc="1">
+    <spectrum type="FileFunction" file="/scratch/bernardos/LMC/spectra/diffuse/Spec_IC_LMC.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+  </source>
+  <source name="CTABackgroundModel" type="CTAIrfBackground" instrument="CTA">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor"   scale="1"  value="1"  min="0.001" max="1000"   free="1"/>
+      <parameter name="Index"   scale="1"  value="0"  min="-5" max="5"   free="1"/>
+      <parameter name="PivotEnergy"   scale="1000000"  value="1"  min="0.01" max="1000"   free="0"/>
+    </spectrum>
+  </source>
+</source_library>

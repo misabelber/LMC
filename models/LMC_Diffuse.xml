@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<source_library title="Source Library">
+<source  name="3FHL J0530.0-6900e" type="DiffuseSource"  tscalc="1">
+    <!--<spectrum normPar="Prefactor" type="PowerLaw">
+      <parameter error="0.1685781552" free="1" max="100" min="0" name="Prefactor" scale="1e-14" value="1.640432674"/>
+      <parameter error="0.1471913383" free="1" max="5" min="0" name="Index" scale="-1" value="2.452765941"/>
+      <parameter free="0" max="100" min="0.1" name="Scale" scale="1000" value="17.229"/>
+    </spectrum>-->
+     <spectrum type="FileFunction" file="../spectra/sources/spec_J0530.0-6900e.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-30DorWest.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+  </source>
+<source  name="3FHL J0500.9-6945e" type="DiffuseSource"  tscalc="1">
+    <!--<spectrum normPar="Prefactor" type="PowerLaw">
+      <parameter error="0.2738927151" free="1" max="100" min="0" name="Prefactor" scale="1e-15" value="1.517671404"/>
+      <parameter error="0.1621543076" free="1" max="5" min="0" name="Index" scale="-1" value="1.912355168"/>
+      <parameter free="0" max="100" min="0.1" name="Scale" scale="1000" value="34.419"/>
+    </spectrum>-->
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0500.9-6945e.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-FarWest.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+  </source>
+<source  name="3FHL J0531.8-6639e" type="DiffuseSource"  tscalc="1">
+    <!--<spectrum normPar="Prefactor" type="PowerLaw">
+      <parameter error="0.3453796492" free="1" max="100" min="0" name="Prefactor" scale="1e-15" value="2.377542251"/>
+      <parameter error="0.1453902905" free="1" max="5" min="0" name="Index" scale="-1" value="1.985726722"/>
+      <parameter free="0" max="100" min="0.1" name="Scale" scale="1000" value="29.942"/>
+    </spectrum>-->
+     <spectrum type="FileFunction" file="../spectra/sources/spec_J0531.8-6639e.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-North.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+</source>
+<source  name="HadronicDiffuse" type="DiffuseSource" tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/diffuse/Spec_Pion_LMC.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+</source>
+<source  name="LeptonicDiffuse" type="DiffuseSource" tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/diffuse/Spec_IC_LMC.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+</source>
+</source_library>
+

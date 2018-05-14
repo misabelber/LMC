@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<source_library title="Source Library">
+  <source name="LMC" type="DiffuseSource">
+    <spatialModel type="DiffuseMapCube" file="mapcube.fits">
+      <parameter name="Normalization" scale="1" value="1" min="0.001" max="1000.0" free="0"/>
+    </spatialModel>
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor"   scale="1"  value="1"  min="0.001" max="1000"   free="1"/>
+      <parameter name="Index"   scale="1"  value="0"  min="-5" max="5"   free="1"/>
+      <parameter name="PivotEnergy"   scale="1000000"  value="1"  min="0.01" max="1000"   free="0"/>
+    </spectrum>
+  </source>
+  <source name="CTABackgroundModel" type="CTAIrfBackground" instrument="CTA">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor"   scale="1"  value="1"  min="0.001" max="1000"   free="1"/>
+      <parameter name="Index"   scale="1"  value="0"  min="-5" max="5"   free="1"/>
+      <parameter name="PivotEnergy"   scale="1000000"  value="1"  min="0.01" max="1000"   free="0"/>
+    </spectrum>
+  </source>
+</source_library>
+

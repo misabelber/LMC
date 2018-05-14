@@ -1,0 +1,245 @@
+<?xml version="1.0" ?>
+<source_library title="Source Library">
+  <source name="J0454.6-6825" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0454.6-6825.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="73.6591" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-68.4317" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0507.1-6102" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0507.1-6102_ebl.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="76.7803" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-61.0500" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0529.8-7242" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0529.8-7242_ebl.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="82.4531" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-72.7156" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+<source name="J0525.2-6614" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0525.2-6614.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="81.3240" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-66.2436" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0537.0-7113" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0537.0-7113.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="84.2537" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-71.2207" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0539.9-7553" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0539.9-7553_ebl_0.3.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="84.9851" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-75.8837" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0509.9-6418" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0509.9-6418_ebl_0.3.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="77.4388" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-64.3055" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0516.7-6207" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0516.7-6207_ebl.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="79.1889" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-62.1211" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0525.6-6013" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0525.6-6013_ebl_0.3.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="81.4151" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-60.2325" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0528.6-5920" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0528.6-5920_ebl.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="82.16189464" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-59.34861793" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0558.9-7458" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0558.9-7458_ebl.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="89.6688" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-74.9965" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0601.5-7237" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0601.5-7237_ebl_0.3.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="90.39640154" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-72.62769587" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0524.5-6937" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0524.5-6937.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="81.1278" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-69.6294" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0535.3-6559" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0535.3-6559.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="83.8283" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-65.9973" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0601.2-7035" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0601.2-7035_ebl.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="90.3132" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-70.6086" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0537-691" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0537-691.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="84.4375" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-69.1858" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0525-696" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0525-696.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="81.2583" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-69.6442" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0534.1-6732" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0534.1-6732.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="83.54" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-67.54" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0535-691" type="PointSource"  tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0535-691.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="83.9583" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-69.2061" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+<source  name="3FHL J0530.0-6900e" type="DiffuseSource"  tscalc="1">
+    <!--<spectrum normPar="Prefactor" type="PowerLaw">
+      <parameter error="0.1685781552" free="1" max="100" min="0" name="Prefactor" scale="1e-14" value="1.640432674"/>
+      <parameter error="0.1471913383" free="1" max="5" min="0" name="Index" scale="-1" value="2.452765941"/>
+      <parameter free="0" max="100" min="0.1" name="Scale" scale="1000" value="17.229"/>
+    </spectrum>-->
+     <spectrum type="FileFunction" file="../spectra/sources/spec_J0530.0-6900e.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-30DorWest.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+  </source>
+<source  name="3FHL J0500.9-6945e" type="DiffuseSource"  tscalc="1">
+    <!--<spectrum normPar="Prefactor" type="PowerLaw">
+      <parameter error="0.2738927151" free="1" max="100" min="0" name="Prefactor" scale="1e-15" value="1.517671404"/>
+      <parameter error="0.1621543076" free="1" max="5" min="0" name="Index" scale="-1" value="1.912355168"/>
+      <parameter free="0" max="100" min="0.1" name="Scale" scale="1000" value="34.419"/>
+    </spectrum>-->
+    <spectrum type="FileFunction" file="../spectra/sources/spec_J0500.9-6945e.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-FarWest.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+  </source>
+<source  name="3FHL J0531.8-6639e" type="DiffuseSource"  tscalc="1">
+    <!--<spectrum normPar="Prefactor" type="PowerLaw">
+      <parameter error="0.3453796492" free="1" max="100" min="0" name="Prefactor" scale="1e-15" value="2.377542251"/>
+      <parameter error="0.1453902905" free="1" max="5" min="0" name="Index" scale="-1" value="1.985726722"/>
+      <parameter free="0" max="100" min="0.1" name="Scale" scale="1000" value="29.942"/>
+    </spectrum>-->
+     <spectrum type="FileFunction" file="../spectra/sources/spec_J0531.8-6639e.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-North.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+</source>
+<source  name="HadronicDiffuse" type="DiffuseSource" tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/diffuse/Spec_Pion_LMC.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+</source>
+<source  name="LeptonicDiffuse" type="DiffuseSource" tscalc="1">
+    <spectrum type="FileFunction" file="../spectra/diffuse/Spec_IC_LMC.dat">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+</source>
+<!--<source name="DM" type="DiffuseSource"  tscalc="1">
+  <spatialModel type="DiffuseMap" file="/scratch/bernardos/LMC/DM/jfactor/jfactorLMC.fits">
+     <parameter name="Normalization" scale="1" value="1" min="0.001" max="1000.0" free="0"/>
+  </spatialModel>
+  <spectrum type="FileFunction" file="../spectra/DM/fluxW1TeV.txt">
+      <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
+  </spectrum>
+</source>-->
+  <!--<source name="CTABackgroundModel" type="CTAIrfBackground" instrument="CTA">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor"   scale="1"  value="1"  min="0.001" max="1000"   free="1"/>
+      <parameter name="Index"   scale="1"  value="0"  min="-5" max="5"   free="1"/>
+      <parameter name="PivotEnergy"   scale="1000000"  value="1"  min="0.01" max="1000"   free="0"/>
+    </spectrum>
+  </source>-->
+</source_library>
+
