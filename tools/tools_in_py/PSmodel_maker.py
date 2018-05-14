@@ -7,7 +7,7 @@ import numpy as np
 
 #PATHS
 
-LMC_PATH = '/afs/ciemat.es/user/b/bernardos/GitHub/LMC'
+LMC_PATH = '/home/queenmab/GitHub/LMC'
 PATH_MODELS=LMC_PATH+'/models/'  #Path to store the models created (.xml)
 
 #Open model file
