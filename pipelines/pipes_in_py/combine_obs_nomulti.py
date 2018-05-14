@@ -27,7 +27,7 @@ Total_time =1080000 #1440000 # 300h, Total amount of time required
 nobs = int(Total_time/duration) #Number of observations of 50h that will be simulated and combined
  
 #I need to define the calibration files in two ways because "ctobssim" can read simply this, but gammalib GObservation class needs the full path
-caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/gamma/share/caldb/data/cta/1dc/bcf/South_z20_50h") #Calibration Files for gammalib class
+caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/1dc/bcf/South_z20_50h") #Calibration Files for gammalib class
 irf = "irf_file.fits"
 
 caldb_ = '1dc' #Calibration files for ctobssim

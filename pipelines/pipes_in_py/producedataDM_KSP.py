@@ -44,7 +44,7 @@ nypix = 20
 
 enumbins = 20
 
-caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/gamma/share/caldb/data/cta/1dc/bcf/South_z20_50h") #Calibration Files for gammalib class
+caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/1dc/bcf/South_z20_50h") #Calibration Files for gammalib class
 irf = "irf_file.fits"
 
 caldb_= "1dc"

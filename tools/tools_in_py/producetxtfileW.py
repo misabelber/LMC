@@ -105,10 +105,11 @@ for mass in masses:
             #for x in vector[119:180]:
             if nbin < 56 or (nbin >= 56 and (finalstate!= 'W' and finalstate!='Z')): #Mab: Don't print the last bins of 'W' spectra (the bump)
                 print >> fff, x*mass*GeVtoMeV, dNdx(x)/mass/mass/mass/GeVtoMeV/8./3.14*sv*jfactor
+                #print(x*mass*GeVtoMeV, dNdx(x)/mass/mass/mass/GeVtoMeV/8./3.14*sv*jfactor,file=fff)
                 #print >> fff, x*mass*GeVtoMeV, dNdx(x)/mass/GeVtoMeV   # E  and dN/dE                
             nbin=nbin+1
         for i in range(len(zeros)-1):
             print >> fff,zeros[i+1],1e-300
-                        
+            #print(zeros[i+1],1e-300,fff)
     foutfinal.close()
 
