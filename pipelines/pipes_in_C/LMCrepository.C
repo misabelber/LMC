@@ -52,7 +52,7 @@ const int nmasses = 1;
 //float masses[nmasses] = {0.100,0.200,0.300,0.400,0.500,0.600,0.700,0.800,0.900,1,2,3,4,5,6,7,8,9,10,50,100};
 //float masses[nmasses] = {0.100,0.200,0.500,1,5,10,50,100};
 //float masses[nmasses] = {50,100};
-float masses[nmasses] = {10};
+float masses[nmasses] = {1};
 
 
 ///////FUNCTIONS TO READ DATA AND FILL MATRIXES///////////
@@ -139,7 +139,7 @@ void FillDataM(Number &dm_mass){
 
   //filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
   
-  filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
+  filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+PS/modcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
 
   ReadFits(obs_data,filename);
   
@@ -230,14 +230,15 @@ void calc_P(){
 	total_data+=obs_data[ebin][i][j];
 	if (obs_data[ebin][i][j] < 10) continue;
 	model_dm += dm_data[ebin][i][j];
-	for (int ii=0; ii<N; ii++) model_bkg[ii]+=data_bkg[ii][ebin][i][j];
+	for (int ii=0; ii<N; ii++) {
+	  model_bkg[ii]+=data_bkg[ii][ebin][i][j];	  
+	}
       }
     }
   }  
   
   for (int ii=0; ii<N; ii++) {if (model_bkg[ii]<1e-15) model_bkg[ii] = 1e-20;}
-
-
+  
   V P_n;
   init(N_bkg,N); init(P,N+1); 
   //Calculate P(i/bin) (Probability of an event belonging to model i to be in a certain bin.)
@@ -265,7 +266,7 @@ void calc_P(){
 
 ///////////////FUNCTIONS TO CALCULATE LIKELIHOODS///////////////
 
-double logL(V &Kpars){
+Number logL(V &Kpars){
   double sumlogL=0;
   for (int ebin=firstebin; ebin<nebins; ebin++){
     Number log_per_ebin=0;
@@ -280,7 +281,7 @@ double logL(V &Kpars){
 	Number loglike=0;
 	if (n<1e-15) loglike = -model;
 	else loglike = -model+n*log(model)-n*log(n)+n;
-	//double loglike = -model+n*log(model)-n*log(n)+n;
+	//loglike = -model+n*log(model)-n*log(n)+n;
 	sumlogL+=loglike;			
       }
     }
@@ -513,7 +514,7 @@ Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
   V K_0 = Kpars;
   int niter=3000;
   V x; x = Kpars;
-  Number dm_step = 10;
+  Number dm_step = 1;
   Number irf_step = 0.001;
   /*Number comp_step =0.1;
     Number ps_step = 0.1;*/
@@ -528,8 +529,10 @@ Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
       else if (j==4) step = -ps_step+gRandom->Uniform(2*ps_step);
       else step = -comp_step+gRandom->Uniform(2*comp_step);
       x[j] = x[j]+step;
-      if (x[j] > K_0[j]+tol) x[j] = K_0[j]+tol; //Only for fixed bkg
-      if (x[j] < K_0[j]-tol) x[j] = K_0[j]-tol; //Only for fixed bkg
+      if (j>0) {
+	if (x[j] > K_0[j]+tol) x[j] = K_0[j]+tol; //Only for fixed bkg
+	if (x[j] < K_0[j]-tol) x[j] = K_0[j]-tol; //Only for fixed bkg
+      }
       Number loglike = logL(x);
       if (loglike>=maxlogL) {maxlogL = loglike; Kpars = x;}
       else {x[j] = x[j]-step;}	
@@ -541,6 +544,56 @@ Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
   return maxlogL; 
 
 }
+
+Number Upper_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
+  gRandom->SetSeed(0);
+  V K_0 = Kpars;
+  int niter = 25;
+  int trials = 100;
+  V x; x = Kpars;
+  Number dm_step = 300;
+  Number irf_step = 0.001;
+  Number comp_step = 0.001;
+  Number ps_step = 0.001;
+
+  Number Upperlimit = Kpars[0];
+  for (int trial = 0; trial<trials; trial++) {
+    x = K_0;
+    Number maxdiflog = fabs(2*(maxlogL-logL(x)))-2.71;
+    for (int i=0; i<niter; i++){
+      for (int j=0; j<N+1; j++) {
+	Number step=0;
+	if (j==0){
+	  if (x[j]<0) step = -gRandom->Uniform(dm_step);
+	  else step = gRandom->Uniform(dm_step);
+	}
+	else if(j==1) step = -irf_step+gRandom->Uniform(2*irf_step);
+	else if(j==4) step = -ps_step+gRandom->Uniform(2*ps_step);
+	else step = -comp_step+gRandom->Uniform(2*comp_step);
+	x[j] = x[j]+step;
+	if (j>0) {
+	  if (x[j] > K_0[j]+tol) x[j] = K_0[j]+tol; //Only for fixed bkg                             
+	  if (x[j] < K_0[j]-tol) x[j] = K_0[j]-tol; //Only for fixed bkg
+	}
+	Number difflog = fabs(2*(maxlogL-logL(x)))-2.71;
+	if (fabs(difflog)<=fabs(maxdiflog)) {
+	  maxdiflog = difflog; 
+	  Kpars = x;
+	}
+	else if (j==0) x[j] = x[j]-step;
+	else  x[j] = x[j]-step; 
+      }
+    }
+    
+    if (fabs(2*(maxlogL-logL(x))) > 2.72 || fabs(2*(maxlogL-logL(x))) < 2.70) continue;
+    if (fabs(x[0]) > fabs(Upperlimit)) {Upperlimit = x[0]; Kpars = x;}
+  }
+  //Kpars = x;
+  Kpars = K_0;
+  return fabs(Upperlimit); 
+  
+}
+
 
 Number My_Minimizer_bin_by_bin(int ebin, V &Kpars, V &Kerrors, V &Kpars_perbin, Number &maxlogLbin){
 
@@ -619,10 +672,11 @@ Number calc_MaxlogL(V &Kpars, V &Kerrors){ //Maximum Likelihood Claculation
   MaxlogL = Conjugate_Gradients(Kpars);
   for (int ii=0; ii<N+1; ii++) {cout << Kpars[ii] << "  ";}
   cout << endl;
-  MaxlogL = Expectation_Maximization(Kpars,Kerrors,false);
+  for (int ii=1; ii<N+1; ii++) Kpars[ii] = 1.0; //Only for Best Case
+  MaxlogL = Expectation_Maximization(Kpars,Kerrors,true); //Set true for Best Case
   for (int ii=0; ii<N+1; ii++) cout << Kpars[ii] << "  ";
   cout << endl;
-  MaxlogL = My_Minimizer(Kpars,Kerrors,MaxlogL);
+  MaxlogL = My_Minimizer(Kpars,Kerrors,MaxlogL,0.1); //Set tol=0.1 for Best Case
   
   fprintf(stderr,"Max Likelihood:\t%lf\n",MaxlogL);
 
@@ -1206,7 +1260,7 @@ Number Plot_Limits(V &Kpars,Number &dm_mass){
   //double intervals[N+1]={300,0.0003,0.4,0.7,0.025,0.06,0.01,0.05};
 
   //  double intervals[N+1] = {300,0.0003,0.1,0.1,0.025,0.06,0.01,0.05};
-  double intervals[N+1] = {100,0.0003,0.1,0.1,0.05,0.06,0.01,0.01};
+  double intervals[N+1] = {150,0.0003,0.05,0.05,0.05,0.06,0.01,0.01};
 
   TNtuple *points1 = new TNtuple("p1","p1","logL:dm:irf:lepto:hadro:diff1:diff2:diff3:ps1");
   TNtuple *points2 = new TNtuple("p2","p2","logL:dm:ps7:ps8:ps9:ps10:ps11:ps12:ps13");
@@ -1215,6 +1269,7 @@ Number Plot_Limits(V &Kpars,Number &dm_mass){
   int niters = 100000;
   
   Number upperlimit = Kpars[0];
+  V Kuppers; init(Kuppers,N+1);
 
   int howmany=0;
   for (int iter=0; iter<niters; iter++){
@@ -1223,19 +1278,21 @@ Number Plot_Limits(V &Kpars,Number &dm_mass){
     for (int i=0; i<N+1; i++){
       Number min = Kmin[i]-intervals[i];
       Number max = Kmin[i]+intervals[i];
+      if (i==0 && Kmin[0] > 0) min = Kmin[i];
+      if (i==0 && Kmin[0] < 0) max = Kmin[i];      
       K[i] = min+gRandom->Uniform(max-min);
-      //K[i]-=Kmin[i];
+      //      K[i]-=Kmin[i];
     }
     V temp;
     mult(Mcov,K,temp);
-    //    Number loglike = -mult(K,temp);
+    //Number loglike = -mult(K,temp);
     
     Number loglike = 2*(maxlogL-logL(K));
     //for (int ii=0; ii<N+1; ii++)cout << K[ii] << "  ";
     //cout << endl;
     //cout << loglike <<  endl;
     //if (loglike<2.715 && loglike>2.705) {
-    if (loglike<2.75 && loglike>2.65) {
+    if (loglike<2.72 && loglike>2.70) {
       howmany++;
     //cout << loglike <<  endl;
       //for (int ii=0; ii<N+1; ii++)cout << K[ii]+Kmin[ii] << "  ";
@@ -1244,14 +1301,22 @@ Number Plot_Limits(V &Kpars,Number &dm_mass){
       //points2->Fill(loglike,K[0]+Kmin[0],K[13]+Kmin[13],K[14]+Kmin[14],K[15]+Kmin[15],K[16]+Kmin[16],K[17]+Kmin[17],K[18]+Kmin[18],K[19]+Kmin[19]);
       //points1->Fill(loglike,K[0]+Kmin[0],K[1]+Kmin[1],K[2]+Kmin[2],K[3]+Kmin[3],K[4]+Kmin[4],K[5]+Kmin[5],K[6]+Kmin[6],K[7]+Kmin[7]);
       
+      //points1->Fill(loglike,K[0]+Kmin[0],K[1]+Kmin[1],K[2]+Kmin[2],K[3]+Kmin[3],K[4]+Kmin[4],
+      //	    K[5]+Kmin[5],K[6]+Kmin[6],K[7]+Kmin[7]);
       points1->Fill(loglike,K[0],K[1],K[2],K[3],K[4],K[5],K[6],K[7]);
-      //if (fabs(K[0]+Kmin[0]) > upperlimit) upperlimit = fabs(K[0]+Kmin[0]);
-      if (fabs(K[0]) > upperlimit) upperlimit = fabs(K[0]);
+      //if (fabs(K[0]+Kmin[0]) > upperlimit) {upperlimit = fabs(K[0]+Kmin[0]); Kuppers=K;}
+      if (fabs(K[0]) > upperlimit) {upperlimit = fabs(K[0]); Kuppers=K;}
     }
   }
   
   cout << "UPPER LIMIT: " << upperlimit << endl;
+  for (int ii=0; ii<N+1; ii++)  cout << Kuppers[ii] << "  ";
+  cout << endl;
   
+//for (int ii=0; ii<N+1; ii++)  cout << Kuppers[ii]+Kmin[ii] << "  ";                              
+//cout << endl;
+
+
   points1->Draw("logL:dm:hadro","","prof colz");
   
   
@@ -1342,6 +1407,79 @@ void test(Number &dm_mass){
  
 }
 
+Number calc_UpperLimit(Number &dm_mass, bool bestcase=false,double tol=0.01){
+  
+  firstebin = 0; 
+  nebins = 20; 
+  FillDataM(dm_mass); 
+  DataSim(obs_data); 
+  calc_P(); 
+  V Kpars; init(Kpars, N+1);  
+  V Kerrors; init(Kerrors,N+1);
+  cout << "Maximizing Likelihood............." << endl;
+  Conjugate_Gradients(Kpars); 
+  Number Upperlimit=0;
+  if (bestcase){
+    for (int ii=1; ii<N+1; ii++) Kpars[ii] = 1.0; 
+    Expectation_Maximization(Kpars,Kerrors,true);
+    Number maxlogL = logL(Kpars);
+    maxlogL = My_Minimizer(Kpars,Kerrors,maxlogL,tol);
+    fprintf(stderr,"Max Likelihood:\t%lf\n",maxlogL);
+    cout << "MaxL Nuisance Parameters: " << endl;
+    for (int ii=0; ii<N+1; ii++) {cout << Kpars[ii] << "  ";}                                      
+    cout << endl;
+    Upperlimit = Upper_Minimizer(Kpars,Kerrors,maxlogL,tol);
+    cout << "Upperlimit: " << Upperlimit << endl;
+  }
+  
+  else{
+    Expectation_Maximization(Kpars,Kerrors,false);
+    Number maxlogL = logL(Kpars);
+    maxlogL = My_Minimizer(Kpars,Kerrors,maxlogL);
+    fprintf(stderr,"Max Likelihood:\t%lf\n",maxlogL);
+    cout << "MaxL Nuisance Parameters: " << endl;
+    for (int ii=0; ii<N+1; ii++) {cout << Kpars[ii] << "  ";}                                      
+    cout << endl;
+    Upperlimit = Upper_Minimizer(Kpars,Kerrors,maxlogL);
+    cout << "Upperlimit: " << Upperlimit << endl;
+  }
+  return Upperlimit;
+}
+
+void Bands(Number &dm_mass, bool bestcase=true, Number tol=0.01){
+
+  int realizations = 10;
+  
+  //Build wisely the name of the file
+  TString masstr;
+  if (dm_mass < 1.0){
+    ostringstream os;
+    os<<dm_mass*1000;
+    masstr = os.str()+"GeV";      
+  }
+  else{
+    ostringstream os;
+    os<<dm_mass;
+    masstr = os.str()+"TeV"; 
+  }
+  
+  TString filename;
+  if (!bestcase) filename = "limit"+masstr+".dat";
+  else filename = "limit"+masstr+"_BestCase.dat";
+  
+  ofstream outfile;
+  outfile.open(filename,ios::app);
+  
+  for (int i=0; i<realizations; i++){
+    Number upperlimit = calc_UpperLimit(dm_mass,bestcase,tol);
+    outfile << upperlimit << endl;
+  }
+  outfile.close(); 
+  
+  
+  
+}
+
 
 void checksimu(){
 
@@ -1375,3 +1513,5 @@ void checksimu(){
   }
 cout << chi2 << endl;
 }
+
+
