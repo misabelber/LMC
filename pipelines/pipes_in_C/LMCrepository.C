@@ -277,7 +277,7 @@ double logL(V &Kpars){
 	//if (n<1e-15) n=1e-10;
 	if (model<1e-15) model=1e-10;
 	//if (model<1e-100) continue;
-	double loglike=0;
+	Number loglike=0;
 	if (n<1e-15) loglike = -model;
 	else loglike = -model+n*log(model)-n*log(n)+n;
 	//double loglike = -model+n*log(model)-n*log(n)+n;
@@ -326,23 +326,39 @@ double logL_err(V &Kpars, V &Kerrors){
   return sumlogL;  
 }
 
-Number logL_gausprior(int ebin, V &Kpars, V &Kerrors, V &Kpars_perbin){
+Number logL_gausprior(int ebin,V &Kpars, V &Kerrors, V &Kpars_perbin){
+  cout << "OUTDATED" << endl;
+  return -1;
+}
+
+Number logL_gausprior(V &Kpars, V &Kerrors){
   Number sumlogL=0;
-  
-  for (int i=0; i<nxbins; i++){
-    for (int j=0; j<nybins; j++){
-      Number n = obs_data[ebin][i][j];
-      Number model = Kpars[0]*dm_data[ebin][i][j];
-      for (int ii=0; ii<N; ii++) model+=Kpars[ii+1]*data_bkg[ii][ebin][i][j];
-      if (n<1e-10) n=0.00000001;
-      Number loglike = -model+n*log(model)-n*log(n)+n;
-      sumlogL+=loglike;
+  for (int ebin=firstebin; ebin<nebins; ebin++){
+    for (int i=0; i<nxbins; i++){
+      for (int j=0; j<nybins; j++){
+	Number n = obs_data[ebin][i][j];
+	Number model = Kpars[0]*dm_data[ebin][i][j];
+	for (int ii=0; ii<N; ii++) model+=Kpars[ii+1]*data_bkg[ii][ebin][i][j];
+	if (model<1e-15) model=1e-10;
+	Number loglike=0;
+	if (n<1e-15) loglike=-model;
+	else loglike = -model+n*log(model)-n*log(n)+n;
+	sumlogL+=loglike;
+	double n_dm = Kpars[0]*dm_data[ebin][i][j];
+	double err_dm = (n*n_dm*n_dm)/(model*model);
+	Kerrors[0] += err_dm;
+	for (int ii=0; ii<N; ii++){
+	  double n_model = data_bkg[ii][ebin][i][j];
+	  double error = (n*n_model*n_model)/(model*model);
+	  Kerrors[ii+1] += error;
+	}
+      }
     }
   }
   Number gaus_prior=0;
   for (int ii=0; ii<N; ii++){
-    Number sigma = 1e7*Kerrors[ii+1];
-    gaus_prior += -pow(Kpars_perbin[ii+1]-Kpars[ii+1],2)/(2*sigma*sigma) - log(sqrt(2*PI)*sigma);
+    Number sigma = 10*Kerrors[ii+1];
+    gaus_prior += -pow(Kpars[ii+1]-1,2)/(2*sigma*sigma) - log(sqrt(2*PI)*sigma);
     sumlogL+=gaus_prior;
   }
   
@@ -386,9 +402,12 @@ init(Mat,N+1,N+1);
       {
 	Kpars[ii] = W[ii]*total_data/model_bkg[ii-1];
       }
+    V Kerrors;
+    init(Kerrors,N+1);
   
     Number MaxlogL = logL(Kpars);
-    
+    //    Number MaxlogL = logL_gausprior(Kpars,Kerrors);
+    return MaxlogL;
 }
 
 
@@ -450,7 +469,7 @@ double  EMupdate_pars(V &Kpars,bool fixBaryonic){
   for (int ii=0; ii<N; ii++) {total_counts+=N_bkg[ii];}
   A = N_dm/total_counts;
   if (!fixBaryonic) for (int ii=0; ii<N; ii++){ Pars[ii] = N_bkg[ii]/total_counts;}
-
+  
   Kpars[0] = A*total_data/model_dm; 
   for (int ii=0; ii<N; ii++) {Kpars[ii+1] = Pars[ii]*total_data/model_bkg[ii];}
   return total_counts;
@@ -489,14 +508,17 @@ Number Expectation_Maximization(V &Kpars, V &Kerrors, bool fixBaryonic = false){
   return maxlogL;
 }
 
-Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL){
+Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
   gRandom->SetSeed(0); 
+  V K_0 = Kpars;
   int niter=3000;
   V x; x = Kpars;
   Number dm_step = 10;
   Number irf_step = 0.001;
-  Number comp_step =0.1;
-  Number ps_step = 0.1;
+  /*Number comp_step =0.1;
+    Number ps_step = 0.1;*/
+  Number comp_step = 0.001;
+  Number ps_step = 0.001;
 
   for (int i=0; i<niter; i++){
     for (int j=0; j<N+1; j++){
@@ -506,6 +528,8 @@ Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL){
       else if (j==4) step = -ps_step+gRandom->Uniform(2*ps_step);
       else step = -comp_step+gRandom->Uniform(2*comp_step);
       x[j] = x[j]+step;
+      if (x[j] > K_0[j]+tol) x[j] = K_0[j]+tol; //Only for fixed bkg
+      if (x[j] < K_0[j]-tol) x[j] = K_0[j]-tol; //Only for fixed bkg
       Number loglike = logL(x);
       if (loglike>=maxlogL) {maxlogL = loglike; Kpars = x;}
       else {x[j] = x[j]-step;}	
@@ -1179,43 +1203,50 @@ Number Plot_Limits(V &Kpars,Number &dm_mass){
 			 0.1,3.5,0.1,0.5,10,3,0.03,
 			 0.15,80,0.01,0.15,0.1,0.12};*/
 
-  double intervals[N+1]={300,0.0003,0.4,0.7,0.025,0.06,0.01,0.05};
+  //double intervals[N+1]={300,0.0003,0.4,0.7,0.025,0.06,0.01,0.05};
 
- 
+  //  double intervals[N+1] = {300,0.0003,0.1,0.1,0.025,0.06,0.01,0.05};
+  double intervals[N+1] = {100,0.0003,0.1,0.1,0.05,0.06,0.01,0.01};
+
   TNtuple *points1 = new TNtuple("p1","p1","logL:dm:irf:lepto:hadro:diff1:diff2:diff3:ps1");
   TNtuple *points2 = new TNtuple("p2","p2","logL:dm:ps7:ps8:ps9:ps10:ps11:ps12:ps13");
   
   
-  int niters = 100000000;
+  int niters = 100000;
   
   Number upperlimit = Kpars[0];
 
+  int howmany=0;
   for (int iter=0; iter<niters; iter++){
+    
+    if (iter%10000==0)  cout<< "Iteration number: " << iter <<"," << howmany << "Points"<< endl;
     for (int i=0; i<N+1; i++){
       Number min = Kmin[i]-intervals[i];
       Number max = Kmin[i]+intervals[i];
       K[i] = min+gRandom->Uniform(max-min);
-      K[i]-=Kmin[i];
+      //K[i]-=Kmin[i];
     }
     V temp;
     mult(Mcov,K,temp);
-    Number loglike = -mult(K,temp);
+    //    Number loglike = -mult(K,temp);
     
-    //Number loglike = 2*(maxlogL-logL(K));
+    Number loglike = 2*(maxlogL-logL(K));
     //for (int ii=0; ii<N+1; ii++)cout << K[ii] << "  ";
     //cout << endl;
     //cout << loglike <<  endl;
-    if (loglike<2.715 && loglike>2.705) {
-      //cout << loglike <<  endl;
+    //if (loglike<2.715 && loglike>2.705) {
+    if (loglike<2.75 && loglike>2.65) {
+      howmany++;
+    //cout << loglike <<  endl;
       //for (int ii=0; ii<N+1; ii++)cout << K[ii]+Kmin[ii] << "  ";
       //cout << endl;
       //points1->Fill(loglike,K[0]+Kmin[0],K[1]+Kmin[1],K[2]+Kmin[2],K[3]+Kmin[3],K[4]+Kmin[4],K[5]+Kmin[5],K[6]+Kmin[6],K[7]+Kmin[7],K[8]+Kmin[8],K[9]+Kmin[9],K[10]+Kmin[10],K[11]+Kmin[11],K[12]+Kmin[12]);
       //points2->Fill(loglike,K[0]+Kmin[0],K[13]+Kmin[13],K[14]+Kmin[14],K[15]+Kmin[15],K[16]+Kmin[16],K[17]+Kmin[17],K[18]+Kmin[18],K[19]+Kmin[19]);
-      points1->Fill(loglike,K[0]+Kmin[0],K[1]+Kmin[1],K[2]+Kmin[2],K[3]+Kmin[3],K[4]+Kmin[4],K[5]+Kmin[5],K[6]+Kmin[6],K[7]+Kmin[7]);
+      //points1->Fill(loglike,K[0]+Kmin[0],K[1]+Kmin[1],K[2]+Kmin[2],K[3]+Kmin[3],K[4]+Kmin[4],K[5]+Kmin[5],K[6]+Kmin[6],K[7]+Kmin[7]);
       
-      //points->Fill(loglike,K[0],K[1],K[2],K[3],K[4],K[5],K[6]);
-      if (fabs(K[0]+Kmin[0]) > upperlimit) upperlimit = fabs(K[0]+Kmin[0]);
-      //if (fabs(K[0]) > upperlimit) upperlimit = fabs(K[0]);
+      points1->Fill(loglike,K[0],K[1],K[2],K[3],K[4],K[5],K[6],K[7]);
+      //if (fabs(K[0]+Kmin[0]) > upperlimit) upperlimit = fabs(K[0]+Kmin[0]);
+      if (fabs(K[0]) > upperlimit) upperlimit = fabs(K[0]);
     }
   }
   
