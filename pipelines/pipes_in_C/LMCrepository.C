@@ -139,7 +139,7 @@ void FillDataM(Number &dm_mass){
 
   //filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
   
-  filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+PS/modcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
+  filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
 
   ReadFits(obs_data,filename);
   
@@ -184,6 +184,8 @@ void FillDataM(Number &dm_mass){
 }
 
 void DataSim(VM &data){
+  //This function creates mock data, doing a poisson realization of the modcube that comes from the observation data. The output SHOULD be the same as ctobssim but ITS NOT, for some reason. I'm using this instead of ctobssim anyways, because this way I can do as many realizations of the data as I want (for containment bands for example).
+  
   gRandom->SetSeed(0); 
   //Observations Model Cube
   //TString filename = "/scratch/bernardos/LMC/Obs_Irf+CR+DiffuseSources/modcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
@@ -275,13 +277,10 @@ Number logL(V &Kpars){
 	double n = obs_data[ebin][i][j];	
 	double model = Kpars[0]*dm_data[ebin][i][j];
 	for (int ii=0; ii<N; ii++) model+=Kpars[ii+1]*data_bkg[ii][ebin][i][j];
-	//if (n<1e-15) n=1e-10;
 	if (model<1e-15) model=1e-10;
-	//if (model<1e-100) continue;
 	Number loglike=0;
 	if (n<1e-15) loglike = -model;
 	else loglike = -model+n*log(model)-n*log(n)+n;
-	//loglike = -model+n*log(model)-n*log(n)+n;
 	sumlogL+=loglike;			
       }
     }
@@ -407,7 +406,7 @@ init(Mat,N+1,N+1);
     init(Kerrors,N+1);
   
     Number MaxlogL = logL(Kpars);
-    //    Number MaxlogL = logL_gausprior(Kpars,Kerrors);
+
     return MaxlogL;
 }
 
@@ -546,6 +545,7 @@ Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
 }
 
 Number Upper_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
+  //This function searches for the maximum DM normalization value that gives a likelihood ratio = 2.71 (Say, the upper limit)
   gRandom->SetSeed(0);
   V K_0 = Kpars;
   int niter = 25;
@@ -588,13 +588,13 @@ Number Upper_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VA
     if (fabs(2*(maxlogL-logL(x))) > 2.72 || fabs(2*(maxlogL-logL(x))) < 2.70) continue;
     if (fabs(x[0]) > fabs(Upperlimit)) {Upperlimit = x[0]; Kpars = x;}
   }
-  //Kpars = x;
+  
   Kpars = K_0;
   return fabs(Upperlimit); 
   
 }
 
-
+//Forget about all the "bin_by_bin" stuff
 Number My_Minimizer_bin_by_bin(int ebin, V &Kpars, V &Kerrors, V &Kpars_perbin, Number &maxlogLbin){
 
   gRandom->SetSeed(0); 
@@ -625,6 +625,7 @@ Number My_Minimizer_bin_by_bin(int ebin, V &Kpars, V &Kerrors, V &Kpars_perbin, 
 
 }
 
+//Minuit doesn't work at all
 void _minuitFunction(int& nDim, double* gout, double& result, double par[], int flg){
 
   V p; 
@@ -672,11 +673,11 @@ Number calc_MaxlogL(V &Kpars, V &Kerrors){ //Maximum Likelihood Claculation
   MaxlogL = Conjugate_Gradients(Kpars);
   for (int ii=0; ii<N+1; ii++) {cout << Kpars[ii] << "  ";}
   cout << endl;
-  for (int ii=1; ii<N+1; ii++) Kpars[ii] = 1.0; //Only for Best Case
-  MaxlogL = Expectation_Maximization(Kpars,Kerrors,true); //Set true for Best Case
+  //for (int ii=1; ii<N+1; ii++) Kpars[ii] = 1.0; //Only for Best Case
+  MaxlogL = Expectation_Maximization(Kpars,Kerrors,false); //Set true for Best Case
   for (int ii=0; ii<N+1; ii++) cout << Kpars[ii] << "  ";
   cout << endl;
-  MaxlogL = My_Minimizer(Kpars,Kerrors,MaxlogL,0.1); //Set tol=0.1 for Best Case
+  MaxlogL = My_Minimizer(Kpars,Kerrors,MaxlogL); //Set tol=0.1 for Best Case
   
   fprintf(stderr,"Max Likelihood:\t%lf\n",MaxlogL);
 
@@ -702,7 +703,7 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
 							      0.1,3.5,0.06,0.5,10,3,0.02,
 							      0.1,80,0.01,0.1,0.1,0.12}; */
 
-  if (firstebin==0 && nebins==ebinning) {double array[N+1] = {150,0.00025,0.25,0.5,0.02,0.06,0.015,0.1};
+  if (firstebin==0 && nebins==ebinning) {double array[N+1] = {150,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; //This intervals must be set manually, and are case dependent (each dm mass has its ranges)
     
     for (int i=0; i<N+1; i++) intervals[i] = array[i];}
   
@@ -791,7 +792,7 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
 }
 
 
-
+//////////// FUNCTIONS FOR RANDOM STUFF////////////////////////////////////////////
 
 Number f_TS(Number maxlogL,Number dmNorm, V &Kpars){
   A = dmNorm*model_dm/total_data;
@@ -841,277 +842,7 @@ void seeProfile(V input,TH1D *h){
 
 }
 
-Number get_DMUpperLimit(Number &dm_mass){
-  
-  FillDataM(dm_mass);
-
-  //init(N_bkg,N);
-  
-  ////EM Algorithm ////
-  
-    // Set initial values for parametes. A is the parameter for DM and Pars[] is a vector of parameters for Background components.
-    //Must satisfy: A+Sum(Pars)) = 1
-    //The total number of parameters is N+1, being N the number of Backgorund components
-    
-    p_dm; p_dm = dm_data;
-    p_bkg; p_bkg = data_bkg;
-   
-    V P_n;
-    init(N_bkg,N); init(P,N+1); 
-    //Calculate P(i/bin) (Probability of an event belonging to model i to be in a certain bin.)
-    //Loop over bins to get the total number of events belonging to each model component:
-        
-    for (int ebin=firstebin; ebin<nebins; ebin++){
-      for (int i=0; i<nxbins; i++){
-	for (int j=0; j<nybins; j++){
-	  if (obs_data[ebin][i][j] < 10) continue;
-	  p_dm[ebin][i][j]/=model_dm;
-	  P[0]+=p_dm[ebin][i][j];
-	  for (int ii=0; ii<N; ii++) {
-	    p_bkg[ii][ebin][i][j]/=model_bkg[ii];
-	    P[ii+1]+=p_bkg[ii][ebin][i][j];
-	  }
-	}
-      }
-    }
-
-    
-
-    
-    p_compbin.clear();
-    p_compbin.push_back(p_dm); 
-    for (int ii=0; ii<N; ii++) p_compbin.push_back(p_bkg[ii]);
-    
-    init(Mat,N+1,N+1);
-    
-    for (int ebin=firstebin; ebin<nebins; ebin++){
-      for (int i=0; i<nxbins; i++){
-	for (int j=0; j<nybins; j++){
-	  if (obs_data[ebin][i][j] < 10) continue;
-	  for (int ii=0; ii<N+1; ii++){
-	    for (int jj=0; jj<N+1; jj++){
-
-	      Mat[ii][jj]+=p_compbin[ii][ebin][i][j]*p_compbin[jj][ebin][i][j]*total_data/obs_data[ebin][i][j];
-	      
-	    }
-	  }
-	  
-	  
-	}
-      }
-    }
-
-    Number det;
-    V W;
-    init(W,N+1);
-    for (int ii=0; ii<N+1; ii++) W[ii] = 1./(N+1);   
-    
-    //Aproximate the Minimum using conjugate gradients
-
-    solvecholesky(Mat,P,W,det);
-    //return 0;
-    V Kpars; init(Kpars, N+1);
-    V Kerrors; init(Kerrors,N+1);
-    //If any of the W is negative, put it to 0.
-    if (W[0] < 0) W[0] = 1e-20;  
-
-    // Compute Kpars, which depends on W
-
-    Kpars[0] = W[0]*total_data/model_dm;
-    for (int ii=1; ii<N+1; ii++) 
-      {
-	if (W[ii] < 0) W[ii] = 1e-20;
-      Kpars[ii] = W[ii]*total_data/model_bkg[ii-1];
-      }
-
-    // Calculate MaxlogL and initial Kpars for bkg components, giving the approximate Kpars calculated before.
-
-    double maxlogL = Expectation_Maximization(Kpars,Kerrors); //Calculates the Maximum likelihhood and updates Pars[].
-    //fprintf(stderr,"%lf\n",maxlogL);
-    //for (int ii=0; ii<N+1; ii++) cout << Kpars[ii] <<"  ";
-    cout << "   " << maxlogL << "  " << Kpars[0] << "  " << Kpars[1] <<  endl;
-    //cout << A <<"  ";
-    //for (int ii=0; ii<N; ii++) cout << Pars[ii] <<"  ";
-    //cout << endl;
-    //cout << model_dm << "   ";
-    //for (int ii=0; ii<N; ii++) cout << model_bkg[ii] <<"  ";
-    //cout << total_data << endl;
-    //cout << endl;
-
-    //Now use the resulting Kpars to initialize the K pars of bkg components in the search for DM norm.
-    //Secant method to calculate the zero of TS function:
-    Number dmNorm = 0;
-    Number x1 = Kpars[0];
-    Number x2 = 100;
-    if (dm_mass==1){
-    x1 = -50;
-    x2 = 50;
-    }
-
-    Number tol = 0.0001;
-
-    int maxiter = 100;
-    for (int i=0; i<maxiter; i++) {
-      Number old_x1 = x1; 
-      Number old_x2 = x2;
-      Number f1 = f_TS(maxlogL,old_x1,Kpars);
-      Number f2 = f_TS(maxlogL,old_x2,Kpars);
-      Number diff = fabs(f1-f2);
-      if (diff < 1e-10) diff = 0.000001; 
-
-      x1 = old_x1 - f1*((old_x1-old_x2)/(f1-f2));
-      x2 = old_x1;
-
-      //cout << x1 << "  " << x2 <<"  " << f1 << "  " << f2 << endl;
-      if (fabs(x1-x2) < tol) break;
-    }
-    dmNorm = x1;
-
-    /*double trials = 100.;
-    double start = -100.;
-    double end = 100.;
-    
-    for (int i=0; i<trials; i++){
-      
-      double dmNorm = start+i*(end-start)/trials;  
-      
-      double TS = f_TS(maxlogL,dmNorm,Kpars);
-      
-      cout << "TS VALUE: " << TS << "  " << dmNorm <<  endl;
-      }*/
-    
-    
-    return dmNorm;
-    //}
-}
-
-
-/*#include "TRandom.h"
-
-double fakeLogL(V x){
-  double sum=0;
-  for(int i=0;i<x.size();i++){
-    sum+=-0.5*(x[i]-3)*(x[i]-3)/3;
-  }
-  //  cout<<"RETURNING "<<sum<<endl;
-  return sum;
-}
-
-#define logL fakeLogL
-
-
-#include "TNtuple.h"
-TNtuple nt("","","k0:k1:k2:lp");
-
-void compute_all_metropolis(){
-
-  // Obten una aproximacion al minimo
-  // output es un vector de ks
-
-  V ks;
-
-#ifdef logL
-  ks.push_back(3);
-  ks.push_back(3);
-  ks.push_back(3);
-#endif
-
-  for(int i=0;i<ks.size();i++) if(ks[i]<=0) ks[i]=1;
-
-
-  // Comienza el metropolis
-
-  V k_actual=ks;
-  V k_maximum=ks;
-  double log_prob_maximum=logL(k_actual);
-  double log_prob_actual= logL(k_actual);
-
-  // Search for the maximum
-  const int maximization_steps=100;
-  for(int i=0;i<maximization_steps;i++){
-    V candidate=k_actual;
-for(int ii=0;ii<candidate.size();ii++)  candidate[ii]=exp(log(candidate[ii]) + log(2)*gRandom->Gaus());
-    double log_prob=logL(candidate);
-
-    if(log_prob>log_prob_maximum){
-      log_prob_maximum=log_prob;
-      k_maximum=candidate;
-    }
-    
-    double lu=log(gRandom->Uniform());
-    if(log_prob-log_prob_actual>lu){
-      k_actual=candidate;
-      log_prob_actual=log_prob;
-    }
-
-nt.Fill(k_actual[0],k_actual[1],k_actual[2],log_prob_actual);    
-  }
-  
-  
-  // Search for upper limit
-  const int search_steps=10000;
-  const int dark_matter_component=0;
-  double closer_value=HUGE_VAL;
-  k_actual=k_maximum;
-  log_prob_actual=log_prob_maximum;
-  V k_limit=k_maximum;
-  for(int i=0;i<search_steps;i++){
-    V candidate=k_actual;
-for(int ii=0;ii<candidate.size();ii++)  candidate[ii]=exp(log(candidate[ii]) + 0.1*gRandom->Gaus());
-    double log_prob=logL(candidate);
-
-cout<<-2*(log_prob-log_prob_maximum)<<" "<< candidate[dark_matter_component]<<" "<< k_limit[dark_matter_component]<<endl;
-    if(-2*(log_prob-log_prob_maximum)<2.71 && candidate[dark_matter_component]>k_limit[dark_matter_component]){
-
-	k_limit=candidate;
-    }
-    
-    double lu=log(gRandom->Uniform());
-    if(log_prob-log_prob_actual>lu){
-      k_actual=candidate;
-      log_prob_actual=log_prob;
-    }
-  }
-
-
-cout<<"Minimum at "<<k_maximum[0]<<" "<<k_maximum[1]<<" "<<k_maximum[2]<<" "<<log_prob_maximum<<endl
-<<" UPPER LIMIT "<<k_limit[0]<<" "<<k_limit[1]<<" "<<k_limit[2]<<endl;
-
-}*/
-
-void run(){
-
-  double x[nmasses];
-  double y[nmasses];
-  double y_thermal[nmasses];
-
-  for (int mass=0; mass < nmasses; mass++) {
-    Number dmMass = masses[mass];
-    Number Thermal_X = 3e-26; 
-    Number dmNorm = get_DMUpperLimit(dmMass);
-    
-    if (dmNorm < 0) dmNorm*=-1.;
-
-    x[mass] = dmMass;
-    y[mass] = dmNorm*Thermal_X;
-    y_thermal[mass] = Thermal_X;
-
-    cout <<dmMass << "  " <<  dmNorm << "  " << dmNorm*Thermal_X << endl;
-  }
-  TCanvas *c =  new TCanvas();
-  TMultiGraph *mg =  new TMultiGraph();
-  TGraph *g = new TGraph(nmasses,x,y);
-  TGraph *g_thermal = new TGraph(nmasses,x,y_thermal);
-  mg->Add(g,"pl");
-  mg->Add(g_thermal,"l");
-  c->SetLogx();
-  c->SetLogy();
-  g->SetMarkerStyle(20);
-  //g->Draw("apl");
-  //g_thermal->Draw("same");
-  mg->Draw("a");
-
-}
+///////FUNCTIONS TO GET RESULTS/////////////////////////////
 
 void Check_Correlations(int firstbin,int howmany){
   firstebin = firstbin;
@@ -1203,7 +934,7 @@ void calc_Mcov(V &Kpars, V &Kerrors, Number &dm_mass){
 
 }
 
-Number Plot_Limits(V &Kpars,Number &dm_mass){ 
+Number Plot_Limits(V &Kpars,Number &dm_mass){ //OBSOLETE
   gRandom->SetSeed(0); 
   M Mcov;init(Mcov,N+1,N+1);
   
@@ -1325,7 +1056,7 @@ Number Plot_Limits(V &Kpars,Number &dm_mass){
 }
 
 
-void Bin_by_Bin(){
+void Bin_by_Bin(){ //OBSOLETE
   
   firstebin = 0;
   nebins = firstebin+ebinning;
@@ -1487,7 +1218,7 @@ void Bands(Number &dm_mass, bool bestcase=true, Number tol=0.01){
 }
 
 
-void checksimu(){
+void checksimu(){ //This is for comparing the ctobssim result with the poisson realization of the model, to see how they are different.
 
   firstebin=0;
   nebins=firstebin+ebinning;
