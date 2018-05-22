@@ -14,13 +14,13 @@ This repository stores the codes, tools and models for the analysis of Limits on
 	    
 	    Pipelines for C++/Root requires the repository "Math": https://github.com/misabelber/Math 
 	    
-	    To run the pipelines in python/ctools which are mainly for simulate data and create 
-	    models it's necessary to configure the right paths in the file config.sh . 
+	    To run the pipelines in C++/Root which are for likelihood fitting and upper 
+	    limits calculation it's necessary to configure the right paths in the file config.sh. 
 	    
 	    	    
 ==========DEPENDENCIES============================================================================
 	Ctools
 	Python 2/3
-	Root 5
+	Root 5.34
 	"Math" repository	    
 	
