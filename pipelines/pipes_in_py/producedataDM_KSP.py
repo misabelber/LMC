@@ -52,12 +52,9 @@ irf_="South_z20_50h"
 
 particle = 'W' #Final state particle
 #masses = [0]
-masses = [0.100,0.200,0.500,1,5,10,50,100]
-#masses = [0.300,0.400,0.600,0.700,0.800,0.900,2,3,4,5,6,7,8,9,10]
-#masses = [0.100,0.200,0.250,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
-#masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]  
-#masses = [0.100,0.200,0.500,1,5,6,7,8,9,10,20,40,60,80,100] #Dark Matter particle masses (in TeV)
-#masses = [10,20,30,40,50,60,70,80,90,100]
+#masses = [0.100,0.200,0.500,1,5,10,50,100]
+masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
+
 
 for mass in masses:
     rndseed = random.randint(1,300000)
@@ -98,8 +95,8 @@ for mass in masses:
         sim["ra"]=ra
         sim["dec"]=dec
         sim["rad"]=rad
-        sim["tmin"]=tstart
-        sim["tmax"]=tstart+duration
+        sim["tmin"]=gammalib.GTime(tstart)
+        sim["tmax"]=gammalib.GTime(tstart+duration)
         sim["emin"]=emin
         sim["emax"]=emax
         sim["debug"]=True

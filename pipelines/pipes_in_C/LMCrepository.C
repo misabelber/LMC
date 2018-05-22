@@ -47,7 +47,7 @@ int ebinning=20;
 int nebins, nxbins, nybins,firstebin; 
 
 //Dark Matter final state and masses to try
-TString particle = "W";
+TString particle = "b";
 const int nmasses = 1;
 //float masses[nmasses] = {0.100,0.200,0.300,0.400,0.500,0.600,0.700,0.800,0.900,1,2,3,4,5,6,7,8,9,10,50,100};
 //float masses[nmasses] = {0.100,0.200,0.500,1,5,10,50,100};
@@ -1186,7 +1186,7 @@ void calc_Mcov(V &Kpars, V &Kerrors, Number &dm_mass){
     os<<dm_mass;
     masstr = os.str()+"TeV"; 
   }
-  TString filename = "covmatrix"+masstr+".dat";
+  TString filename = "covmatrix/covmatrix"+masstr+".dat";
 
   ofstream outfile;
   outfile.open(filename);
@@ -1220,7 +1220,7 @@ Number Plot_Limits(V &Kpars,Number &dm_mass){
     os<<dm_mass;
     masstr = os.str()+"TeV"; 
   }
-  TString filename = "covmatrix"+masstr+".dat";
+  TString filename = "covmatrix/covmatrix"+masstr+".dat";
   ifstream openfile(filename);
   int i=0;
   while(!openfile.eof()){
@@ -1386,7 +1386,7 @@ void test(Number &dm_mass){
     masstr = os.str()+"TeV"; 
   }
 
-  TString filename = "limit"+masstr+".dat";
+  TString filename = "../../results/limit"+masstr+".dat";
 
   ofstream outfile;
   outfile.open(filename,ios::app);
@@ -1464,15 +1464,21 @@ void Bands(Number &dm_mass, bool bestcase=true, Number tol=0.01){
   }
   
   TString filename;
-  if (!bestcase) filename = "limit"+masstr+".dat";
-  else filename = "limit"+masstr+"_BestCase.dat";
+  if (!bestcase) filename = "../../results/limit"+masstr+".dat";
+  else filename = "../../results/limit"+particle+masstr+"_BestCase.dat";
   
   ofstream outfile;
   outfile.open(filename,ios::app);
   
   for (int i=0; i<realizations; i++){
     Number upperlimit = calc_UpperLimit(dm_mass,bestcase,tol);
+    cout << "Total Number of counts of model components: " << endl;
+    cout << model_dm << "  ";
+    for (int ii=0; ii<N; ii++) cout << model_bkg[ii] << "  ";
+    cout << endl;
+    cout << "Total data counts: " << total_data << endl;
     outfile << upperlimit << endl;
+	
   }
   outfile.close(); 
   

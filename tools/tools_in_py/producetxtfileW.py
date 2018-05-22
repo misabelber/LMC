@@ -88,7 +88,7 @@ for mass in masses:
     #2.  Erase the last 6 bins of "W" spectra to eliminate the bump, letting ctools extrapolate this bins, and then add again 10 more bins with zeros up to more than 100 TeV.
 
     #OPTION 1: ADD ZEROS
-    """
+    
     with foutfinal as fff:
         for x in vector[118:179]:
             #for x in vector[119:180]:
@@ -97,8 +97,8 @@ for mass in masses:
         
         for i in range(len(zeros)-1):
             print >> fff,zeros[i+1],1e-300 #Mab: Add zeros
-    """
     # OPTION 2: ERASE THE BUMP FOR W+ADD ZEROS
+    """
     nbin=1
     with foutfinal as fff:
         for x in vector[118:179]:
@@ -111,5 +111,6 @@ for mass in masses:
         for i in range(len(zeros)-1):
             print >> fff,zeros[i+1],1e-300
             #print(zeros[i+1],1e-300,fff)
+    """
     foutfinal.close()
 

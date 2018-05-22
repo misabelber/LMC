@@ -1,14 +1,17 @@
 {
 
-  const int  nmasses = 8;
+  const int  nmasses = 16;
   //double masses[6] = {0.100,0.200,0.500,1,5,10};
-  double masses[nmasses] = {0.100,0.200,0.500,1,5,10,50,100};
-
+  //  double masses[nmasses] = {0.100,0.200,0.500,1,5,10,50,100};
+  double masses[nmasses] = {0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100};
+  //double masses[nmasses] = {0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100};
   double meanlimit[nmasses];
   double sstdevs[nmasses];
   double sstdevs2[nmasses];
   double thermalX[nmasses];
   TLegend *l =  new TLegend(0.6,0.28,0.86,0.46);
+
+  TString particle = "b";
   for (int i=0; i<nmasses; i++){
 
     double dm_mass = masses[i];
@@ -24,7 +27,7 @@
       masstr = os.str()+"TeV"; 
     }
     
-    TString filename = "limit"+masstr+".dat";
+    TString filename = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/limit"+particle+masstr+".dat";
     
     ifstream openfile(filename);
     
@@ -74,7 +77,7 @@
 
   TGraphErrors g(nmasses,masses,meanlimit,0,sstdevs);
   g.SetMarkerStyle(21);
-  mg->SetTitle("Upper Limits on DM for W^{+}W^{-} channel");
+  mg->SetTitle("Upper Limits on DM for "+particle+particle+" channel");
   mg->GetXaxis()->SetTitle("DM Mass (TeV)");
   mg->GetYaxis()->SetTitle("<#sigma v> (cm^{3} s^{-1})");
   g.SetFillColor(5);

@@ -1,0 +1,116 @@
+2018-05-22T09:28:37: ********************************************************************************
+2018-05-22T09:28:37: *                                     ctbin                                    *
+2018-05-22T09:28:37: * ---------------------------------------------------------------------------- *
+2018-05-22T09:28:37: * Version: 1.4.0                                                               *
+2018-05-22T09:28:37: ********************************************************************************
+2018-05-22T09:28:52: +============+
+2018-05-22T09:28:52: | Parameters |
+2018-05-22T09:28:52: +============+
+2018-05-22T09:28:52:  inobs .....................: /scratch/bernardos/LMC//Obs_DM/observations_LMC_dm_LMC_b100TeV_KSPpointing_v2.xml
+2018-05-22T09:28:52:  outcube ...................: gcfb.fits
+2018-05-22T09:28:52:  ebinalg ...................: LOG
+2018-05-22T09:28:52:  emin ......................: 0.03
+2018-05-22T09:28:52:  emax ......................: 100
+2018-05-22T09:28:52:  enumbins ..................: 20
+2018-05-22T09:28:52:  ebinfile ..................: [not queried]
+2018-05-22T09:28:52:  usepnt ....................: no
+2018-05-22T09:28:52:  nxpix .....................: 20
+2018-05-22T09:28:52:  nypix .....................: 20
+2018-05-22T09:28:52:  binsz .....................: 0.5
+2018-05-22T09:28:52:  coordsys ..................: CEL
+2018-05-22T09:28:52:  proj ......................: CAR
+2018-05-22T09:28:52:  xref ......................: 80
+2018-05-22T09:28:52:  yref ......................: -69.5
+2018-05-22T09:28:52:  publish ...................: no
+2018-05-22T09:28:52:  chatter ...................: 2
+2018-05-22T09:28:52:  clobber ...................: yes
+2018-05-22T09:28:52:  debug .....................: no
+2018-05-22T09:28:52:  mode ......................: ql
+2018-05-22T09:28:52:  logfile ...................: ctbin.log
+2018-05-22T09:28:52: 
+2018-05-22T09:28:52: +====================+
+2018-05-22T09:28:52: | Input observations |
+2018-05-22T09:28:52: +====================+
+2018-05-22T09:28:52: === GObservations ===
+2018-05-22T09:28:52:  Number of observations ....: 6
+2018-05-22T09:28:52:  Number of models ..........: 0
+2018-05-22T09:28:52:  Number of observed events .: 5
+2018-05-22T09:28:52:  Number of predicted events : 0
+2018-05-22T09:28:52: 
+2018-05-22T09:28:52: +============================+
+2018-05-22T09:28:52: | Find unbinned observations |
+2018-05-22T09:28:52: +============================+
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP01" (id=1) ===
+2018-05-22T09:28:52:  Including unbinned CTA observation
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP02" (id=2) ===
+2018-05-22T09:28:52:  Including unbinned CTA observation
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP03" (id=3) ===
+2018-05-22T09:28:52:  Including unbinned CTA observation
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP04" (id=4) ===
+2018-05-22T09:28:52:  Including unbinned CTA observation
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP05" (id=5) ===
+2018-05-22T09:28:52:  Including unbinned CTA observation
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP06" (id=6) ===
+2018-05-22T09:28:52:  Including unbinned CTA observation
+2018-05-22T09:28:52: 
+2018-05-22T09:28:52: +==================+
+2018-05-22T09:28:52: | Bin observations |
+2018-05-22T09:28:52: +==================+
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP01" (id=1) ===
+2018-05-22T09:28:52:  Events in list ............: 0
+2018-05-22T09:28:52:  Events in cube ............: 0
+2018-05-22T09:28:52:  Events outside RoI ........: 0
+2018-05-22T09:28:52:  Events with invalid WCS ...: 0
+2018-05-22T09:28:52:  Events outside cube area ..: 0
+2018-05-22T09:28:52:  Events outside energy bins : 0
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP05" (id=5) ===
+2018-05-22T09:28:52:  Events in list ............: 0
+2018-05-22T09:28:52:  Events in cube ............: 0
+2018-05-22T09:28:52:  Events outside RoI ........: 0
+2018-05-22T09:28:52:  Events with invalid WCS ...: 0
+2018-05-22T09:28:52:  Events outside cube area ..: 0
+2018-05-22T09:28:52:  Events outside energy bins : 0
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP04" (id=4) ===
+2018-05-22T09:28:52:  Events in list ............: 0
+2018-05-22T09:28:52:  Events in cube ............: 0
+2018-05-22T09:28:52:  Events outside RoI ........: 0
+2018-05-22T09:28:52:  Events with invalid WCS ...: 0
+2018-05-22T09:28:52:  Events outside cube area ..: 0
+2018-05-22T09:28:52:  Events outside energy bins : 0
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP06" (id=6) ===
+2018-05-22T09:28:52:  Events in list ............: 2
+2018-05-22T09:28:52:  Events in cube ............: 2
+2018-05-22T09:28:52:  Events outside RoI ........: 0
+2018-05-22T09:28:52:  Events with invalid WCS ...: 0
+2018-05-22T09:28:52:  Events outside cube area ..: 0
+2018-05-22T09:28:52:  Events outside energy bins : 0
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP02" (id=2) ===
+2018-05-22T09:28:52:  Events in list ............: 2
+2018-05-22T09:28:52:  Events in cube ............: 2
+2018-05-22T09:28:52:  Events outside RoI ........: 0
+2018-05-22T09:28:52:  Events with invalid WCS ...: 0
+2018-05-22T09:28:52:  Events outside cube area ..: 0
+2018-05-22T09:28:52:  Events outside energy bins : 0
+2018-05-22T09:28:52: === CTA observation "events_LMC_dm_LMC_b100TeV_KSP03" (id=3) ===
+2018-05-22T09:28:52:  Events in list ............: 1
+2018-05-22T09:28:52:  Events in cube ............: 1
+2018-05-22T09:28:52:  Events outside RoI ........: 0
+2018-05-22T09:28:52:  Events with invalid WCS ...: 0
+2018-05-22T09:28:52:  Events outside cube area ..: 0
+2018-05-22T09:28:52:  Events outside energy bins : 0
+2018-05-22T09:28:52: 
+2018-05-22T09:28:52: +====================+
+2018-05-22T09:28:52: | Binned observation |
+2018-05-22T09:28:52: +====================+
+2018-05-22T09:28:52: === GObservations ===
+2018-05-22T09:28:52:  Number of observations ....: 1
+2018-05-22T09:28:52:  Number of models ..........: 0
+2018-05-22T09:28:52:  Number of observed events .: 5
+2018-05-22T09:28:52:  Number of predicted events : 0
+2018-05-22T09:28:52: 
+2018-05-22T09:28:52: +==================+
+2018-05-22T09:28:52: | Save counts cube |
+2018-05-22T09:28:52: +==================+
+2018-05-22T09:28:52:  Counts cube file ..........: gcfb.fits
+2018-05-22T09:28:52: 
+2018-05-22T09:28:52: Application "ctbin" terminated after 15 wall clock seconds, consuming 0.06 seconds of CPU time.

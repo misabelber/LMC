@@ -15,7 +15,7 @@ PATH_MODELS=LMC_PATH+'/models/'  #Path to store the models created (.xml)
 #Open model file
 models = gammalib.GModels(PATH_MODELS+"example_model.xml") #Open an example model file to modify. Its a diffuse source where the spatial part is a counts cube (J Factor fits file) and the spectral part is a FileFunction. 
 
-particle = 'W' #Final state particle (W, b, Mu...)
+particle = 'Mu' #Final state particle (W, b, Mu...)
 
 #Masses of dark matter particle in TeV
 masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100] 
