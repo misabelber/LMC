@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <source_library title="source library">
   <source name="J0454.6-6825" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0454.6-6825.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0454.6-6825.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -10,7 +10,7 @@
     </spatialModel>
   </source>
   <source name="J0507.1-6102" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0507.1-6102_ebl.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0507.1-6102_ebl.dat">
       <parameter name="Normalization" value="1" scale="1" min="0" max="1000" free="0" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -19,7 +19,7 @@
     </spatialModel>
   </source>
   <source name="J0529.8-7242" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0529.8-7242_ebl.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0529.8-7242_ebl.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -28,7 +28,7 @@
     </spatialModel>
   </source>
   <source name="J0525.2-6614" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0525.2-6614.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0525.2-6614.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -37,7 +37,7 @@
     </spatialModel>
   </source>
   <source name="J0537.0-7113" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0537.0-7113.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0537.0-7113.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -46,7 +46,7 @@
     </spatialModel>
   </source>
   <source name="J0539.9-7553" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0539.9-7553_ebl_0.3.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0539.9-7553_ebl_0.3.dat">
       <parameter name="Normalization" value="1" scale="1" min="0" max="1000" free="0" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -55,7 +55,7 @@
     </spatialModel>
   </source>
   <source name="J0509.9-6418" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0509.9-6418_ebl_0.3.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0509.9-6418_ebl_0.3.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -64,7 +64,7 @@
     </spatialModel>
   </source>
   <source name="J0516.7-6207" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0516.7-6207_ebl.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0516.7-6207_ebl.dat">
       <parameter name="Normalization" value="1" scale="1" min="0" max="1000" free="0" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -73,7 +73,7 @@
     </spatialModel>
   </source>
   <source name="J0525.6-6013" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0525.6-6013_ebl_0.3.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0525.6-6013_ebl_0.3.dat">
       <parameter name="Normalization" value="1" scale="1" min="0" max="1000" free="0" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -82,7 +82,7 @@
     </spatialModel>
   </source>
   <source name="J0528.6-5920" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0528.6-5920_ebl.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0528.6-5920_ebl.dat">
       <parameter name="Normalization" value="1" scale="1" min="0" max="1000" free="0" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -91,7 +91,7 @@
     </spatialModel>
   </source>
   <source name="J0558.9-7458" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0558.9-7458_ebl.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0558.9-7458_ebl.dat">
       <parameter name="Normalization" value="1" scale="1" min="0" max="1000" free="0" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -100,7 +100,7 @@
     </spatialModel>
   </source>
   <source name="J0601.5-7237" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0601.5-7237_ebl_0.3.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0601.5-7237_ebl_0.3.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -109,7 +109,7 @@
     </spatialModel>
   </source>
   <source name="J0524.5-6937" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0524.5-6937.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0524.5-6937.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -118,7 +118,7 @@
     </spatialModel>
   </source>
   <source name="J0535.3-6559" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0535.3-6559.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0535.3-6559.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -127,7 +127,7 @@
     </spatialModel>
   </source>
   <source name="J0601.2-7035" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0601.2-7035_ebl.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0601.2-7035_ebl.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -136,7 +136,7 @@
     </spatialModel>
   </source>
   <source name="J0537-691" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0537-691.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0537-691.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -145,7 +145,7 @@
     </spatialModel>
   </source>
   <source name="J0525-696" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0525-696.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0525-696.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -154,7 +154,7 @@
     </spatialModel>
   </source>
   <source name="J0534.1-6732" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0534.1-6732.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0534.1-6732.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -163,7 +163,7 @@
     </spatialModel>
   </source>
   <source name="J0535-691" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0535-691.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0535-691.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -172,42 +172,42 @@
     </spatialModel>
   </source>
   <source name="3FHL J0530.0-6900e" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0530.0-6900e.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0530.0-6900e.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-30DorWest.fits">
+    <spatialModel type="SpatialMap" file="/home/queenmab/DATA/ExtendedSources/countsmaps/LMC-30DorWest.fits">
       <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
     </spatialModel>
   </source>
   <source name="3FHL J0500.9-6945e" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0500.9-6945e.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0500.9-6945e.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-FarWest.fits">
+    <spatialModel type="SpatialMap" file="/home/queenmab/DATA/ExtendedSources/countsmaps/LMC-FarWest.fits">
       <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
     </spatialModel>
   </source>
   <source name="3FHL J0531.8-6639e" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0531.8-6639e.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0531.8-6639e.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-North.fits">
+    <spatialModel type="SpatialMap" file="/home/queenmab/DATA/ExtendedSources/countsmaps/LMC-North.fits">
       <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
     </spatialModel>
   </source>
   <source name="HadronicDiffuse" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/diffuse/Spec_Pion_LMC.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/diffuse/Spec_Pion_LMC.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits">
+    <spatialModel type="SpatialMap" file="/home/queenmab/DATA/DiffuseEmission/countsmaps/large-scale-hadro.fits">
       <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
     </spatialModel>
   </source>
   <source name="LeptonicDiffuse" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/diffuse/Spec_IC_LMC.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/diffuse/Spec_IC_LMC.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits">
+    <spatialModel type="SpatialMap" file="/home/queenmab/DATA/DiffuseEmission/countsmaps/large-scale-lepto.fits">
       <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
     </spatialModel>
   </source>

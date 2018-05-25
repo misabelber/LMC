@@ -27,7 +27,7 @@
       masstr = os.str()+"TeV"; 
     }
     
-    TString filename = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/limit"+particle+masstr+".dat";
+    TString filename = "/home/queenmab/GitHub/LMC/results/limit"+particle+masstr+".dat";
     
     ifstream openfile(filename);
     

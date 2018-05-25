@@ -27,7 +27,7 @@
       masstr = os.str()+"TeV"; 
     }
   
-    TString filename1 = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/limit"+particle+masstr+"_BestCase.dat";
-    TString filename2 = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/limit"+particle+masstr+".dat";
+    TString filename1 = "/home/queenmab/GitHub/LMC/results/limit"+particle+masstr+"_BestCase.dat";
+    TString filename2 = "/home/queenmab/GitHub/LMC/results/limit"+particle+masstr+".dat";
     
 }
