@@ -4,7 +4,7 @@
     <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/DM/fluxb200GeV.txt">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
-    <spatialModel type="DiffuseMap" file="/home/queenmab/DATA/DM/jfactor/jfactorLMC.fits">
+    <spatialModel type="DiffuseMap" file="/home/queenmab/DATA/LMC/DM/jfactor/jfactorLMC.fits">
       <parameter name="Normalization" value="1" scale="1" min="0.001" max="1000" free="0" />
     </spatialModel>
   </source>

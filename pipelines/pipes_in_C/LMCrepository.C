@@ -47,7 +47,7 @@ int ebinning=20;
 int nebins, nxbins, nybins,firstebin; 
 
 //Dark Matter final state and masses to try
-TString particle = "b";
+TString particle = "W";
 const int nmasses = 1;
 //float masses[nmasses] = {0.100,0.200,0.300,0.400,0.500,0.600,0.700,0.800,0.900,1,2,3,4,5,6,7,8,9,10,50,100};
 //float masses[nmasses] = {0.100,0.200,0.500,1,5,10,50,100};
@@ -112,8 +112,8 @@ void FillDataM(Number &dm_mass){
   
   // Read Background model components data
   // Components files
-  TString dir = "/home/queenmab/DATA/Obs_";
-  TString dir_PS = "/home/queenmab/DATA/Obs_PS";
+  TString dir = "/home/queenmab/DATA/LMC/Obs_";
+  TString dir_PS = "/home/queenmab/DATA/LMC/Obs_PS";
   //TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0454.6-6825","J0529.8-7242","J0525.2-6614","J0537.0-7113","J0509.9-6418","J0601.5-7237","J0524.5-6937","J0535.3-6559","J0601.2-7035","J0537-691","J0525-696","J0534.1-6732","J0535-691"};
   TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691"};
   //TString components[N] = {"Leptonic","Hadronic"};
@@ -129,20 +129,20 @@ void FillDataM(Number &dm_mass){
   
   //Read Observations data
   
-  //filename = "/home/queenmab/DATA/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_300h.fits";
-  //filename = "/home/queenmab/DATA/Obs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_003-100_300h.fits";
-  //TString filename = "/home/queenmab/DATA/Obs_Leptonic+Hadronic/cntcube_LMC_Leptonic+Hadronic_prod3_003-100_300h.fits";
-  //TString filename = "/home/queenmab/DATA/Obs_Leptonic/cntcube_LMC_Leptonic_prod3_003-100_300h.fits";
-  //filename = "/home/queenmab/DATA/Obs_Irf/cntcube_LMC_Irf_prod3_003-100_300h.fits";
+  //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_300h.fits";
+  //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_003-100_300h.fits";
+  //TString filename = "/home/queenmab/DATA/LMC/Obs_Leptonic+Hadronic/cntcube_LMC_Leptonic+Hadronic_prod3_003-100_300h.fits";
+  //TString filename = "/home/queenmab/DATA/LMC/Obs_Leptonic/cntcube_LMC_Leptonic_prod3_003-100_300h.fits";
+  //filename = "/home/queenmab/DATA/LMC/Obs_Irf/cntcube_LMC_Irf_prod3_003-100_300h.fits";
  
-  //filename = "/home/queenmab/DATA/Obs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
+  //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
 
-  //filename = "/home/queenmab/DATA/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
+  //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
   
-  filename = "/home/queenmab/DATA/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
+  filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
 
   ReadFits(obs_data,filename);
-  
+
   // Dark Matter Final State and masses
   TString masstr;
   
@@ -160,16 +160,17 @@ void FillDataM(Number &dm_mass){
   }
   
   TString modelname = "dm_LMC_"+particle+masstr;
-  /*if (dm_mass==1) filename = "/home/queenmab/DATA/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_002binning.fits";
-  else if(dm_mass==0.500) filename = "/home/queenmab/DATA/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_025binning.fits";
-  else*/// filename = "/home/queenmab/DATA/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_01binning.fits";
-  //filename = "/home/queenmab/DATA/Obs_DM/modcube_"+modelname+"_003-100_300h.fits";
-  if (dm_mass == 0) filename = "/home/queenmab/DATA/Obs_DM/modcube_dm_PowerLaw_003-100_KSP.fits";
-  //else filename = "/home/queenmab/DATA/Obs_DM/modcube_"+modelname+"_003-100_300h.fits";
-  else filename = "/home/queenmab/DATA/Obs_DM/modcube_"+modelname+"_003-100_KSP_v2.fits";
+  /*if (dm_mass==1) filename = "/home/queenmab/DATA/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_002binning.fits";
+  else if(dm_mass==0.500) filename = "/home/queenmab/DATA/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_025binning.fits";
+  else*/// filename = "/home/queenmab/DATA/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h_40ebins_01binning.fits";
+  //filename = "/home/queenmab/DATA/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h.fits";
+  if (dm_mass == 0) filename = "/home/queenmab/DATA/LMC/Obs_DM/modcube_dm_PowerLaw_003-100_KSP.fits";
+  //else filename = "/home/queenmab/DATA/LMC/Obs_DM/modcube_"+modelname+"_003-100_300h.fits";
+  else filename = "/home/queenmab/DATA/LMC/Obs_DM/modcube_"+modelname+"_003-100_KSP_v2.fits";
   
   ReadFits(dm_data,filename);
 
+  
   /*for (int i=0; i<nebins; i++) {
     for (int j=0; j<nxbins; j++) {
     for (int k=0; k<nybins; k++) {
@@ -188,11 +189,11 @@ void DataSim(VM &data){
   
   gRandom->SetSeed(0); 
   //Observations Model Cube
-  //TString filename = "/home/queenmab/DATA/Obs_Irf+CR+DiffuseSources/modcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
+  //TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources/modcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
   
-  //TString filename = "/home/queenmab/DATA/Obs_Irf+CR+DiffuseSources+1PS/modcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
+  //TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/modcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
   
-  TString filename = "/home/queenmab/DATA/Obs_Irf+CR+DiffuseSources+PS/modcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
+  TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/modcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
 
   ReadFits(data,filename);
 
@@ -703,7 +704,7 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
 							      0.1,3.5,0.06,0.5,10,3,0.02,
 							      0.1,80,0.01,0.1,0.1,0.12}; */
 
-  if (firstebin==0 && nebins==ebinning) {double array[N+1] = {150,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; //This intervals must be set manually, and are case dependent (each dm mass has its ranges)
+  if (firstebin==0 && nebins==ebinning) {double array[N+1] = {300,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; //This intervals must be set manually, and are case dependent (each dm mass has its ranges)
     
     for (int i=0; i<N+1; i++) intervals[i] = array[i];}
   
@@ -844,11 +845,11 @@ void seeProfile(V input,TH1D *h){
 
 ///////FUNCTIONS TO GET RESULTS/////////////////////////////
 
-void Check_Correlations(int firstbin,int howmany){
+void Check_Correlations(int firstbin,int howmany,Number dm_mass){
   firstebin = firstbin;
   nebins = firstebin+howmany;
   TCanvas *c = new TCanvas("multicanvas","multicanvas");
-  Number dm_mass = masses[0];
+  //  Number dm_mass = masses[0];
   FillDataM(dm_mass); // Fill Matrixes with data
   DataSim(obs_data); 
   calc_P(); // Calculate probabilities
@@ -1195,7 +1196,7 @@ void Bands(Number &dm_mass, bool bestcase=true, Number tol=0.01){
   }
   
   TString filename;
-  if (!bestcase) filename = "../../results/limit"+masstr+".dat";
+  if (!bestcase) filename = "../../results/limit"+masstr+"_test.dat";
   else filename = "../../results/limit"+particle+masstr+"_BestCase.dat";
   
   ofstream outfile;

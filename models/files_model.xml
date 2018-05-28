@@ -4,7 +4,7 @@
     <spectrum type="FileFunction" file="../spectra/diffuse/Spec_Pion_LMC.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
-    <spatialModel file="/home/queenmab/DATA/DiffuseEmission/countsmaps/large-scale-hadro.fits" map_based_integral="true" type="SpatialMap">
+    <spatialModel file="/home/queenmab/DATA/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits" map_based_integral="true" type="SpatialMap">
       <parameter free="0" max="1" min="1" name="Prefactor" scale="3" value="1"/>
     </spatialModel>
 </source>
@@ -12,7 +12,7 @@
     <spectrum type="FileFunction" file="../spectra/diffuse/Spec_IC_LMC.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
-    <spatialModel file="/home/queenmab/DATA/DiffuseEmission/countsmaps/large-scale-lepto.fits" map_based_integral="true" type="SpatialMap">
+    <spatialModel file="/home/queenmab/DATA/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits" map_based_integral="true" type="SpatialMap">
       <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
     </spatialModel>
 </source>

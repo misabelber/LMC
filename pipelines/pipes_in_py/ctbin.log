@@ -6,7 +6,7 @@
 2018-05-22T09:28:52: +============+
 2018-05-22T09:28:52: | Parameters |
 2018-05-22T09:28:52: +============+
-2018-05-22T09:28:52:  inobs .....................: /home/queenmab/DATA//Obs_DM/observations_LMC_dm_LMC_b100TeV_KSPpointing_v2.xml
+2018-05-22T09:28:52:  inobs .....................: /home/queenmab/DATA/LMC//Obs_DM/observations_LMC_dm_LMC_b100TeV_KSPpointing_v2.xml
 2018-05-22T09:28:52:  outcube ...................: gcfb.fits
 2018-05-22T09:28:52:  ebinalg ...................: LOG
 2018-05-22T09:28:52:  emin ......................: 0.03

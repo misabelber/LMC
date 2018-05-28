@@ -3,7 +3,7 @@
 #Change the path for LMC folder
 
 LMC_PATH=`pwd` #LMC folder
-DATA_PATH='/home/queenmab/DATA/'
+DATA_PATH='/home/queenmab/DATA/LMC/'
 
 file=`grep -rl 'LMC_PATH = ' $LMC_PATH/tools/tools_in_py/ | head -1` 
 

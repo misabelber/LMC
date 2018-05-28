@@ -7,13 +7,13 @@ HERE=`pwd`
 
 #PATHS FOR PYTHON/CTOOLS PIPELINES
 
-DATA_PATH='/home/queenmab/DATA//' #Folder to store heavy data files (Observations and datacubes)
-CTOOLS_PATH="/home/queenmab/anaconda3/envs/ctools//" #Folder where ctools is installed ("gamma folder must be contained here"
+DATA_PATH='/home/queenmab/DATA/LMC/LMC/' #Folder to store heavy data files (Observations and datacubes)
+CTOOLS_PATH="/home/queenmab/anaconda3/envs/ctools/" #Folder where ctools is installed ("gamma folder must be contained here"
 
 #PATHS FOR C++/ROOT PIPES
 #This tools require the Math repository
 
-MATH_PATH='/home/queenmab/GitHub/Math//' #Define the path of your Math repository
+MATH_PATH='/home/queenmab/GitHub/Math/' #Define the path of your Math repository
 
 var=`grep -r -h '/Math/' $HERE/pipelines/pipes_in_C/ | head -1`
 var=`echo $var | awk '{print $2}' | sed -e 's/^.//' -e 's/.$//'`
@@ -40,7 +40,7 @@ LMC_PATH=`pwd` #THIS FOLDER IS LMC FOLDER
 var=`grep -r -h 'LMC_PATH = ' $LMC_PATH/tools/tools_in_py/ | head -1`
 #tr -d $var 'LMC_PATH'
 OLD_LMC_PATH=`echo $var | awk '{print $3}' | sed -e 's/^.//' -e 's/.$//'`
-OLD_LMC_PATH='/home/queenmab/GitHub/LMC'
+#OLD_LMC_PATH='/home/queenmab/GitHub/LMC'
 
 find $HERE -type f | xargs sed -i "s%${OLD_LMC_PATH}%${LMC_PATH}%g"
 

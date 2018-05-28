@@ -8,7 +8,7 @@ import numpy as np
 #PATHS
 
 LMC_PATH = "/home/queenmab/GitHub/LMC"
-DATA_PATH = "/home/queenmab/DATA/"
+DATA_PATH = "/home/queenmab/DATA/LMC/"
 PATH_SPEC=LMC_PATH+'/spectra/DM/' #Path where the spectra (filefunctions) are stored.
 PATH_MODELS=LMC_PATH+'/models/'  #Path to store the models created (.xml)
 
