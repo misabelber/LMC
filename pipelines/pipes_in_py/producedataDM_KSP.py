@@ -16,6 +16,10 @@ PATH_MODEL = "../../models/" #Path where models are stored
 PATH_OBS = config.DATA_PATH+"/Obs_DM/" #Path to store resulting .fits files.
 PATH_HERE = "../pipes_in_py/" #Path where we are running
 
+# If the observation path doesn't exist, create it.
+if not os.path.exists(PATH_OBS): 
+    os.makedirs(PATH_OBS)
+
 #Pointing
 centerx = 80.0
 centery = -69.5
