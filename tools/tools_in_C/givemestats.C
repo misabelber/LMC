@@ -1,7 +1,7 @@
 {
   int nfiles = 12;
   TString PATH = "/home/queenmab/GitHub/LMC/results/";
-  TString files[nfiles] = {"limit10TeV.dat","limit10TeV_DiffuseTruncated.dat","limitW10TeVBestCase_DiffuseTruncated_tol_0-01.dat","limitW10TeVBestCase_tol_0-01.dat","limitW10TeVBestCase_DiffuseTruncated.dat","limitW10TeVBestCase.dat","limit10TeVDiffuseTruncated1TeV.dat","limitW10TeVBestCase_DiffuseTruncated1TeV_tol0-01.dat","limitW10TeVBestCase_DiffuseTruncated1TeV.dat","limit10TeV_1PS_DiffuseTruncated500GeV.dat","limitW10TeVBestCase_1PSDiffuseTruncated500GeV.dat","limitW10TeVBestCase_1PSDiffuseTruncated500GeV_tol0-01.dat"};
+  TString files[nfiles] = {"limit10TeV.dat","limit10TeV_DiffuseTruncated.dat","limitW10TeVBestCase_DiffuseTruncated_tol_0-01.dat","limitW10TeVBestCase_tol_0-01.dat","limitW10TeVBestCase_DiffuseTruncated.dat","limitW10TeVBestCase.dat","limit10TeV_1PS_DiffuseTruncated1TeV.dat","limitW10TeVBestCase_1PSDiffuseTruncated1TeV_tol0-01.dat","limitW10TeVBestCase_1PSDiffuseTruncated1TeV.dat","limit10TeV_1PS_DiffuseTruncated500GeV.dat","limitW10TeVBestCase_1PSDiffuseTruncated500GeV.dat","limitW10TeVBestCase_1PSDiffuseTruncated500GeV_tol0-01.dat"};
 
   for (int i=0; i<nfiles; i++){
     TString filename = PATH+files[i];

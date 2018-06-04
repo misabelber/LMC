@@ -25,17 +25,17 @@ using namespace std;
 vector<VM> data_bkg;
 const int N=7; //Number of components in the Baryonic Background
 VM obs_data,dm_data;
-double A; //DM Normalization factor
+Number  A; //DM Normalization factor
 V Pars; //BKG components normalization factors
 
-double N_dm; //Total number of counts of dark matter in the observation
+Number  N_dm; //Total number of counts of dark matter in the observation
 V N_bkg; // Total number of counts of background components in the observation
 
-double model_dm; //Total number of counts of dark matter in the model
+Number  model_dm; //Total number of counts of dark matter in the model
 V model_bkg; // Total number of counts of background components in the model
-double total_data; //Total number of counts in the data
+Number  total_data; //Total number of counts in the data
 
-double _loglike; 
+Number  _loglike; 
 VM p_dm;
 vector<VM> p_bkg;
 vector<VM> p_compbin;
@@ -110,7 +110,7 @@ void FillDataM(Number &dm_mass){
   TString dir_PS = "/home/queenmab/DATA/LMC/Obs_PS";
   //TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0454.6-6825","J0529.8-7242","J0525.2-6614","J0537.0-7113","J0509.9-6418","J0601.5-7237","J0524.5-6937","J0535.3-6559","J0601.2-7035","J0537-691","J0525-696","J0534.1-6732","J0535-691"};
   
-  TString components[N] = {"Irf","Leptonic_TRUNC500GeV","Hadronic_TRUNC500GeV","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691"};
+  TString components[N] = {"Irf","Leptonic_TRUNC1TeV","Hadronic_TRUNC1TeV","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691"};
   //  TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691"};
 
   // TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691","J0524.5-6937"};
@@ -128,7 +128,7 @@ void FillDataM(Number &dm_mass){
   
   //Read Observations data
   
-  filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR_TRUNC500GeV+DiffuseSources+1PS/cntcube_LMC_Irf+CR_TRUNC500GeV+DiffuseSources+1PS_KSPpointing_v2_.fits";
+  filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR_TRUNC1TeV+DiffuseSources+1PS/cntcube_LMC_Irf+CR_TRUNC1TeV+DiffuseSources+1PS_KSPpointing_v2_.fits";
   //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
   //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
 
@@ -181,7 +181,7 @@ void DataSim(VM &data){
   gRandom->SetSeed(0); 
   //Observations Model Cube
       
-  TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR_TRUNC500GeV+DiffuseSources+1PS/modcube_LMC_Irf+CR_TRUNC500GeV+DiffuseSources+1PS_KSPpointing_v2_.fits";
+  TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR_TRUNC1TeV+DiffuseSources+1PS/modcube_LMC_Irf+CR_TRUNC1TeV+DiffuseSources+1PS_KSPpointing_v2_.fits";
   //TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/modcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
   //TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+PS/modcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
 
@@ -260,13 +260,13 @@ void calc_P(){
 ///////////////FUNCTIONS TO CALCULATE LIKELIHOODS///////////////
 
 Number logL(V &Kpars){
-  double sumlogL=0;
+  Number  sumlogL=0;
   for (int ebin=firstebin; ebin<nebins; ebin++){
     Number log_per_ebin=0;
     for (int i=0; i<nxbins; i++){
       for (int j=0; j<nybins; j++){
-	double n = obs_data[ebin][i][j];	
-	double model = Kpars[0]*dm_data[ebin][i][j];
+	Number  n = obs_data[ebin][i][j];	
+	Number  model = Kpars[0]*dm_data[ebin][i][j];
 	for (int ii=0; ii<N; ii++) model+=Kpars[ii+1]*data_bkg[ii][ebin][i][j];
 	if (model<1e-15) model=1e-10;
 	Number loglike=0;
@@ -280,33 +280,33 @@ Number logL(V &Kpars){
   return sumlogL;  
 }
 
-double logL_err(V &Kpars, V &Kerrors){
+Number  logL_err(V &Kpars, V &Kerrors){
   init(Kerrors,N+1);
-  double sumlogL=0;
+  Number  sumlogL=0;
   for (int ebin=firstebin; ebin<nebins; ebin++){
     Number log_per_ebin=0;
     for (int i=0; i<nxbins; i++){
       for (int j=0; j<nybins; j++){
-	double n = obs_data[ebin][i][j];	
-	double model = Kpars[0]*dm_data[ebin][i][j];
+	Number  n = obs_data[ebin][i][j];	
+	Number  model = Kpars[0]*dm_data[ebin][i][j];
 	//if (n<1e-15) n=1e-10;
 	for (int ii=0; ii<N; ii++) model+=Kpars[ii+1]*data_bkg[ii][ebin][i][j];
 	if (model<1e-15) model=1e-10;
 	//if (model<1e-100) continue;
-	double loglike = 0;
+	Number  loglike = 0;
 	if (n<1e-15) loglike = -model;
 	else loglike = -model+n*log(model)-n*log(n)+n;
-	//double loglike = -model+n*log(model)-n*log(n)+n;
+	//Number  loglike = -model+n*log(model)-n*log(n)+n;
 	log_per_ebin+=loglike;
 	sumlogL+=loglike;
-	double n_dm = Kpars[0]*dm_data[ebin][i][j];
+	Number  n_dm = Kpars[0]*dm_data[ebin][i][j];
 	//if (n_dm<1e-10) n_dm=0.000000001;
-	double err_dm = (n*n_dm*n_dm)/(model*model);
+	Number  err_dm = (n*n_dm*n_dm)/(model*model);
 	Kerrors[0] += err_dm;
 	for (int ii=0; ii<N; ii++){
-	  double n_model = data_bkg[ii][ebin][i][j];
+	  Number  n_model = data_bkg[ii][ebin][i][j];
 	  //if (n_model<1e-10) n_model=0.00000001;
-	  double error = (n*n_model*n_model)/(model*model);
+	  Number  error = (n*n_model*n_model)/(model*model);
 	  Kerrors[ii+1] += error;
 	}
 			
@@ -335,12 +335,12 @@ Number logL_gausprior(V &Kpars, V &Kerrors){
 	if (n<1e-15) loglike=-model;
 	else loglike = -model+n*log(model)-n*log(n)+n;
 	sumlogL+=loglike;
-	double n_dm = Kpars[0]*dm_data[ebin][i][j];
-	double err_dm = (n*n_dm*n_dm)/(model*model);
+	Number  n_dm = Kpars[0]*dm_data[ebin][i][j];
+	Number  err_dm = (n*n_dm*n_dm)/(model*model);
 	Kerrors[0] += err_dm;
 	for (int ii=0; ii<N; ii++){
-	  double n_model = data_bkg[ii][ebin][i][j];
-	  double error = (n*n_model*n_model)/(model*model);
+	  Number  n_model = data_bkg[ii][ebin][i][j];
+	  Number  error = (n*n_model*n_model)/(model*model);
 	  Kerrors[ii+1] += error;
 	}
       }
@@ -405,7 +405,7 @@ init(Mat,N+1,N+1);
 
 // Functions for Expectation-Maximization
 
-double DM_estimate(VM &input, VM &output, vector<VM> &back){
+Number  DM_estimate(VM &input, VM &output, vector<VM> &back){
   //This function estimates the predicted number of events for each model component.
   // input: Is the data
   // output: Is the DM predicted number of events in each bin
@@ -413,17 +413,17 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back){
   _loglike = 0;
   output = p_dm; 
   back = p_bkg;
-  double sum = 0;
-  double totalcounts=0;
+  Number  sum = 0;
+  Number  totalcounts=0;
   N_dm=0;
   init(N_bkg,N);
   //Loop over bins.
   for (int ebin=firstebin; ebin<nebins; ebin++){
     for (int i=0; i<nxbins; i++){
       for (int j=0; j<nybins; j++){
-	double n = input[ebin][i][j];//Counts content in the bin
-	double n_of_dm = output[ebin][i][j]*A*n;
-	double denom = A*p_dm[ebin][i][j];
+	Number  n = input[ebin][i][j];//Counts content in the bin
+	Number  n_of_dm = output[ebin][i][j]*A*n;
+	Number  denom = A*p_dm[ebin][i][j];
 	
 	V n_of_bkg; init(n_of_bkg,N);
 	for (int ii=0; ii<N;ii++) {
@@ -432,7 +432,7 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back){
 	}
 	if (denom < 1e-10) denom=1e-10;
 	n_of_dm = n_of_dm/denom;
-	double pred = n_of_dm;
+	Number  pred = n_of_dm;
 	N_dm+=n_of_dm;
 	totalcounts+=n_of_dm;
 	output[ebin][i][j]=n_of_dm;
@@ -443,7 +443,7 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back){
 	  pred+=n_of_bkg[ii];
 	  totalcounts+=n_of_bkg[ii];
 	}	
-	double loglike = -pred+n*log(pred)-n*log(n)+n;
+	Number  loglike = -pred+n*log(pred)-n*log(n)+n;
 	_loglike+=loglike;
 	sum+=n;
       }
@@ -454,9 +454,9 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back){
 
 }
 
-double  EMupdate_pars(V &Kpars,bool fixBaryonic){
+Number   EMupdate_pars(V &Kpars,bool fixBaryonic){
   //This function uses the estimation of the counts number for each component to recalculate the parameters
-  double total_counts = N_dm;
+  Number  total_counts = N_dm;
   for (int ii=0; ii<N; ii++) {total_counts+=N_bkg[ii];}
   A = N_dm/total_counts;
   if (!fixBaryonic) for (int ii=0; ii<N; ii++){ Pars[ii] = N_bkg[ii]/total_counts;}
@@ -470,7 +470,7 @@ double  EMupdate_pars(V &Kpars,bool fixBaryonic){
 Number Expectation_Maximization(V &Kpars, V &Kerrors, bool fixBaryonic = false){
   init(Pars,N); 
   //init(Kpars,N+1);
-  double maxlogL=logL(Kpars);
+  Number  maxlogL=logL(Kpars);
   //Initialize parameters to values close to the estimated (0 for DM, 1 for bkg components);
   
   A = Kpars[0]*model_dm/total_data;
@@ -483,11 +483,11 @@ Number Expectation_Maximization(V &Kpars, V &Kerrors, bool fixBaryonic = false){
   VM dm; //This is the predicted number of DM events
   vector<VM> back; //This is the predicted number of each background component events
   
-  double tol=1e-5;
-  double endiff = 100000;
+  Number  tol=1e-5;
+  Number  endiff = 100000;
  
   do{    
-    double old_loglike = logL(Kpars);
+    Number  old_loglike = logL(Kpars);
     V old_Kpars = Kpars;
     DM_estimate(obs_data,dm,back);
     EMupdate_pars(Kpars,fixBaryonic);
@@ -615,7 +615,7 @@ Number My_Minimizer_bin_by_bin(int ebin, V &Kpars, V &Kerrors, V &Kpars_perbin, 
 }
 
 //Minuit doesn't work at all
-void _minuitFunction(int& nDim, double* gout, double& result, double par[], int flg){
+void _minuitFunction(int& nDim, Number * gout, Number & result, Number  par[], int flg){
 
   V p; 
   for (int i=0; i<N+1; i++){
@@ -631,7 +631,7 @@ Number RunMinuit(V &Kpars){
 TFitter* minimizer = new TFitter(N+1);
   // MAKE IT QUIET!!
   { 
-    double p1 = -1;
+    Number  p1 = -1;
     minimizer->ExecuteCommand("SET PRINTOUT",&p1,1);
     }
 
@@ -687,15 +687,15 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
   init(Mcov,N+1,N+1);
   cout << "Calculating Correlation Factors..............." << endl;
   V Kpars_min = Kpars;
-  double intervals[N+1];
+  Number  intervals[N+1];
 
   Number dm_range = 800 ;
   
-  if (firstebin==0 && nebins==ebinning) {double array[N+1] = {dm_range,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; //This intervals must be set manually, and are case dependent (each dm mass has its ranges)
+  if (firstebin==0 && nebins==ebinning) {Number  array[N+1] = {dm_range,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; //This intervals must be set manually, and are case dependent (each dm mass has its ranges)
     
     for (int i=0; i<N+1; i++) intervals[i] = array[i];}
   
-  else {double array[N+1] = {1000,0.01,5,5,1,1,0.5,0.5}; for (int i=0; i<N+1; i++) intervals[i] = array[i];}
+  else {Number  array[N+1] = {1000,0.01,5,5,1,1,0.5,0.5}; for (int i=0; i<N+1; i++) intervals[i] = array[i];}
   
   int npoints = 100; 
   
@@ -763,14 +763,14 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
   gPad->Modified();
   TString str[N+1] ={"Irf","Leptonic","Hadronic","Diffuse 1", "Diffuse 2","Diffuse 3"}; 
   
-  double binstep = (log10(100.) - log10(0.03))/ebinning;
-  double binlower = pow(10,log10(0.03)+firstebin*binstep);
-  double binupper = pow(10,log10(0.03)+(nebins)*binstep);
+  Number  binstep = (log10(100.) - log10(0.03))/ebinning;
+  Number  binlower = pow(10,log10(0.03)+firstebin*binstep);
+  Number  binupper = pow(10,log10(0.03)+(nebins)*binstep);
   
   /*cout << "ENERGY RANGE: " << binlower<< "-"<<binupper << " TeV" << endl;
   for (int ii=0; ii<N; ii++) cout << str[ii] << ":   " <<  corr[ii] <<endl;
   Kpars = Kpars_min;*/
-  double energy = binlower+(binupper-binlower)/2;
+  Number  energy = binlower+(binupper-binlower)/2;
   cout << energy << "  ";
   for (int ii=0; ii<N; ii++) cout << corr[ii] << "  ";
   cout << endl;
@@ -786,14 +786,14 @@ Number f_TS(Number maxlogL,Number dmNorm, V &Kpars){
   VM dm;
   vector<VM> back;
   
-  double tol=1e-4;
+  Number  tol=1e-4;
   const int maxit = 10000;
-  double diff = HUGE_VAL;
-  double loglike =  10000000;
+  Number  diff = HUGE_VAL;
+  Number  loglike =  10000000;
 
   int it=0;
   do{
-    double old_loglike = loglike;
+    Number  old_loglike = loglike;
     DM_estimate(obs_data,dm,back);
     EMupdate_pars(Kpars,true);
     
@@ -849,9 +849,9 @@ void Check_Correlations(int firstbin,int howmany,Number dm_mass){
   M Mcov;
   calc_Correlation(Kpars,maxlogL,Mcov); 
 
-  double binstep = (log10(100.) - log10(0.03))/20;
-  double binlower = pow(10,log10(0.03)+firstebin*binstep);
-  double binupper = pow(10,log10(0.03)+(nebins)*binstep);
+  Number  binstep = (log10(100.) - log10(0.03))/20;
+  Number  binlower = pow(10,log10(0.03)+firstebin*binstep);
+  Number  binupper = pow(10,log10(0.03)+(nebins)*binstep);
 
   /*for (int ii=0; ii<N+1; ii++){
     for (int jj=0; jj<N+1; jj++){
@@ -860,7 +860,7 @@ void Check_Correlations(int firstbin,int howmany,Number dm_mass){
     cout << endl;
     }*/
 
-  /*double energy = binlower+(binupper-binlower)/2;
+  /*Number  energy = binlower+(binupper-binlower)/2;
   cout << energy << "  ";
   for (int ii=0; ii<N; ii++) cout << cfactors[ii] << "  ";
   cout << endl;*/
@@ -893,7 +893,7 @@ void calc_Mcov(V &Kpars, V &Kerrors, Number &dm_mass){
   calc_Correlation(Kpars,maxlogL,Mcov);
 
   TString masstr; 
-  //double dm_mass = masses[0];
+  //Number  dm_mass = masses[0];
   if (dm_mass < 1.0){
     ostringstream os;
     os<<dm_mass*1000;
@@ -953,32 +953,32 @@ Number Plot_Limits(V &Kpars,Number &dm_mass){ //OBSOLETE
 
   Kmin = Kpars;
   
-  //double intervals[N+1]={500,0.0005,0.6,0.6,0.05,0.05,0.02,
+  //Number  intervals[N+1]={500,0.0005,0.6,0.6,0.05,0.05,0.02,
   //			 0.05,0.05,0.05,0.05,0.05,0.05,0.05,
   //			 0.05,0.05,0.05,0.05,0.05,0.05};
 
-  /*double intervals[N+1]= {100,0.0002,0.2,0.4,0.01,0.05,0.01,
+  /*Number  intervals[N+1]= {100,0.0002,0.2,0.4,0.01,0.05,0.01,
 			0.06,1.5,0.04,0.25,4,1,0.01,
 			0.05,10,0.004,0.05,0.05,0.07};*///PARA 200, 500 GEV, 1TeV
   
 
-  /* double intervals[N+1]= {100,0.00015,0.35,0.4,0.01,0.04,0.01,
+  /* Number  intervals[N+1]= {100,0.00015,0.35,0.4,0.01,0.04,0.01,
 			0.05,1.5,0.035,0.2,4,1.5,0.02,
 			0.05,20,0.004,0.05,0.05,0.06}; //PARA 5TeV*/
 
 
-  /* double intervals[N+1]= {250,0.0002,0.3,0.5,0.015,0.04,0.01,
+  /* Number  intervals[N+1]= {250,0.0002,0.3,0.5,0.015,0.04,0.01,
 			  0.06,1.5,0.04,0.25,0.5,0.5,0.015,
 			  0.1,0.25,0.005,0.05,0.05,0.05}; //PARA 100 GEV*/
 
-  /* double intervals[N+1]={55,0.0003,0.25,0.5,0.025,0.06,0.02,
+  /* Number  intervals[N+1]={55,0.0003,0.25,0.5,0.025,0.06,0.02,
 			 0.1,3.5,0.1,0.5,10,3,0.03,
 			 0.15,80,0.01,0.15,0.1,0.12};*/
 
-  //double intervals[N+1]={300,0.0003,0.4,0.7,0.025,0.06,0.01,0.05};
+  //Number  intervals[N+1]={300,0.0003,0.4,0.7,0.025,0.06,0.01,0.05};
 
-  //  double intervals[N+1] = {300,0.0003,0.1,0.1,0.025,0.06,0.01,0.05};
-  double intervals[N+1] = {150,0.0003,0.05,0.05,0.05,0.06,0.01,0.01};
+  //  Number  intervals[N+1] = {300,0.0003,0.1,0.1,0.025,0.06,0.01,0.05};
+  Number  intervals[N+1] = {150,0.0003,0.05,0.05,0.05,0.06,0.01,0.01};
 
   TNtuple *points1 = new TNtuple("p1","p1","logL:dm:irf:lepto:hadro:diff1:diff2:diff3:ps1");
   TNtuple *points2 = new TNtuple("p2","p2","logL:dm:ps7:ps8:ps9:ps10:ps11:ps12:ps13");
@@ -1125,7 +1125,7 @@ void test(Number &dm_mass){
  
 }
 
-Number calc_UpperLimit(Number &dm_mass, bool bestcase=false,double tol=0.01){
+Number calc_UpperLimit(Number &dm_mass, bool bestcase=false,Number  tol=0.01){
   
   firstebin = 0; 
   nebins = 20; 
@@ -1182,8 +1182,8 @@ void Bands(Number &dm_mass, bool bestcase=true, Number tol=0.01){
   }
   
   TString filename;
-  if (!bestcase) filename = "../../results/limit"+masstr+"_1PS_DiffuseTruncated500GeV.dat";
-  else filename = "../../results/limit"+particle+masstr+"BestCase_1PSDiffuseTruncated500GeV.dat";
+  if (!bestcase) filename = "../../results/limit"+masstr+"_1PS_DiffuseTruncated1TeV.dat";
+  else filename = "../../results/limit"+particle+masstr+"BestCase_1PSDiffuseTruncated1TeV_tol0-01.dat";
   
   ofstream outfile;
   outfile.open(filename,ios::app);
