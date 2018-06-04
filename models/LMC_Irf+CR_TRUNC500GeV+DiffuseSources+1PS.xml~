@@ -9,17 +9,8 @@
       <parameter name="DEC" value="-69.1858" scale="1" min="-90" max="90" free="0" />
     </spatialModel>
   </source>
-  <source name="J0524.5-6937" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0524.5-6937.dat">
-      <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="81.1278" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-69.6294" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
   <source  name="LeptonicDiffuse" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/diffuse/Spec_IC_LMC.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/diffuse/Spec_IC_LMC_TRUNC1TeV.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
     <spatialModel file="/home/queenmab/DATA/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits" map_based_integral="true" type="SpatialMap">
@@ -27,7 +18,7 @@
     </spatialModel>
   </source>
   <source  name="HadronicDiffuse" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/diffuse/Spec_Pion_LMC.dat">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/diffuse/Spec_Pion_LMC_TRUNC1TeV.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
     <spatialModel file="/home/queenmab/DATA/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits" map_based_integral="true" type="SpatialMap">

@@ -48,12 +48,6 @@ int nebins, nxbins, nybins,firstebin;
 
 //Dark Matter final state and masses to try
 TString particle = "W";
-const int nmasses = 1;
-//float masses[nmasses] = {0.100,0.200,0.300,0.400,0.500,0.600,0.700,0.800,0.900,1,2,3,4,5,6,7,8,9,10,50,100};
-//float masses[nmasses] = {0.100,0.200,0.500,1,5,10,50,100};
-//float masses[nmasses] = {50,100};
-float masses[nmasses] = {1};
-
 
 ///////FUNCTIONS TO READ DATA AND FILL MATRIXES///////////
 
@@ -115,10 +109,14 @@ void FillDataM(Number &dm_mass){
   TString dir = "/home/queenmab/DATA/LMC/Obs_";
   TString dir_PS = "/home/queenmab/DATA/LMC/Obs_PS";
   //TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0454.6-6825","J0529.8-7242","J0525.2-6614","J0537.0-7113","J0509.9-6418","J0601.5-7237","J0524.5-6937","J0535.3-6559","J0601.2-7035","J0537-691","J0525-696","J0534.1-6732","J0535-691"};
-  TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691"};
-  //TString components[N] = {"Leptonic","Hadronic"};
-  //TString components[N] = {"Leptonic"};
-  //TString components[N] = {"Irf"};
+  
+  TString components[N] = {"Irf","Leptonic_TRUNC500GeV","Hadronic_TRUNC500GeV","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691"};
+  //  TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691"};
+
+  // TString components[N] = {"Irf","Leptonic","Hadronic","3FHL_J0531.8-6639e","3FHL_J0530.0-6900e","3FHL_J0500.9-6945e","J0537-691","J0524.5-6937"};
+  
+
+
   TString filename;
   for (int i =0; i<N; i++){
     //if (i<6) filename = dir+components[i]+"/modcube_LMC_"+components[i]+"_prod3_003-100_300h.fits";
@@ -126,20 +124,13 @@ void FillDataM(Number &dm_mass){
     else {filename = dir_PS+"/modcube_LMC_"+components[i]+"_KSPpointing_v2_.fits";}
     ReadFits(data_bkg[i],filename);
   }
+
   
   //Read Observations data
   
-  //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_300h.fits";
-  //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_003-100_300h.fits";
-  //TString filename = "/home/queenmab/DATA/LMC/Obs_Leptonic+Hadronic/cntcube_LMC_Leptonic+Hadronic_prod3_003-100_300h.fits";
-  //TString filename = "/home/queenmab/DATA/LMC/Obs_Leptonic/cntcube_LMC_Leptonic_prod3_003-100_300h.fits";
-  //filename = "/home/queenmab/DATA/LMC/Obs_Irf/cntcube_LMC_Irf_prod3_003-100_300h.fits";
- 
-  //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources/cntcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
-
+  filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR_TRUNC500GeV+DiffuseSources+1PS/cntcube_LMC_Irf+CR_TRUNC500GeV+DiffuseSources+1PS_KSPpointing_v2_.fits";
   //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
-  
-  filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/cntcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
+  //filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+PS/cntcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
 
   ReadFits(obs_data,filename);
 
@@ -189,11 +180,10 @@ void DataSim(VM &data){
   
   gRandom->SetSeed(0); 
   //Observations Model Cube
-  //TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources/modcube_LMC_Irf+CR+DiffuseSources_KSPpointing_v2_.fits";
-  
+      
+  TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR_TRUNC500GeV+DiffuseSources+1PS/modcube_LMC_Irf+CR_TRUNC500GeV+DiffuseSources+1PS_KSPpointing_v2_.fits";
   //TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/modcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
-  
-  TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+1PS/modcube_LMC_Irf+CR+DiffuseSources+1PS_KSPpointing_v2_.fits";
+  //TString filename = "/home/queenmab/DATA/LMC/Obs_Irf+CR+DiffuseSources+PS/modcube_LMC_Irf+CR+DiffuseSources+PS_KSPpointing_v2_.fits";
 
   ReadFits(data,filename);
 
@@ -516,8 +506,6 @@ Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
   V x; x = Kpars;
   Number dm_step = 1;
   Number irf_step = 0.001;
-  /*Number comp_step =0.1;
-    Number ps_step = 0.1;*/
   Number comp_step = 0.001;
   Number ps_step = 0.001;
 
@@ -526,7 +514,7 @@ Number My_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VAL){
       Number step=0;
       if (j==0) step =-dm_step+gRandom->Uniform(2*dm_step); 
       else if (j==1) step = -irf_step+gRandom->Uniform(2*irf_step);
-      else if (j==4) step = -ps_step+gRandom->Uniform(2*ps_step);
+      else if (j>=7) step = -ps_step+gRandom->Uniform(2*ps_step);
       else step = -comp_step+gRandom->Uniform(2*comp_step);
       x[j] = x[j]+step;
       if (j>0) {
@@ -569,7 +557,7 @@ Number Upper_Minimizer(V &Kpars, V &Kerrors, Number &maxlogL, Number tol=HUGE_VA
 	  else step = gRandom->Uniform(dm_step);
 	}
 	else if(j==1) step = -irf_step+gRandom->Uniform(2*irf_step);
-	else if(j==4) step = -ps_step+gRandom->Uniform(2*ps_step);
+	else if(j>=7) step = -ps_step+gRandom->Uniform(2*ps_step);
 	else step = -comp_step+gRandom->Uniform(2*comp_step);
 	x[j] = x[j]+step;
 	if (j>0) {
@@ -700,15 +688,14 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
   cout << "Calculating Correlation Factors..............." << endl;
   V Kpars_min = Kpars;
   double intervals[N+1];
-  /*if (firstebin==0 && nebins==ebinning) {double array[N+1] = {150,0.00025,0.25,0.5,0.02,0.06,0.015,
-							      0.1,3.5,0.06,0.5,10,3,0.02,
-							      0.1,80,0.01,0.1,0.1,0.12}; */
 
-  if (firstebin==0 && nebins==ebinning) {double array[N+1] = {300,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; //This intervals must be set manually, and are case dependent (each dm mass has its ranges)
+  Number dm_range = 800 ;
+  
+  if (firstebin==0 && nebins==ebinning) {double array[N+1] = {dm_range,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; //This intervals must be set manually, and are case dependent (each dm mass has its ranges)
     
     for (int i=0; i<N+1; i++) intervals[i] = array[i];}
   
-  else {double array[N+1] = {1000,0.01,5,5,1,1,0.5}; for (int i=0; i<N+1; i++) intervals[i] = array[i];}
+  else {double array[N+1] = {1000,0.01,5,5,1,1,0.5,0.5}; for (int i=0; i<N+1; i++) intervals[i] = array[i];}
   
   int npoints = 100; 
   
@@ -783,8 +770,7 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
   /*cout << "ENERGY RANGE: " << binlower<< "-"<<binupper << " TeV" << endl;
   for (int ii=0; ii<N; ii++) cout << str[ii] << ":   " <<  corr[ii] <<endl;
   Kpars = Kpars_min;*/
-  cout << masses[0] << endl;
-   double energy = binlower+(binupper-binlower)/2;
+  double energy = binlower+(binupper-binlower)/2;
   cout << energy << "  ";
   for (int ii=0; ii<N; ii++) cout << corr[ii] << "  ";
   cout << endl;
@@ -1180,8 +1166,8 @@ Number calc_UpperLimit(Number &dm_mass, bool bestcase=false,double tol=0.01){
 
 void Bands(Number &dm_mass, bool bestcase=true, Number tol=0.01){
 
-  int realizations = 10;
-  
+  int realizations = 90;
+
   //Build wisely the name of the file
   TString masstr;
   if (dm_mass < 1.0){
@@ -1196,8 +1182,8 @@ void Bands(Number &dm_mass, bool bestcase=true, Number tol=0.01){
   }
   
   TString filename;
-  if (!bestcase) filename = "../../results/limit"+masstr+"_test.dat";
-  else filename = "../../results/limit"+particle+masstr+"_BestCase.dat";
+  if (!bestcase) filename = "../../results/limit"+masstr+"_1PS_DiffuseTruncated500GeV.dat";
+  else filename = "../../results/limit"+particle+masstr+"BestCase_1PSDiffuseTruncated500GeV.dat";
   
   ofstream outfile;
   outfile.open(filename,ios::app);
@@ -1219,11 +1205,10 @@ void Bands(Number &dm_mass, bool bestcase=true, Number tol=0.01){
 }
 
 
-void checksimu(){ //This is for comparing the ctobssim result with the poisson realization of the model, to see how they are different.
+void checksimu(Number &dm_mass){ //This is for comparing the ctobssim result with the poisson realization of the model, to see how they are different.
 
   firstebin=0;
   nebins=firstebin+ebinning;
-  Number dm_mass = masses[0];
   FillDataM(dm_mass);
   
   VM simu1;

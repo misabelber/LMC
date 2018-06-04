@@ -15,6 +15,8 @@ CTOOLS_PATH="/home/queenmab/anaconda3/envs/ctools/" #Folder where ctools is inst
 
 MATH_PATH='/home/queenmab/GitHub/Math/' #Define the path of your Math repository
 
+======================================================================
+
 var=`grep -r -h '/Math/' $HERE/pipelines/pipes_in_C/ | head -1`
 var=`echo $var | awk '{print $2}' | sed -e 's/^.//' -e 's/.$//'`
 OLD_MATH_PATH=`echo "${var%/*}"`
