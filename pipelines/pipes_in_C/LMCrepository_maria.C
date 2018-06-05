@@ -1,5 +1,5 @@
-#include "/Users/maria/Desktop/LMC/zeuthen2018/code/mabel/Math/matrixes.h"
-#include "/Users/maria/Desktop/LMC/zeuthen2018/code/mabel/Math/linear_fitter.h"
+#include "/home/queenmab/GitHub/Math/matrixes.h"
+#include "/home/queenmab/GitHub/Math/linear_fitter.h"
 #include "TMatrixD.h"
 #include "TFITS.h"
 #include "TH2D.h"
@@ -19,24 +19,24 @@ using namespace std;
 #define PI 3.14159265359 
 
 
-vector<VM> data_bkg;
+vector<VM> Bkg_model;
 /**************************************************************************** 
  * Manually change
  ***************************************************************************/ 
 const int N = 1; // Number of components in the Baryonic Background
 
-VM obs_data, dm_data;
-double A; // DM Normalization factor
+VM Obs_data, DM_model;
+Number A; // DM Normalization factor
 V Pars; // BKG components normalization factors
 
-double N_dm; // Total number of counts of dark matter in the observation
+Number N_dm; // Total number of counts of dark matter in the observation
 V N_bkg; // Total number of counts of background components in the observation
 
-double model_dm; // Total number of counts of dark matter in the model
+Number model_dm; // Total number of counts of dark matter in the model
 V model_bkg; // Total number of counts of background components in the model
-double total_data; // Total number of counts in the data
+Number total_data; // Total number of counts in the data
 
-double _loglike; 
+Number _loglike; 
 VM p_dm;
 vector<VM> p_bkg;
 vector<VM> p_compbin;
@@ -100,9 +100,9 @@ void FillDataM(Number &dm_mass)
     // Fits file saved in root matrixes. Transform these matrixes into
     // Math matrixes
     Pars.clear();
-    data_bkg.clear();
-    obs_data.clear();
-    dm_data.clear();
+    Bkg_model.clear();
+    Obs_data.clear();
+    DM_model.clear();
     N_dm = 0;
     N_bkg.clear();
     _loglike = 0;
@@ -119,7 +119,7 @@ void FillDataM(Number &dm_mass)
     for (int i=0; i<N; i++)
     {
         VM data;
-        data_bkg.push_back(data);
+        Bkg_model.push_back(data);
     }
   
     // Read Background model components data
@@ -152,7 +152,7 @@ void FillDataM(Number &dm_mass)
             filename = dir_PS + "/modcube_LMC_" + components[i] + 
                        "_KSPpointing.fits";
         }
-        ReadFits(data_bkg[i],filename);
+        ReadFits(Bkg_model[i],filename);
     }
   
     // Read Observation data (binned observation)
@@ -161,7 +161,7 @@ void FillDataM(Number &dm_mass)
     ************************************************************************/ 
     filename = "/Users/maria/Desktop/LMC/zeuthen2018/code/mabel/LMC/data/Obs_Leptonic/cntcube_LMC_Leptonic_KSPpointing.fits";
 
-    ReadFits(obs_data, filename);
+    ReadFits(Obs_data, filename);
 
     // Dark Matter Final State and masses
     TString masstr;
@@ -192,14 +192,14 @@ void FillDataM(Number &dm_mass)
                    + modelname + "_KSP.fits";
     }
 
-    ReadFits(dm_data, filename);
+    ReadFits(DM_model, filename);
     /*for (int i=0; i<nebins; i++) 
      {
         for (int j=0; j<nxbins; j++) 
         {
             for (int k=0; k<nybins; k++) 
             {
-                dm_data[i][j][k]=10000*dm_data[i][j][k];
+                DM_model[i][j][k]=10000*DM_model[i][j][k];
             }
         }
     }*/
@@ -253,8 +253,8 @@ void calc_P()
     P.clear();
     Mat.clear();
 
-    p_dm  = dm_data;
-    p_bkg = data_bkg;
+    p_dm  = DM_model;
+    p_bkg = Bkg_model;
 
     total_data = 0;
     init(model_bkg,N);
@@ -265,15 +265,15 @@ void calc_P()
         {
             for (int j=0; j<nybins; j++)
             {
-                total_data+=obs_data[ebin][i][j];
-                if (obs_data[ebin][i][j] < 10) 
+                total_data+=Obs_data[ebin][i][j];
+                if (Obs_data[ebin][i][j] < 10) 
                 {
                     continue;
                 }
-                model_dm += dm_data[ebin][i][j];
+                model_dm += DM_model[ebin][i][j];
                 for (int ii=0; ii<N; ii++) 
                 {
-                    model_bkg[ii]+=data_bkg[ii][ebin][i][j];	  
+                    model_bkg[ii]+=Bkg_model[ii][ebin][i][j];	  
                 }
             }
         }
@@ -298,7 +298,7 @@ void calc_P()
         {
             for (int j=0; j<nybins; j++)
             {
-                if (obs_data[ebin][i][j] < 10)
+                if (Obs_data[ebin][i][j] < 10)
                 {
                     continue;
                 }
@@ -326,7 +326,7 @@ void calc_P()
 
 Number logL(V &Kpars)
 {
-    double sumlogL=0;
+    Number sumlogL=0;
     for (int ebin=firstebin; ebin<nebins; ebin++)
     {
         Number log_per_ebin=0;
@@ -334,11 +334,11 @@ Number logL(V &Kpars)
         {
             for (int j=0; j<nybins; j++)
             {
-                double n = obs_data[ebin][i][j];
-                double model = Kpars[0]*dm_data[ebin][i][j];
+                Number n = Obs_data[ebin][i][j];
+                Number model = Kpars[0]*DM_model[ebin][i][j];
                 for (int ii=0; ii<N; ii++) 
                 {
-                    model+=Kpars[ii+1]*data_bkg[ii][ebin][i][j];
+                    model+=Kpars[ii+1]*Bkg_model[ii][ebin][i][j];
                 }
                 if (model<1e-15) 
                 {
@@ -360,11 +360,11 @@ Number logL(V &Kpars)
     return sumlogL;  
 }
 
-double logL_err(V &Kpars, 
+Number logL_err(V &Kpars, 
                 V &Kerrors)
 {
     init(Kerrors, N+1); // np.zeros(vector, length) (in Math)
-    double sumlogL=0;
+    Number sumlogL=0;
     for (int ebin=firstebin; ebin<nebins; ebin++)
     {
         Number log_per_ebin=0;
@@ -372,19 +372,19 @@ double logL_err(V &Kpars,
         {
             for (int j=0; j<nybins; j++)
             {
-                double n = obs_data[ebin][i][j];
-                double model = Kpars[0]*dm_data[ebin][i][j];
+                Number n = Obs_data[ebin][i][j];
+                Number model = Kpars[0]*DM_model[ebin][i][j];
                 //if (n<1e-15) n=1e-10;
                 for (int ii=0; ii<N; ii++) 
                 {
-                    model+=Kpars[ii+1]*data_bkg[ii][ebin][i][j];
+                    model+=Kpars[ii+1]*Bkg_model[ii][ebin][i][j];
                 }
                 if (model<1e-15) 
                 {
                     model=1e-10;
                 }
                 //if (model<1e-100) continue;
-                double loglike = 0;
+                Number loglike = 0;
                 if (n<1e-15) 
                 {
                     loglike = -model;
@@ -393,18 +393,18 @@ double logL_err(V &Kpars,
                 {
                     loglike = -model+n*log(model)-n*log(n)+n;
                 }
-                //double loglike = -model+n*log(model)-n*log(n)+n;
+                //Number loglike = -model+n*log(model)-n*log(n)+n;
                 log_per_ebin+=loglike;
                 sumlogL+=loglike;
-                double n_dm = Kpars[0]*dm_data[ebin][i][j];
+                Number n_dm = Kpars[0]*DM_model[ebin][i][j];
                 //if (n_dm<1e-10) n_dm=0.000000001;
-                double err_dm = (n*n_dm*n_dm)/(model*model);
+                Number err_dm = (n*n_dm*n_dm)/(model*model);
                 Kerrors[0] += err_dm;
                 for (int ii=0; ii<N; ii++)
                 {
-                    double n_model = data_bkg[ii][ebin][i][j];
+                    Number n_model = Bkg_model[ii][ebin][i][j];
                     //if (n_model<1e-10) n_model=0.00000001;
-                    double error = (n*n_model*n_model)/(model*model);
+                    Number error = (n*n_model*n_model)/(model*model);
                     Kerrors[ii+1] += error;
                 }
             }
@@ -434,11 +434,11 @@ Number logL_gausprior(V &Kpars, V &Kerrors)
         {
             for (int j=0; j<nybins; j++)
             {
-                Number n = obs_data[ebin][i][j];
-                Number model = Kpars[0]*dm_data[ebin][i][j];
+                Number n = Obs_data[ebin][i][j];
+                Number model = Kpars[0]*DM_model[ebin][i][j];
                 for (int ii=0; ii<N; ii++) 
                 {
-                    model+=Kpars[ii+1]*data_bkg[ii][ebin][i][j];
+                    model+=Kpars[ii+1]*Bkg_model[ii][ebin][i][j];
                 }
                 if (model<1e-15) 
                 {
@@ -454,13 +454,13 @@ Number logL_gausprior(V &Kpars, V &Kerrors)
                     loglike = -model+n*log(model)-n*log(n)+n;
                 }
                 sumlogL+=loglike;
-                double n_dm = Kpars[0]*dm_data[ebin][i][j];
-                double err_dm = (n*n_dm*n_dm)/(model*model);
+                Number n_dm = Kpars[0]*DM_model[ebin][i][j];
+                Number err_dm = (n*n_dm*n_dm)/(model*model);
                 Kerrors[0] += err_dm;
                 for (int ii=0; ii<N; ii++)
                 {
-                    double n_model = data_bkg[ii][ebin][i][j];
-                    double error = (n*n_model*n_model)/(model*model);
+                    Number n_model = Bkg_model[ii][ebin][i][j];
+                    Number error = (n*n_model*n_model)/(model*model);
                     Kerrors[ii+1] += error;
                 }
             }
@@ -489,7 +489,7 @@ Number Conjugate_Gradients(V &Kpars)
         {
             for (int j=0; j<nybins; j++)
             {
-                if (obs_data[ebin][i][j] < 10)
+                if (Obs_data[ebin][i][j] < 10)
                 {
                     continue;
                 }
@@ -499,7 +499,7 @@ Number Conjugate_Gradients(V &Kpars)
                     {
                         Mat[ii][jj]+= p_compbin[ii][ebin][i][j]*
                                       p_compbin[jj][ebin][i][j]*
-                                      total_data/obs_data[ebin][i][j];
+                                      total_data/Obs_data[ebin][i][j];
                     }
                 }
             }
@@ -540,7 +540,7 @@ Number Conjugate_Gradients(V &Kpars)
 
 
 // Functions for Expectation-Maximization
-double DM_estimate(VM &input, VM &output, vector<VM> &back)
+Number DM_estimate(VM &input, VM &output, vector<VM> &back)
 {
     //This function estimates the predicted number of events for each model component.
     // input: Is the data
@@ -549,8 +549,8 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back)
     _loglike = 0;
     output = p_dm; 
     back = p_bkg;
-    double sum = 0;
-    double totalcounts=0;
+    Number sum = 0;
+    Number totalcounts=0;
     N_dm=0;
     init(N_bkg, N);
     //Loop over bins.
@@ -560,9 +560,9 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back)
         {
             for (int j=0; j<nybins; j++)
             {
-                double n = input[ebin][i][j];//Counts content in the bin
-                double n_of_dm = output[ebin][i][j]*A*n;
-                double denom = A*p_dm[ebin][i][j];
+                Number n = input[ebin][i][j];//Counts content in the bin
+                Number n_of_dm = output[ebin][i][j]*A*n;
+                Number denom = A*p_dm[ebin][i][j];
                 V n_of_bkg; 
                 init(n_of_bkg,N);
                 for (int ii=0; ii<N;ii++) 
@@ -575,7 +575,7 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back)
                     denom=1e-10;
                 }
                 n_of_dm = n_of_dm/denom;
-                double pred = n_of_dm;
+                Number pred = n_of_dm;
                 N_dm+=n_of_dm;
                 totalcounts+=n_of_dm;
                 output[ebin][i][j]=n_of_dm;
@@ -587,7 +587,7 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back)
                     pred+=n_of_bkg[ii];
                     totalcounts+=n_of_bkg[ii];
                 }
-                double loglike = -pred+n*log(pred)-n*log(n)+n;
+                Number loglike = -pred+n*log(pred)-n*log(n)+n;
                 _loglike+=loglike;
                 sum+=n;
             }
@@ -597,12 +597,12 @@ double DM_estimate(VM &input, VM &output, vector<VM> &back)
     return sum;
 }
 
-double EMupdate_pars(V &Kpars, 
+Number EMupdate_pars(V &Kpars, 
                      bool fixBaryonic)
 {
     // This function uses the estimation of the counts number for each component
     // to recalculate the parameters
-    double total_counts = N_dm;
+    Number total_counts = N_dm;
     for (int ii=0; ii<N; ii++) 
     {
         total_counts+=N_bkg[ii];
@@ -631,7 +631,7 @@ Number Expectation_Maximization(V &Kpars,
 {
     init(Pars,N); 
     //init(Kpars,N+1);
-    double maxlogL=logL(Kpars);
+    Number maxlogL=logL(Kpars);
     // Initialize parameters to values close to the estimated 
     // (0 for DM, 1 for bkg components);
 
@@ -647,14 +647,14 @@ Number Expectation_Maximization(V &Kpars,
     //This is the predicted number of each background component events
     vector<VM> back; 
 
-    double tol    = 1e-5;
-    double endiff = 100000;
+    Number tol    = 1e-5;
+    Number endiff = 100000;
 
     do
     {    
-        double old_loglike = logL(Kpars);
+        Number old_loglike = logL(Kpars);
         V old_Kpars        = Kpars;
-        DM_estimate(obs_data,dm,back);
+        DM_estimate(Obs_data,dm,back);
         EMupdate_pars(Kpars,fixBaryonic);
         maxlogL            = logL(Kpars);
         endiff             = fabs(maxlogL-old_loglike);
@@ -941,10 +941,10 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov)
     init(Mcov,N+1,N+1);
     cout << "Calculating Correlation Factors..............." << endl;
     V Kpars_min = Kpars;
-    double intervals[N+1];
+    Number intervals[N+1];
     /*if (firstebin==0 && nebins==ebinning) 
      {
-        double array[N+1] = {150,0.00025,0.25,0.5,0.02,0.06,0.015,
+        Number array[N+1] = {150,0.00025,0.25,0.5,0.02,0.06,0.015,
                              0.1,3.5,0.06,0.5,10,3,0.02,
                              0.1,80,0.01,0.1,0.1,0.12}; 
     */
@@ -954,8 +954,8 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov)
         /******************************************************************** 
          * Manually change
          *******************************************************************/ 
-        //double array[N+1] = {300,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; 
-        double array[N+1] = {300, 0.5};
+        //Number array[N+1] = {300,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; 
+        Number array[N+1] = {300, 0.5};
         // These intervals must be set manually, and are case dependent 
         // (each dm mass has its ranges)
         for (int i=0; i<N+1; i++) 
@@ -966,8 +966,8 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov)
 
     else 
     {
-        //double array[N+1] = {1000, 0.01,5,5,1,1,0.5}; 
-        double array[N+1] = {1000, 0.01};
+        //Number array[N+1] = {1000, 0.01,5,5,1,1,0.5}; 
+        Number array[N+1] = {1000, 0.01};
         for (int i=0; i<N+1; i++) 
         {
             intervals[i] = array[i];
@@ -1064,14 +1064,14 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov)
     // WHY HERE N+1??
     TString str[N+1] = {"Leptonic"}; 
 
-    double binstep  = (log10(100.) - log10(0.03))/ebinning;
-    double binlower = pow(10,log10(0.03)+firstebin*binstep);
-    double binupper = pow(10,log10(0.03)+(nebins)*binstep);
+    Number binstep  = (log10(100.) - log10(0.03))/ebinning;
+    Number binlower = pow(10,log10(0.03)+firstebin*binstep);
+    Number binupper = pow(10,log10(0.03)+(nebins)*binstep);
   
     /*cout << "ENERGY RANGE: " << binlower<< "-"<<binupper << " TeV" << endl;
     for (int ii=0; ii<N; ii++) cout << str[ii] << ":   " <<  corr[ii] <<endl;
     Kpars = Kpars_min;*/
-    double energy = binlower+(binupper-binlower)/2;
+    Number energy = binlower+(binupper-binlower)/2;
     cout << energy << "  ";
     for (int ii=0; ii<N; ii++) 
     {
@@ -1090,16 +1090,16 @@ Number f_TS(Number maxlogL,Number dmNorm, V &Kpars)
     VM dm;
     vector<VM> back;
   
-    double tol=1e-4;
+    Number tol=1e-4;
     const int maxit = 10000;
-    double diff = HUGE_VAL;
-    double loglike =  10000000;
+    Number diff = HUGE_VAL;
+    Number loglike =  10000000;
 
     int it=0;
     do
     {
-        double old_loglike = loglike;
-        DM_estimate(obs_data,dm,back);
+        Number old_loglike = loglike;
+        DM_estimate(Obs_data,dm,back);
         EMupdate_pars(Kpars,true);
         loglike = logL(Kpars);
         diff = fabs(loglike-old_loglike);
@@ -1143,7 +1143,7 @@ void Check_Correlations(int firstbin,int howmany,Number dm_mass)
     nebins = firstebin+howmany;
     TCanvas *c = new TCanvas("multicanvas","multicanvas");
     FillDataM(dm_mass); // Fill Matrixes with data
-    DataSim(obs_data); 
+    DataSim(Obs_data); 
     calc_P(); // Calculate probabilities
 
     //Minimize Kpars
@@ -1157,9 +1157,9 @@ void Check_Correlations(int firstbin,int howmany,Number dm_mass)
     M Mcov;
     calc_Correlation(Kpars,maxlogL,Mcov); 
 
-    double binstep = (log10(100.) - log10(0.03))/20;
-    double binlower = pow(10,log10(0.03)+firstebin*binstep);
-    double binupper = pow(10,log10(0.03)+(nebins)*binstep);
+    Number binstep = (log10(100.) - log10(0.03))/20;
+    Number binlower = pow(10,log10(0.03)+firstebin*binstep);
+    Number binupper = pow(10,log10(0.03)+(nebins)*binstep);
 
     /*for (int ii=0; ii<N+1; ii++)
      {
@@ -1170,7 +1170,7 @@ void Check_Correlations(int firstbin,int howmany,Number dm_mass)
         cout << endl;
     }*/
 
-    /*double energy = binlower+(binupper-binlower)/2;
+    /*Number energy = binlower+(binupper-binlower)/2;
     cout << energy << "  ";
     for (int ii=0; ii<N; ii++) cout << cfactors[ii] << "  ";
     cout << endl;*/
@@ -1276,8 +1276,8 @@ Number Plot_Limits(V &Kpars,Number &dm_mass)
     /************************************************************************ 
      * Manually change
      ***********************************************************************/ 
-    //double intervals[N+1] = {150,0.0003,0.05,0.05,0.05,0.06,0.01,0.01}
-    double intervals[N+1] = {150,0.0003};
+    //Number intervals[N+1] = {150,0.0003,0.05,0.05,0.05,0.06,0.01,0.01}
+    Number intervals[N+1] = {150,0.0003};
 
     TNtuple *points1 = new TNtuple("p1","p1","logL:dm:irf:lepto:hadro:diff1:diff2:diff3:ps1");
     TNtuple *points2 = new TNtuple("p2","p2","logL:dm:ps7:ps8:ps9:ps10:ps11:ps12:ps13");
@@ -1429,7 +1429,7 @@ void test(Number &dm_mass)
 
     for (int i=0; i<100; i++)
     {
-        DataSim(obs_data); //Simulate a random realization of datax
+        DataSim(Obs_data); //Simulate a random realization of datax
         calc_P(); // Calculate probabilities
         V Kpars; 
         init(Kpars, N+1);
@@ -1446,7 +1446,7 @@ void test(Number &dm_mass)
 
 Number calc_UpperLimit(Number &dm_mass, 
                        bool bestcase=false,
-                       double tol=0.01)
+                       Number tol=0.01)
 {
     // The three methods of maximization are : 
     // 1) Conjugate_Gradients
@@ -1456,11 +1456,11 @@ Number calc_UpperLimit(Number &dm_mass,
     nebins    = 20; 
     FillDataM(dm_mass); 
     // Simulate observation from modelcube (modelcube + poisson noise)
-    DataSim(obs_data);
+    DataSim(Obs_data);
     // Compute matrix of probabilities for Conjugate_Gradients
     // (igual calcula más cosas para otros lugares)
     calc_P(); 
-    // Kpars constains normalization of each component ( N baryonic + DM)
+    // Kpars constains normalization of each component ( Nbar baryonic + DM)
     // Kpars[0] -> DM normalization
     V Kpars; 
     init(Kpars, N+1);  
@@ -1575,8 +1575,8 @@ void checksimu(Number &dm_mass)
   
     VM simu1;
     VM simu2;
-    simu1=obs_data;
-    simu2=obs_data;
+    simu1=Obs_data;
+    simu2=Obs_data;
     DataSim(simu1);
     //DataSim(simu2);
 
