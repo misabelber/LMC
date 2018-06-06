@@ -701,17 +701,6 @@ Number Upper_Minimizer(V &Kpars,
 		  }
 	      }
         }
-      
-      Number loglike = logL(x,0,nebins);
-      if (fabs(2*(maxlogL-loglike)) > 2.715 || fabs(2*(maxlogL-loglike)) < 2.705) 
-        {
-	  x=K_0;
-	  continue;
-        }
-      if (fabs(x[0]) > fabs(Upperlimit)) 
-        {
-	  Upperlimit = x[0]; Kpars = x;
-        }
     }
   
   Kpars = K_0;
