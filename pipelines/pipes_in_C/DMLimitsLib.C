@@ -670,7 +670,26 @@ Number Upper_Minimizer(V &Kpars,
                 if (fabs(difflog)<=fabs(maxdiflog)) 
 		  {
                     maxdiflog = difflog;
-                    Kpars     = x;  
+                    Kpars     = x; 
+// ========================================================================== 
+                    Number loglike = logL(x,0,nebins);
+                    if (fabs(x[0]) > fabs(Upperlimit))
+                    {
+                        if (fabs(2*(maxlogL-loglike))>2.715 || 
+                            fabs(2*(maxlogL-loglike))<2.705)
+                        {
+                            continue;
+                        }
+                        if (fabs(x[0]) > fabs(Upperlimit)) 
+                        {
+                            Upperlimit = x[0]; 
+                            Kpars      = x;
+                            cout << "trial (within iter)= " << trial << "  " 
+                                 << Kpars[0] << "  " << Kpars[1] << endl;
+                            continue;
+                        }
+                    }
+// ========================================================================== 
 		  }
                 else if (j==0) 
 		  {
@@ -681,17 +700,6 @@ Number Upper_Minimizer(V &Kpars,
                     x[j] = x[j]-step; 
 		  }
 	      }
-        }
-      
-      Number loglike = logL(x,0,nebins);
-      if (fabs(2*(maxlogL-loglike)) > 2.715 || fabs(2*(maxlogL-loglike)) < 2.705) 
-        {
-	  x=K_0;
-	  continue;
-        }
-      if (fabs(x[0]) > fabs(Upperlimit)) 
-        {
-	  Upperlimit = x[0]; Kpars = x;
         }
     }
   
