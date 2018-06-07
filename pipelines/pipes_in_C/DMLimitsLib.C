@@ -264,7 +264,6 @@ Number logL(V Kpars,int firstebin,int nebins)
 
 /*-------------CONJUGATE GRADIENTS--------------------*/
 
-
 void calc_P(V &P, vector<VM> &p_compbin)
 {
   p_compbin.clear();
@@ -601,103 +600,276 @@ Number calc_MaxlogL(V &Kpars,bool BestCase,Number tol)
 
 void Upper_Minimizer()
 {
-  cout << "Finds the maximum DM normalization parameter that is compatible with a Likelihood ratio of 2.71" << endl;
   cout << endl;
-  cout << "USAGE: Upper_Minimizer(V &Kpars, Number tol)" << endl;
+  cout << "DESCRIPTION: " << endl;
+  cout << "Finds the maximum DM normalization parameter that is "
+       << "compatible "
+       << "with a Likelihood ratio of 2.71" << endl;
+  cout << endl;
+  cout << "USAGE: " << endl;
+  cout << "Upper_Minimizer(V &Kpars, bool test, Number tol)" << endl;
+  cout << endl;
+  cout << "COMMENTS: " << endl;
+  cout << "test=false by default.\nIf true, writes three files: "
+       << "difference.dat, normalization.dat and trial_acc.dat.\nFirst file "
+       << "contains 2(maxlogL - logL); normalization.dat contains the "
+       << "random paths from trial and iter for loops; and the later contains "
+       << "the trials that have been accepted." << endl;
+  cout << "You can plot the results with plot_upperminimizer.py in the "
+       << "tools folder ;)" << endl;
+  cout << endl;
 }
 
-Number Upper_Minimizer(V &Kpars,   
+Number Upper_Minimizer(V &Kpars,
+                       bool test,
                        Number tol)
 {
-  //This function searches for the maximum DM normalization value that gives 
-  // a likelihood ratio = 2.71 (Say, the upper limit)
-  Number maxlogL = logL(Kpars,0,nebins);
-  gRandom          -> SetSeed(0);
-  V K_0             = Kpars;
-  int niter         = 300;
-  int trials        = 50;
-  V x               = Kpars;
-  Number dm_step    = 50;
-  Number irf_step   = 0.001;
-  Number comp_step  = 0.001;
+    //This function searches for the maximum DM normalization value that gives
+    // a likelihood ratio = 2.71 (Say, the upper limit)
+    Number maxlogL = logL(Kpars,0,nebins);
+    gRandom          -> SetSeed(0);
+    V K_0             = Kpars;
+    int niter         = 300;
+    int trials        = 50;
+    V x               = Kpars;
+    Number dm_step    = 50;
+    Number irf_step   = 0.001;
+    Number comp_step  = 0.001;
 
-  if (irf_step > tol) irf_step = tol;
-  if (comp_step > tol) comp_step = tol;
-  
-  Number Upperlimit = Kpars[0];
-  for (int trial = 0; trial<trials; trial++) 
+    if (irf_step > tol) irf_step   = tol;
+    if (comp_step > tol) comp_step = tol;
+
+    Number Upperlimit = Kpars[0];
+
+    if (test==true)
     {
-      x = K_0;
-      //for (int ii=1; ii<Nbar+1; ii++) x[ii] = K_0[ii]; 
-      Number maxdiflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
-      for (int i=0; i<niter; i++)
+        // Create difference.dat file
+        // Tuple with logL. But I want to implement maxlogL - logL
+        TNtuple *like         = new TNtuple("l", "l", "dif:comp1:comp2");
+        V Kpars_min           = Kpars;
+        double intervals[2]   = {2., 0.02};
+
+        std::ofstream out1("difference.dat");
+        if (out1.is_open())
         {
-	  for (int j=0; j<Nbar+1; j++) 
-	    {
-                Number step = 0;
-                if (j==0)
-		  {
-                    if (x[j]<0) 
-		      {
-                        step = -gRandom->Uniform(dm_step);
-		      }
+        // This part is the same as in calc_Correlation()
+        // Sampling npoints
+        int npoints = 100; 
+        // Here we fill tuple like
+        for (int comp1=0; comp1<1; comp1++)
+        {
+            for (int comp2=comp1; comp2<2; comp2++)
+            {
+                Kpars        = Kpars_min; 
+                Number step1 = intervals[comp1];
+                Number step2 = intervals[comp2];
+                if (comp1==comp2) 
+                {
+                    continue;
+                }
+                Number minComp1 = Kpars_min[comp1]-step1;
+                Number maxComp1 = Kpars_min[comp1]+step1;
+                Number minComp2 = Kpars_min[comp2]-step2;
+                Number maxComp2 = Kpars_min[comp2]+step2;
+                for (int i=0; i<npoints; i++)
+                {
+                    Number norm1 = minComp1 + i*((maxComp1-minComp1)/npoints);
+                    for (int j=0; j<npoints; j++)
+                    {
+                        Number norm2   = minComp2+j*((maxComp2-minComp2)/npoints);
+                        Kpars[comp1]   = norm1;
+                        Kpars[comp2]   = norm2;
+                        Number loglike = logL(Kpars, 0, nebins);
+                        like          -> Fill(2*(maxlogL-loglike), norm1, norm2);
+                        out1 << norm1 << "  " << norm2 << "  " 
+                             << 2*(maxlogL-loglike) << endl;
+                    }
+                }
+            }
+        }
+        }
+        out1.close();
+        // Draw 2*(maxlogL - logL)
+        cout << "CHECK THE PLOT. If there are white bands, decrease the size "
+             << "of the step in array intervals" << endl;
+        like -> Draw("dif:comp2:comp1", Form("(dif)<2.71"), "colz prof");
+        // Accepted trials
+        V trial_acc;
+        std::ofstream out2("normalization.dat");
+        if (out2.is_open())
+        {
+        for (int trial = 0; trial<trials; trial++) 
+        {
+            x = K_0;
+            out2 << K_0[0] << "  " << K_0[1] << "  " << trial 
+                 << endl;
+            //for (int ii=1; ii<Nbar+1; ii++) x[ii] = K_0[ii]; 
+            Number maxdiflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+            for (int i=0; i<niter; i++)
+            {
+                for (int j=0; j<Nbar+1; j++) 
+                {
+                    Number step = 0;
+                    if (j==0)
+                    {
+                        if (x[j]<0) 
+                        {
+                            step = -gRandom->Uniform(dm_step);
+                        }
+                        else 
+                        {
+                            step = gRandom->Uniform(dm_step);
+                        }
+                    }
+                    else if(j==1) 
+                    {
+                        step = -irf_step+gRandom->Uniform(2*irf_step);
+                    }
                     else 
-		      {
-                        step = gRandom->Uniform(dm_step);
-		      }
-		  }
-                else if(j==1) 
-		  {
-                    step = -irf_step+gRandom->Uniform(2*irf_step);
-		  }
-		else 
-		  {
-                    step = -comp_step+gRandom->Uniform(2*comp_step);
-		  }
-                x[j] = x[j]+step;
-                if (j>0) 
-		  {
-                    if (x[j] > K_0[j]+tol) 
-		      {
-			x[j] = K_0[j]+tol; //Only for fixed bkg
-		      }
-                    if (x[j] < K_0[j]-tol) 
-		      {
-                        x[j] = K_0[j]-tol; //Only for fixed bkg
-		      }
-		  }
-                Number difflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
-                if (fabs(difflog)<=fabs(maxdiflog)) 
-		  {
-                    maxdiflog = difflog;
-                    Kpars     = x;  
-		  }
-                else if (j==0) 
-		  {
-                    x[j] = x[j]-step;
-		  }
-                else  
-		  {
-                    x[j] = x[j]-step; 
-		  }
-	      }
+                    {
+                        step = -comp_step+gRandom->Uniform(2*comp_step);
+                    }
+                    x[j] = x[j]+step;
+                    if (j>0) 
+                    {
+                        if (x[j] > K_0[j]+tol) 
+                        {
+                            x[j] = K_0[j]+tol; //Only for fixed bkg
+                        }
+                        if (x[j] < K_0[j]-tol) 
+                        {
+                            x[j] = K_0[j]-tol; //Only for fixed bkg
+                        }
+                    }
+                    Number difflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+                    if (fabs(difflog)<=fabs(maxdiflog)) 
+                    {
+                        maxdiflog = difflog;
+                        Kpars     = x;  
+                        out2 << Kpars[0] << "  " << Kpars[1] << "  " << trial 
+                             << endl;
+                        Number loglike = logL(x,0,nebins);
+                        if (fabs(x[0]) > fabs(Upperlimit))
+                        {
+                            if (fabs(2*(maxlogL-loglike))>2.715 || 
+                                fabs(2*(maxlogL-loglike))<2.705)
+                            {
+                                continue;
+                            }
+                            if (fabs(x[0]) > fabs(Upperlimit)) 
+                            {
+                                Upperlimit = x[0]; 
+                                Kpars      = x;
+                                cout << "trial = " << trial << "  " 
+                                     << Kpars[0] << "  " << Kpars[1] << endl;
+                                trial_acc.push_back(trial);
+                                continue;
+                            }
+                        }
+                    }
+                    else if (j==0)
+                    {
+                        x[j] = x[j]-step;
+                    }
+                    else
+                    {
+                        x[j] = x[j]-step; 
+                    }
+                }
+            }
         }
-      
-      Number loglike = logL(x,0,nebins);
-      if (fabs(2*(maxlogL-loglike)) > 2.715 || fabs(2*(maxlogL-loglike)) < 2.705) 
-        {
-	  x=K_0;
-	  continue;
         }
-      if (fabs(x[0]) > fabs(Upperlimit)) 
+        out2.close();
+        ofstream out3("trial_acc.dat");
+        if (out3.is_open())
         {
-	  Upperlimit = x[0]; Kpars = x;
+            for (int k=0; k<int(trial_acc.size()); k++)
+            {
+                out3 << trial_acc[k] << endl;
+            }
+        }
+        out3.close();
+    }
+    else
+    {
+        for (int trial = 0; trial<trials; trial++) 
+        {
+            x = K_0;
+            //for (int ii=1; ii<Nbar+1; ii++) x[ii] = K_0[ii]; 
+            Number maxdiflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+            for (int i=0; i<niter; i++)
+            {
+                for (int j=0; j<Nbar+1; j++) 
+                {
+                    Number step = 0;
+                    if (j==0)
+                    {
+                        if (x[j]<0) 
+                        {
+                            step = -gRandom->Uniform(dm_step);
+                        }
+                        else 
+                        {
+                            step = gRandom->Uniform(dm_step);
+                        }
+                    }
+                    else if(j==1) 
+                    {
+                        step = -irf_step+gRandom->Uniform(2*irf_step);
+                    }
+                    else 
+                    {
+                        step = -comp_step+gRandom->Uniform(2*comp_step);
+                    }
+                    x[j] = x[j]+step;
+                    if (j>0) 
+                    {
+                        if (x[j] > K_0[j]+tol) 
+                        {
+                            x[j] = K_0[j]+tol; //Only for fixed bkg
+                        }
+                        if (x[j] < K_0[j]-tol) 
+                        {
+                            x[j] = K_0[j]-tol; //Only for fixed bkg
+                        }
+                    }
+                    Number difflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+                    if (fabs(difflog)<=fabs(maxdiflog)) 
+                    {
+                        maxdiflog = difflog;
+                        Kpars     = x;  
+                        Number loglike = logL(x,0,nebins);
+                        if (fabs(x[0]) > fabs(Upperlimit))
+                        {
+                            if (fabs(2*(maxlogL-loglike))>2.715 || 
+                                fabs(2*(maxlogL-loglike))<2.705)
+                            {
+                                continue;
+                            }
+                            if (fabs(x[0]) > fabs(Upperlimit)) 
+                            {
+                                Upperlimit = x[0]; 
+                                Kpars      = x;
+                                continue;
+                            }
+                        }
+                    }
+                    else if (j==0) 
+                    {
+                        x[j] = x[j]-step;
+                    }
+                    else  
+                    {
+                        x[j] = x[j]-step; 
+                    }
+                }
+            }
         }
     }
-  
-  Kpars = K_0;
-  // Return
-  return fabs(Upperlimit); 
+    // Kpars are normalized parameters of the minimum
+    Kpars = K_0;
+    // Return
+    return fabs(Upperlimit); 
 }
 
 void calc_CorrFactors()
