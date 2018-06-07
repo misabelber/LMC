@@ -1,4 +1,4 @@
-//#pragma once
+#pragma once
 #include "/home/queenmab/GitHub/Math/matrixes.h"
 #include <vector>
 #include "TString.h"
@@ -79,4 +79,4 @@ Number Upper_Minimizer(V &Kpars, Number tol=HUGE_VAL);
 void calc_CorrFactors();
 void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors);
 
-void Test();
+

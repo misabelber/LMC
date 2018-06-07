@@ -195,7 +195,7 @@ void DataSim(VM &data){
     for (int j=0; j<xbins; j++){
       for (int k=0; k<ybins; k++){
 	Number mean = data[i][j][k];
-	data[i][j][k] = gRandom->Poisson(mean);
+	//data[i][j][k] = gRandom->Poisson(mean);
       }
     }
   }
@@ -689,7 +689,7 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
   V Kpars_min = Kpars;
   Number  intervals[N+1];
 
-  Number dm_range = 800 ;
+  Number dm_range = 50 ;
   
   if (firstebin==0 && nebins==ebinning) {Number  array[N+1] = {dm_range,0.00025,0.25,0.5,0.02,0.06,0.015,0.1}; //This intervals must be set manually, and are case dependent (each dm mass has its ranges)
     
@@ -738,7 +738,7 @@ void calc_Correlation(V &Kpars, Number &maxlogL, M &Mcov){ //Correlation Factors
   for (int comp1=0; comp1<1/*N+1*/; comp1++){
     for (int comp2=comp1; comp2<N+1; comp2++){
       if (comp1==comp2) continue;
-      ntt->Draw("logL:comp2:comp1",Form("2*(%lf-logL)<2.71  && type1==%d && type2==%d",maxlogL,maxlogL,comp1,comp2),"colz prof");
+      ntt->Draw("logL:comp2:comp1",Form("2*(%lf-logL)<2.71  && type1==%d && type2==%d",maxlogL,comp1,comp2),"colz prof");
       TF2 f("func",Form("0.5*([0]*(x-%lf)*(x-%lf)+[1]*(y-%lf)*(y-%lf)+2*[2]*(x-%lf)*(y-%lf)+[3])",Kpars_min[comp1],Kpars_min[comp1],Kpars_min[comp2],Kpars_min[comp2],Kpars_min[comp1],Kpars_min[comp2]));
       TH1 *h_cor = ntt->GetHistogram();
       h_cor->SetMaximum(maxlogL);
