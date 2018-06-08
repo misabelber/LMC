@@ -70,7 +70,7 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
-    suf = '_jfactorgamma1.5'
+    suf = '_jfactorNFW'
     
     model = PATH_MODEL+modelname+suf+'.xml'
     time = str(int(duration/3600))

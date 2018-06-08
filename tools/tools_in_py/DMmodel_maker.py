@@ -23,7 +23,7 @@ masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
 
 #jfactorname = "DM/jfactor/jfactorLMC.fits"
 
-jfactorname = "DM/jfactor/annihil_LMC2D_FOVdiameter10.0deg_alphaint0.10deg_nside1024gamma0.5-JFACTOR-Jsmooth-image.fits"
+jfactorname = "DM/jfactor/annihil_LMC2D_FOVdiameter10.0deg_alphaint0.10deg_nside1024NFW-JFACTOR-Jsmooth-image.fits"
 
 for mass in masses:
     #Standarized name for the produced model so the other programs can use it easily:
@@ -34,7 +34,7 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
-    suf = '_jfactorgamma0.5'
+    suf = '_jfactorNFW'
     #_______________________________________________________________________________
 
     for model in models:
