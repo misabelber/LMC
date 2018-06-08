@@ -50,7 +50,7 @@ irf_ = 'South_z20_50h'
 
 debug = True
 
-Component = 'Irf+CR_TRUNC500GeV+DiffuseSources+1PS' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
+Component = 'Irf+CR+DiffuseSources+PS' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
 PATH_HERE = "../pipes_in_py" #Path where we are running
