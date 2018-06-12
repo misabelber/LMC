@@ -74,7 +74,7 @@ void calc_MaxlogL();
 Number calc_MaxlogL(V &Kpars,bool BestCase=false,Number tol=HUGE_VAL);
 
 void Upper_Minimizer();
-Number Upper_Minimizer(V &Kpars, Number tol=HUGE_VAL);
+Number Upper_Minimizer(V &Kpars,bool test=false, Number tol=HUGE_VAL);
 
 void calc_CorrFactors();
 void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors);

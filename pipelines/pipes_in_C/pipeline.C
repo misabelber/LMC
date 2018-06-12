@@ -14,7 +14,7 @@ void Run()
   TString extended[N_ext] = {"Irf","Leptonic","Hadronic","3FHL_J0500.9-6945e","3FHL_J0530.0-6900e","3FHL_J0531.8-6639e"};
   TString point[N_ps] = {"J0537-691","J0524.5-6937","J0534.1-6732"};
   TString suf = "_KSPpointing_v2_";
-  TString suf_DM = "_003-100_KSP_v2";
+  TString suf_DM = "_jfactorNFW";
   
   FillContainer_Bkg(extended,point,suf);
   FillContainer_DM(0.500,"W",suf_DM);
@@ -32,7 +32,7 @@ void Run()
   cout << endl;
   cout << endl;
   cout << "Calculating Upper Limit on DM normalization..." << endl;
-  Number UpperLimit = Upper_Minimizer(Kpars);
+  Number UpperLimit = Upper_Minimizer(Kpars,false);
   cout << "Upper Limit: " << UpperLimit << endl;
   cout << endl;
   Number intervals[Nbar+1] = {UpperLimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.1,0.15,4.5};
@@ -66,7 +66,7 @@ void Run2()
   cout << endl;
   cout << endl;
   cout << "Calculating Upper Limit on DM normalization..." << endl;
-  Number UpperLimit = Upper_Minimizer(Kpars);
+  Number UpperLimit = Upper_Minimizer(Kpars,false);
   cout << "Upper Limit: " << UpperLimit << endl;
   cout << endl;
   Number intervals[Nbar+1] = {UpperLimit,0.00025};
@@ -116,7 +116,7 @@ void CheckJFACTOR()
 	      cout << endl;
 	      cout << endl;
 	      cout << "Calculating Upper Limit on DM normalization..." << endl;
-	      Number UpperLimit = Upper_Minimizer(Kpars);
+	      Number UpperLimit = Upper_Minimizer(Kpars,false);
 	      cout << "Upper Limit: " << UpperLimit << endl;
 	      cout << endl;
 	      outfilelim << DMmasses[nmass] << "  " << UpperLimit << endl;
