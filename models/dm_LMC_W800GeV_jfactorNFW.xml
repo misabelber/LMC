@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<source_library title="source library">
+  <source name="" type="DiffuseSource">
+    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/DM/fluxW800GeV.txt">
+      <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
+    </spectrum>
+    <spatialModel type="DiffuseMap" file="/home/queenmab/DATA/LMC/DM/jfactor/annihil_LMC2D_FOVdiameter10.0deg_alphaint0.10deg_nside1024NFW-JFACTOR-Jsmooth-image.fits">
+      <parameter name="Normalization" value="1" scale="1" min="0.001" max="1000" free="0" />
+    </spatialModel>
+  </source>
+</source_library>

@@ -70,13 +70,13 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
+    suf = '_jfactorNFW'
     
-    model = PATH_MODEL+modelname+".xml"
-    suf = "_003-100"
+    model = PATH_MODEL+modelname+suf+'.xml'
     time = str(int(duration/3600))
-    outfile = PATH_OBS+'observations_'+'LMC_'+modelname+'_'+'KSPpointing_v2.xml' #List of Observations file that will be produced ('.xml')
-    cntcube = PATH_OBS+"cntcube_"+modelname+suf+'_KSP_v2.fits'
-    modcube = PATH_OBS+"modcube_"+modelname+suf+'_KSP_v2.fits'
+    outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
+    cntcube = PATH_OBS+"cntcube_"+modelname+suf+'.fits'
+    modcube = PATH_OBS+"modcube_"+modelname+suf+'.fits'
     #_______________________________________________
     
     file = open(outfile,'w')

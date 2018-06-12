@@ -186,6 +186,7 @@ void FillContainer_Obs(TString obsname, bool modcube, TString suf)
       filename = dir + obsname + "/cntcube_LMC_" + obsname + suf + ".fits";     
     }
   Ntotal = ReadFits(Obs_data,filename);
+  
 }
 
 void DataSim()
@@ -210,7 +211,7 @@ Number DataSim(VM &data)
 	  for (int k=0; k<ybin; k++)
             {
 	      Number mean = data[i][j][k];
-	      //data[i][j][k] = gRandom->Poisson(mean);
+	      data[i][j][k] = gRandom->Poisson(mean);
 	      TotalCounts += data[i][j][k];
             }
         }
@@ -517,12 +518,12 @@ Number My_Minimizer(V &Kpars,
   int niter        = 3000;
   V x; 
   x                = Kpars;
-  Number dm_step   = 10;
+  Number dm_step   = 5;
   // Each baryonic sources is optimized for varying within a given range
   // (This was manually checked)
-  Number irf_step  = 0.001;
-  Number comp_step = 0.001;
-
+  Number irf_step  = 0.0015;
+  Number comp_step = 0.0015;
+  Number ps_step = 0.001;
   if (irf_step > tol) irf_step = tol;
   if (comp_step > tol) comp_step = tol;
  
@@ -542,6 +543,10 @@ Number My_Minimizer(V &Kpars,
             {
 	      step = -irf_step + gRandom->Uniform(2*irf_step);
             }
+	  else if(j>6)
+	    {
+	      step = -ps_step + gRandom->Uniform(2*ps_step);
+	    }
 	  else 
             {
 	      step = -comp_step+gRandom->Uniform(2*comp_step);
@@ -585,6 +590,7 @@ void calc_MaxlogL()
 }
 Number calc_MaxlogL(V &Kpars,bool BestCase,Number tol)
 {
+  
   Number MaxlogL = 0;
   Conjugate_Gradients(Kpars);
   Expectation_Maximization(Kpars);
@@ -642,6 +648,25 @@ Number Upper_Minimizer(V &Kpars,
     Number Upperlimit = Kpars[0];
 
     if (test==true)
+=======
+  //This function searches for the maximum DM normalization value that gives 
+  // a likelihood ratio = 2.71 (Say, the upper limit)
+  Number maxlogL = logL(Kpars,0,nebins);
+  gRandom          -> SetSeed(0);
+  V K_0             = Kpars;
+  int niter         = 300;
+  int trials        = 30;
+  V x               = Kpars;
+  Number dm_step    = 50;
+  Number irf_step   = 0.001;
+  Number comp_step  = 0.001;
+
+  if (irf_step > tol) irf_step = tol;
+  if (comp_step > tol) comp_step = tol;
+  
+  Number Upperlimit = Kpars[0];
+  for (int trial = 0; trial<trials; trial++) 
+
     {
         // Create difference.dat file
         // Tuple with logL. But I want to implement maxlogL - logL
@@ -865,6 +890,67 @@ Number Upper_Minimizer(V &Kpars,
                 }
             }
         }
+=======
+		      {
+                        step = gRandom->Uniform(dm_step);
+		      }
+		  }
+                else if(j==1) 
+		  {
+                    step = -irf_step+gRandom->Uniform(2*irf_step);
+		  }
+		else 
+		  {
+                    step = -comp_step+gRandom->Uniform(2*comp_step);
+		  }
+                x[j] = x[j]+step;
+                if (j>0) 
+		  {
+                    if (x[j] > K_0[j]+tol) 
+		      {
+			x[j] = K_0[j]+tol; //Only for fixed bkg
+		      }
+                    if (x[j] < K_0[j]-tol) 
+		      {
+                        x[j] = K_0[j]-tol; //Only for fixed bkg
+		      }
+		  }
+                Number difflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+                if (fabs(difflog)<=fabs(maxdiflog)) 
+		  {
+                    maxdiflog = difflog;
+                    Kpars     = x; 
+// ========================================================================== 
+                    Number loglike = logL(x,0,nebins);
+                    if (fabs(x[0]) > fabs(Upperlimit))
+                    {
+                        if (fabs(2*(maxlogL-loglike))>2.715 || 
+                            fabs(2*(maxlogL-loglike))<2.705)
+                        {
+                            continue;
+                        }
+                        if (fabs(x[0]) > fabs(Upperlimit)) 
+                        {
+                            Upperlimit = x[0]; 
+                            Kpars      = x;
+                            cout << "trial (within iter)= " << trial << "  " 
+                                 << Kpars[0] << "  " << Kpars[1] << endl;
+                            continue;
+                        }
+                    }
+// ========================================================================== 
+		  }
+                else if (j==0) 
+		  {
+                    x[j] = x[j]-step;
+		  }
+                else  
+		  {
+                    x[j] = x[j]-step; 
+		  }
+	      }
+        }
+
     }
     // Kpars are normalized parameters of the minimum
     Kpars = K_0;
@@ -883,15 +969,15 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors)
 {
   TNtuple *ParSpace = new TNtuple("ParSpace","ParSpace","type1:type2:logL:comp1:comp2");
   
-  Number maxlogL = logL(Kpars,0,nebins); 
+  Number maxlogL = logL(Kpars,0,nebins);
+  
   int npoints = 100; 
 
-  V K; init(K,Nbar+1);
-  
   for (int comp1=0; comp1<1/*Nbar+1*/; comp1++)
     {
       for (int comp2=comp1; comp2<Nbar+1; comp2++)
         {
+	  V K = Kpars;
 	  Number step1 = intervals[comp1];
 	  Number step2 = intervals[comp2];
 	  if (comp1==comp2) 
@@ -926,8 +1012,8 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors)
 	      continue;
 	    }
 	  ParSpace -> Draw("logL:comp2:comp1",
-		      Form("2*(%lf-logL)<2.71  && type1==%d && type2==%d",
-			   maxlogL,comp1,comp2),"colz prof");
+			   Form("2*(%lf-logL)<2.71  && type1==%d && type2==%d",
+				maxlogL,comp1,comp2),"colz prof");
 	  TF2 f("func",
 		Form("0.5*([0]*(x-%lf)*(x-%lf)+[1]*(y-%lf)*(y-%lf)+2*[2]*(x-%lf)*(y-%lf)+[3])",
 		     Kpars[comp1], Kpars[comp1], Kpars[comp2],
@@ -955,37 +1041,4 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors)
   cout << endl;
 }
 
-void Test()
-{
-  Init(20,20,20,1,0);
-  
-  TString extended[N_ext] = {"Irf"};
-  TString point[N_ps];
-  TString suf = "_KSPpointing_v2_";
-  TString suf_DM = "_003-100_KSP_v2";
-  
-  FillContainer_Bkg(extended,point,suf);
-  FillContainer_DM(1,"W",suf_DM);
-  FillContainer_Obs("Irf",true,suf);
-  Ntotal = DataSim(Obs_data);
-
-  V Kpars; init(Kpars,2);
-  Kpars[0] = 0;
-  Kpars[1] = 1;
-  
-  /*cout << Conjugate_Gradients(Kpars) << endl;
-  cout << Kpars[0] << "  " << Kpars[1] << endl;
-  cout << Expectation_Maximization(Kpars) << endl;
-  cout << Kpars[0] << "  " << Kpars[1] << endl;
-  cout << Kpars[0] << "  " << Kpars[1] << endl;
-  cout << My_Minimizer(Kpars) << endl;
-  cout << Kpars[0] << "  " << Kpars[1] << endl;*/
-
-  calc_MaxlogL(Kpars,false);
-  Number UpperLimit = Upper_Minimizer(Kpars);
-  cout << UpperLimit << endl;
-  Number intervals[Nbar+1] = {UpperLimit,0.0005};
-  V Cfactors;
-  calc_CorrFactors(Kpars,intervals,Cfactors);
-}
   
