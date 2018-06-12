@@ -54,7 +54,7 @@ irf = "irf_file.fits"
 caldb_= "1dc"
 irf_="South_z20_50h"
 
-particle = 'W' #Final state particle
+particle = 'Mu' #Final state particle
 #masses = [0]
 #masses = [0.100,0.200,0.500,1,5,10,50,100]
 masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
@@ -70,7 +70,7 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
-    suf = '_jfactorNFW'
+    suf = '_jfactorgamma1.5'
     
     model = PATH_MODEL+modelname+suf+'.xml'
     time = str(int(duration/3600))

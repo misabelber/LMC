@@ -516,15 +516,16 @@ Number My_Minimizer(V &Kpars,
   
   gRandom          -> SetSeed(0); 
   V K_0            = Kpars;
-  int niter        = 3000;
+  int niter        = 5000;
   V x; 
   x                = Kpars;
-  Number dm_step   = 5;
+  Number dm_step   = 10;
   // Each baryonic sources is optimized for varying within a given range
   // (This was manually checked)
-  Number irf_step  = 0.0015;
-  Number comp_step = 0.0015;
+  Number irf_step  = 0.001;
+  Number comp_step = 0.001;
   Number ps_step = 0.001;
+  Number steps[Nbar+1]={10,0.001,1,0.01,0.001,1,0.001,0.001};
   if (irf_step > tol) irf_step = tol;
   if (comp_step > tol) comp_step = tol;
  
@@ -536,7 +537,7 @@ Number My_Minimizer(V &Kpars,
       for (int j=0; j<Nbar+1; j++)
         {
 	  Number step=0;
-	  if (j==0) 
+	  /*if (j==0) 
             {
 	      step = -dm_step + gRandom->Uniform(2*dm_step); 
             }
@@ -551,7 +552,8 @@ Number My_Minimizer(V &Kpars,
 	  else 
             {
 	      step = -comp_step+gRandom->Uniform(2*comp_step);
-            }
+	      }*/
+	  step = -steps[j]+gRandom->Uniform(2*steps[j]);
 	  x[j] = x[j]+step;
 	  if (j>0) 
             {
