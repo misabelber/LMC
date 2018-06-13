@@ -505,7 +505,8 @@ void My_Minimizer()
   cout << "USAGE: My_Minimizer(V &Kpars, Number tol)" << endl;
 }
 
-Number My_Minimizer(V &Kpars,  
+Number My_Minimizer(V &Kpars,
+                    Number steps[],
                     Number tol)
 {
     // Randomly scan normalization parameter space in order to find the 
@@ -524,7 +525,7 @@ Number My_Minimizer(V &Kpars,
   Number irf_step  = 0.001;
   Number comp_step = 0.001;
   Number ps_step = 0.001;
-  Number steps[Nbar+1]={10,0.001,1,0.01,0.001,1,0.001,0.001};
+  
   if (irf_step > tol) irf_step = tol;
   if (comp_step > tol) comp_step = tol;
  
@@ -590,7 +591,7 @@ void calc_MaxlogL()
   cout << "USAGE: calc_MaxlogL(V &Kpars)" << endl;
   
 }
-Number calc_MaxlogL(V &Kpars,bool BestCase,Number tol)
+Number calc_MaxlogL(V &Kpars,Number steps[],bool BestCase,Number tol)
 {
   
   Number MaxlogL = 0;
@@ -600,7 +601,7 @@ Number calc_MaxlogL(V &Kpars,bool BestCase,Number tol)
     {
       for (int ii=1; ii<Nbar+1; ii++) Kpars[ii] = 1.;
     }
-  MaxlogL = My_Minimizer(Kpars,tol);
+  MaxlogL = My_Minimizer(Kpars,steps,tol);
 
   return MaxlogL;
   

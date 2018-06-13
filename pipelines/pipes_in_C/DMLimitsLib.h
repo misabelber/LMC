@@ -68,10 +68,10 @@ void Expectation_Maximization();
 Number Expectation_Maximization(V &Kpars);
 
 void My_Minimizer();
-Number My_Minimizer(V &Kpars, Number tol=HUGE_VAL);
+Number My_Minimizer(V &Kpars, Number steps[], Number tol=HUGE_VAL);
 
 void calc_MaxlogL();
-Number calc_MaxlogL(V &Kpars,bool BestCase=false,Number tol=HUGE_VAL);
+Number calc_MaxlogL(V &Kpars, Number steps[], bool BestCase=false,Number tol=HUGE_VAL);
 
 void Upper_Minimizer();
 Number Upper_Minimizer(V &Kpars,bool test=false, Number tol=HUGE_VAL);
