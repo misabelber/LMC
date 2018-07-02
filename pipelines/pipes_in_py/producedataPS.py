@@ -42,9 +42,9 @@ tstart = 0.0 #Starting time
 duration = 180000 #Ending time
 deadc = 0.95 #Dead time
 
-binsz = 0.5 #Spatial binning
-nxpix = 20
-nypix = 20
+binsz = 0.1 #Spatial binning
+nxpix = 100
+nypix = 100
 enumbins = 20
 
 caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/1dc/bcf/South_z20_50h") #Calibration Files for gammalib class
@@ -66,10 +66,10 @@ for model in models:
         
     
         model = PATH_MODEL+'LMC_'+modelname+".xml"
-        
-        cntcube = PATH_OBS+"cntcube_"+"LMC_"+modelname+'_KSPpointing_v2_.fits'
-        modcube = PATH_OBS+"modcube_"+"LMC_"+modelname+'_KSPpointing_v2_.fits'
-        outfile = PATH_OBS+'observations_'+'LMC_'+modelname+'_KSPpointing_v2_.xml' #List of Observations file that will be produced ('.xml')
+        suf = "rebin_0.1x100"
+        cntcube = PATH_OBS+"cntcube_"+"LMC_"+modelname+suf+'.fits'
+        modcube = PATH_OBS+"modcube_"+"LMC_"+modelname+suf+'.fits'
+        outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
         file = open(outfile,'w')
 
         #_______________________________________________

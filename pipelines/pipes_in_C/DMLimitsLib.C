@@ -110,7 +110,6 @@ void FillContainer_Bkg(TString ext[], TString ps[], TString suf)
     {
       if (N_ext==0) break;
       TString filename = dir + ext[i] + "/modcube_LMC_" + ext[i] + suf + ".fits";
-
       VM data;
       N_bkg.push_back(ReadFits(data,filename));
       Bkg_model.push_back(data);

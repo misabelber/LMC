@@ -42,9 +42,9 @@ tstart = 0.0 #Startind time
 duration = 180000 #Ending time
 deadc = 0.95 #Dead time
 
-binsz = 0.5 #Spatial binning
-nxpix = 20
-nypix = 20
+binsz = 0.1 #Spatial binning
+nxpix = 100
+nypix = 100
 
 enumbins = 20
 
@@ -54,7 +54,7 @@ irf = "irf_file.fits"
 caldb_= "1dc"
 irf_="South_z20_50h"
 
-particle = 'Mu' #Final state particle
+particle = 'b' #Final state particle
 #masses = [0]
 #masses = [0.100,0.200,0.500,1,5,10,50,100]
 masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
@@ -70,9 +70,9 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
-    suf = '_jfactorgamma1.5'
+    suf = "rebin_0.1x100"
     
-    model = PATH_MODEL+modelname+suf+'.xml'
+    model = PATH_MODEL+modelname+'.xml'
     time = str(int(duration/3600))
     outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
     cntcube = PATH_OBS+"cntcube_"+modelname+suf+'.fits'

@@ -7,7 +7,7 @@ import numpy as np
 import os
 
 
-def plotbands(filepath, masses, particle, bestCase=True, tol=0.01):
+def plotbands(filepath, masses, particle,suf, bestCase=True, tol=0.01):
     """
     Plot DM constraints
 
@@ -19,6 +19,8 @@ def plotbands(filepath, masses, particle, bestCase=True, tol=0.01):
         DM masses
     partile : string
         final annihilation particle
+    suf  : string
+       suffix on the filename
     bestCase : bool
         True in case limits computed imposing the normalization not to change 
         much
@@ -49,9 +51,9 @@ def plotbands(filepath, masses, particle, bestCase=True, tol=0.01):
             masstr = str(int(dm_mass))+"TeV"; 
 
         if bestCase==True:
-            filename = filepath+"limit_"+particle+masstr+"_bestCase_tol0.01.dat"
+            filename = filepath+"Limits_"+particle+masstr+suf+"_bestCase_tol0.01.dat"
         else:
-            filename = filepath+"limit_"+particle+masstr+".dat"
+            filename = filepath+"Limits_"+particle+masstr+suf+".dat"
 
         data   = np.genfromtxt(filename, unpack=True) 
         limits = data*3e-26
@@ -93,11 +95,12 @@ def plotbands(filepath, masses, particle, bestCase=True, tol=0.01):
 # ======================== #
 if __name__ == '__main__':
     # DM masses
-    masses           = [0.100, 0.500, 1, 5, 10, 50, 100]
+    masses           = [0.100,0.200,0.500, 1, 5, 10, 50, 100]
     # Annihilated final particle
     particle         = "W";
     # Filepath to results
     filepath_to_here = os.getcwd()
     filepath         = filepath_to_here + "/../../results/"
+    suf = "_gamma0.5"
     # Call plotbands function
-    plotbands(filepath, masses, particle)
+    plotbands(filepath, masses, particle, suf,False)
