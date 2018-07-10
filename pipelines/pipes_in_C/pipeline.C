@@ -1,4 +1,4 @@
-#include "/home/queenmab/GitHub/Math/matrixes.h"
+#include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h"
 #include "DMLimitsLib.h"
 #include <fstream>
 #include <sstream>
@@ -23,11 +23,11 @@ void RunBands(Number dm_mass)
     masstr = os.str()+"TeV";
   }      
   
-  TString filename = "/home/queenmab/GitHub/LMC/results/Limits_"+particle+masstr+"_gamma0.5.dat";
+  TString filename = "//queenmab/GitHub/LMC/results/Limits_"+particle+masstr+"_gamma0.5.dat";
   
-  int Ndif = 6;
-  int Nps = 10;
-  int Nbar = Ndif+Nps;
+  const int Ndif = 6;
+  const int Nps = 10;
+  const int Nbar = Ndif+Nps;
   
   Init(20,20,20,Ndif,Nps);
   ofstream outfilelim;
@@ -56,19 +56,19 @@ void RunBands(Number dm_mass)
   FillContainer_Bkg(extended,point,suf);
   FillContainer_DM(dm_mass,particle,suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
-
+  
   VM data_model = Obs_data;
   
   int reals = 100;
-
+  
   for (int i=0; i<reals; i++){
     Obs_data = data_model;
     Ntotal = DataSim(Obs_data);
-        
+    
     Number steps[Nbar+1]={10,0.001,1,1,1,1,0.5,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
-  
+    
     V Kpars; init(Kpars,Nbar+1);
-  
+    
     cout << "Maximizing Likelihood..." << endl;
     cout << endl;
     cout << calc_MaxlogL(Kpars,steps,false) << endl;
@@ -89,9 +89,9 @@ void RunBands(Number dm_mass)
 
 void Run()
 {
-  int Ndif = 6;
-  int Nps = 10;
-  int Nbar = Ndif+Nps;
+  const int Ndif = 6;
+  const int Nps = 10;
+  const int Nbar = Ndif+Nps;
   
   Init(20,20,20,Ndif,Nps);
   
@@ -119,7 +119,7 @@ void Run()
   FillContainer_DM(1,"W",suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
   //Ntotal = DataSim(Obs_data);
-
+  
   Number steps[Nbar+1]={10,0.001,1,1,1,1,0.5,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
   
   V Kpars; init(Kpars,Nbar+1);
@@ -127,7 +127,7 @@ void Run()
   cout << "Maximizing Likelihood..." << endl;
   cout << endl;
   cout << calc_MaxlogL(Kpars,steps,false) << endl;
-
+  
   cout << "Maximum Likelihood parameters: " << endl;
   for (int ii=0; ii<Nbar+1; ii++) cout << Kpars[ii] << "  ";
   cout << endl;
@@ -144,9 +144,9 @@ void Run()
 
 void RunRebinned()
 {
-  int Ndif = 6;
-  int Nps = 10;
-  int Nbar = Ndif+Nps;
+  const int Ndif = 6;
+  const int Nps = 10;
+  const int Nbar = Ndif+Nps;
   
   Init(20,100,100,Ndif,Nps);
   
@@ -174,7 +174,7 @@ void RunRebinned()
   FillContainer_DM(1,"W",suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
   Ntotal = DataSim(Obs_data);
-
+  
   Number steps[Nbar+1]={10,0.001,1,1,1,1,0.5,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
   
   V Kpars; init(Kpars,Nbar+1);
@@ -182,7 +182,7 @@ void RunRebinned()
   cout << "Maximizing Likelihood..." << endl;
   cout << endl;
   cout << calc_MaxlogL(Kpars,steps,false) << endl;
-
+  
   cout << "Maximum Likelihood parameters: " << endl;
   for (int ii=0; ii<Nbar+1; ii++) cout << Kpars[ii] << "  ";
   cout << endl;
@@ -197,60 +197,28 @@ void RunRebinned()
   calc_CorrFactors(Kpars,intervals,Cfactors);
 }
 
-
-void Run2()
-{
-  Init(20,20,20,1,0);
-  
-  TString extended[N_ext] = {"Irf"};
-  TString point[N_ps];
-  TString suf = "_KSPpointing_v2_";
-  TString suf_DM = "_jfactorgamma1.5";
-  
-  FillContainer_Bkg(extended,point,suf);
-  FillContainer_DM(1,"W",suf_DM);
-  FillContainer_Obs("Irf",true,suf);
-  //Ntotal = DataSim(Obs_data);
-  Number steps[Nbar+1]={10,0.001};
-  
-  V Kpars; init(Kpars,Nbar+1);
-  
-  cout << "Maximizing Likelihood..." << endl;
-  cout << endl;
-  calc_MaxlogL(Kpars,steps,false);
-
-  cout << "Maximum Likelihood parameters: " << endl;
-  for (int ii=0; ii<Nbar+1; ii++) cout << Kpars[ii] << "  ";
-  cout << endl;
-  cout << endl;
-  cout << "Calculating Upper Limit on DM normalization..." << endl;
-  Number UpperLimit = Upper_Minimizer(Kpars,false);
-  cout << "Upper Limit: " << UpperLimit << endl;
-  cout << endl;
-  Number intervals[Nbar+1] = {UpperLimit,0.00025};
-  V Cfactors;
-  cout << "Calculating Correlation Factors..." << endl;
-  calc_CorrFactors(Kpars,intervals,Cfactors);
-}
-
 void CheckJFACTOR()
 {
-  Init(20,20,20,6,1);
+  const int Ndif = 6;
+  const int Nps = 1;
+  const int Nbar = Ndif+Nps;
   
-  TString extended[N_ext] = {"Irf","Leptonic","Hadronic","3FHL_J0500.9-6945e","3FHL_J0530.0-6900e","3FHL_J0531.8-6639e"};
-  TString point[N_ps] = {"J0537-691"};
+  Init(20,100,100,Ndif,Nps);
+    
+  TString extended[Ndif] = {"Irf","Leptonic","Hadronic","3FHL_J0500.9-6945e","3FHL_J0530.0-6900e","3FHL_J0531.8-6639e"};
+  TString point[Nps] = {"J0537-691"};
   TString suf = "_KSPpointing_v2_";
   TString suf_DM = "_jfactorgamma1.5";
-
+  
   TString DMtypes[3] = {"_jfactorNFW","_jfactorgamma0.5","_jfactorgamma1.5"};
   Number DMmasses[6] = {0.100,0.500,1,10,50,100};
   TString DMparticles[4] = {"W","b","Tau","Mu"};
-
+  
   Number steps[Nbar+1]={10,0.001,1,0.01,0.001,1,0.001};
   
   FillContainer_Bkg(extended,point,suf);
   FillContainer_Obs("Irf+CR+DiffuseSources+1PS",true,suf);
-
+  
   for (int npart=3; npart<4; npart++)
     {
       for (int ntype=0; ntype<1; ntype++)

@@ -1,4 +1,4 @@
-#include "/home/queenmab/GitHub/Math/matrixes.h"
+#include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h"
 #include "DMLimitsLib.h"
 #include "TMatrixD.h"
 #include "TFITS.h"
@@ -50,7 +50,7 @@ void ReadFits()
 }
 
 Number ReadFits(VM &data,
-              TString filename)
+		TString filename)
 {
   data.clear();
   //Open the model component fits file
@@ -58,8 +58,8 @@ Number ReadFits(VM &data,
   
   if (hdu == 0) 
     {
-        printf("ERROR: could not access the HDU\n"); 
-        return -1;
+      printf("ERROR: could not access the HDU\n"); 
+      return -1;
     }
 
   Number TotalCounts = 0;
@@ -73,18 +73,18 @@ Number ReadFits(VM &data,
         }
       
       M bin_data;
-        for (int i=0; i<nxbins;i++)
-	  {
-            V column;
-            for (int j=0; j<nybins; j++)
+      for (int i=0; i<nxbins;i++)
+	{
+	  V column;
+	  for (int j=0; j<nybins; j++)
             {
 	      column.push_back((*mat)(i,j));
 	      TotalCounts += (*mat)(i,j);
             }
-            bin_data.push_back(column);
+	  bin_data.push_back(column);
         }
-        data.push_back(bin_data);
-        delete mat;
+      data.push_back(bin_data);
+      delete mat;
     }
   delete hdu;
   return TotalCounts;
@@ -149,23 +149,23 @@ void FillContainer_DM(Number dm_mass, TString particle, TString suf)
       os << dm_mass*1000;
       masstr = os.str() + "GeV";
     }
-    else
-      {
-        ostringstream os;
-        os << dm_mass;
-        masstr = os.str() + "TeV"; 
-      }
+  else
+    {
+      ostringstream os;
+      os << dm_mass;
+      masstr = os.str() + "TeV"; 
+    }
   
-    TString modelname = "dm_LMC_" + particle + masstr;
-    TString filename = dir_DM + "/modcube_" + modelname + suf + ".fits";
+  TString modelname = "dm_LMC_" + particle + masstr;
+  TString filename = dir_DM + "/modcube_" + modelname + suf + ".fits";
 
-    N_dm = ReadFits(DM_model,filename);
+  N_dm = ReadFits(DM_model,filename);
     
 }
 
 void FillContainer_Obs()
 {
-   cout << "Fill the container of the Observed data" << endl;
+  cout << "Fill the container of the Observed data" << endl;
   cout << endl;
   cout << "USAGE: FillContainer_Obs(TString obsname)" << endl;
   cout << endl;
@@ -227,37 +227,37 @@ void logL()
 
 Number logL(V Kpars,int firstebin,int nebins)
 {
-    Number sumlogL=0;
-    for (int ebin=firstebin; ebin<nebins; ebin++)
+  Number sumlogL=0;
+  for (int ebin=firstebin; ebin<nebins; ebin++)
     {
-        for (int i=0; i<nxbins; i++)
+      for (int i=0; i<nxbins; i++)
         {
-            for (int j=0; j<nybins; j++)
+	  for (int j=0; j<nybins; j++)
             {
-                Number n = Obs_data[ebin][i][j];
-                Number model = Kpars[0]*DM_model[ebin][i][j];
-                for (int ii=0; ii<Nbar; ii++) 
+	      Number n = Obs_data[ebin][i][j];
+	      Number model = Kpars[0]*DM_model[ebin][i][j];
+	      for (int ii=0; ii<Nbar; ii++) 
                 {
-                    model+=Kpars[ii+1]*Bkg_model[ii][ebin][i][j];
+		  model+=Kpars[ii+1]*Bkg_model[ii][ebin][i][j];
                 }
-                if (model<1e-15) 
+	      if (model<1e-15) 
                 {
-                    model=1e-10;
+		  model=1e-10;
                 }
-                Number loglike=0;
-                if (n<1e-15) 
+	      Number loglike=0;
+	      if (n<1e-15) 
                 {
-                    loglike = -model;
+		  loglike = -model;
                 }
-                else 
+	      else 
                 {
-                    loglike = -model+n*log(model)-n*log(n)+n;
+		  loglike = -model+n*log(model)-n*log(n)+n;
                 }
-                sumlogL+=loglike;
+	      sumlogL+=loglike;
             }
         }
     }
-    return sumlogL;  
+  return sumlogL;  
 }
 
 /////////////////MINIMIZERS/////////////////////////////////////////
@@ -330,9 +330,9 @@ Number Conjugate_Gradients(V &Kpars)
                 {
 		  for (int jj=0; jj<Nbar+1; jj++)
                     {
-		      Mat[ii][jj]+= p_compbin[ii][ebin][i][j]*
-			p_compbin[jj][ebin][i][j]*
-			Ntotal/Obs_data[ebin][i][j];
+		            Mat[ii][jj]+= p_compbin[ii][ebin][i][j]*
+			      p_compbin[jj][ebin][i][j]*
+			      Ntotal/Obs_data[ebin][i][j];
                     }
                 }
             }
@@ -372,7 +372,7 @@ Number Conjugate_Gradients(V &Kpars)
 
 Number EM_Estimate(VM &data, VM &dm, vector<VM> &back,Number &Nest_dm, V &Nest_bkg, Number DMnorm, V P)
 {
-    //This function estimates the predicted number of events for each model component.
+  //This function estimates the predicted number of events for each model component.
   dm = DM_model;
   back = Bkg_model;
   Number sumlogL = 0;
@@ -399,10 +399,10 @@ Number EM_Estimate(VM &data, VM &dm, vector<VM> &back,Number &Nest_dm, V &Nest_b
 		  denom=1e-10;
                 }
 	      n_of_dm = n_of_dm/denom;
-	      
+	            
 	      Number pred = n_of_dm;
 	      Nest_dm+=n_of_dm;
-	      
+	            
 	      dm[ebin][i][j]=n_of_dm;
 	      for (int ii=0; ii<Nbar;ii++) 
                 {
@@ -410,7 +410,7 @@ Number EM_Estimate(VM &data, VM &dm, vector<VM> &back,Number &Nest_dm, V &Nest_b
 		  Nest_bkg[ii]+=n_of_bkg[ii];
 		  back[ii][ebin][i][j]=n_of_bkg[ii];
 		  pred+=n_of_bkg[ii];
-		  
+		    
                 }
 	      Number loglike = -pred+n*log(pred)-n*log(n)+n;
 	      sumlogL+=loglike;
@@ -423,33 +423,33 @@ Number EM_Estimate(VM &data, VM &dm, vector<VM> &back,Number &Nest_dm, V &Nest_b
 
 Number EM_Update_pars(Number Nest_dm, V Nest_bkg,V &Kpars, Number &DMnorm, V &P)
 {
-    // This function uses the estimation of the counts number for each component
-    // to recalculate the parameters
-    Number total_counts = Nest_dm;
-    for (int ii=0; ii<Nbar; ii++) 
+  // This function uses the estimation of the counts number for each component
+  // to recalculate the parameters
+  Number total_counts = Nest_dm;
+  for (int ii=0; ii<Nbar; ii++) 
     {
       total_counts+=Nest_bkg[ii];
     }
     
-    DMnorm = Nest_dm/total_counts;
-    for (int ii=0; ii<Nbar; ii++)
-      {
-	P[ii] = Nest_bkg[ii]/total_counts;
-      }
-    Kpars[0] = DMnorm*Ntotal/N_dm;
-    for (int ii=0; ii<Nbar; ii++) 
+  DMnorm = Nest_dm/total_counts;
+  for (int ii=0; ii<Nbar; ii++)
     {
-         Kpars[ii+1] = P[ii]*Ntotal/N_bkg[ii];
+      P[ii] = Nest_bkg[ii]/total_counts;
     }
-    // Return
-    return total_counts;
+  Kpars[0] = DMnorm*Ntotal/N_dm;
+  for (int ii=0; ii<Nbar; ii++) 
+    {
+      Kpars[ii+1] = P[ii]*Ntotal/N_bkg[ii];
+    }
+  // Return
+  return total_counts;
 }
 
 void Expectation_Maximization()
 {
   cout << "Approximates Maximum logLikelihood using Expectation Maximization methods" << endl;
-cout << endl;
- cout << "USAGE: Expectation_Maximization(V &Kpars)" << endl;
+  cout << endl;
+  cout << "USAGE: Expectation_Maximization(V &Kpars)" << endl;
 }
 
 Number Expectation_Maximization(V &Kpars)
@@ -508,8 +508,8 @@ Number My_Minimizer(V &Kpars,
                     Number steps[],
                     Number tol)
 {
-    // Randomly scan normalization parameter space in order to find the 
-    // maximum likelihood
+  // Randomly scan normalization parameter space in order to find the 
+  // maximum likelihood
   
   Number maxlogL = logL(Kpars,0,nebins);
   
@@ -528,8 +528,8 @@ Number My_Minimizer(V &Kpars,
   if (irf_step > tol) irf_step = tol;
   if (comp_step > tol) comp_step = tol;
  
-   // May be interesting to implement a convergence condition and leave
-    //the loop if convergence is achieve, i.e. loglike - maxlogL < convergence
+  // May be interesting to implement a convergence condition and leave
+  //the loop if convergence is achieve, i.e. loglike - maxlogL < convergence
    
   for (int i=0; i<niter; i++)
     {
@@ -538,20 +538,20 @@ Number My_Minimizer(V &Kpars,
 	  Number step=0;
 	  /*if (j==0) 
             {
-	      step = -dm_step + gRandom->Uniform(2*dm_step); 
+	          step = -dm_step + gRandom->Uniform(2*dm_step); 
             }
-	  else if (j==1) 
+	      else if (j==1) 
             {
-	      step = -irf_step + gRandom->Uniform(2*irf_step);
+	          step = -irf_step + gRandom->Uniform(2*irf_step);
             }
-	  else if(j>6)
-	    {
-	      step = -ps_step + gRandom->Uniform(2*ps_step);
-	    }
-	  else 
+	      else if(j>6)
+	          {
+		        step = -ps_step + gRandom->Uniform(2*ps_step);
+			    }
+			      else 
             {
-	      step = -comp_step+gRandom->Uniform(2*comp_step);
-	      }*/
+	          step = -comp_step+gRandom->Uniform(2*comp_step);
+		  }*/
 	  step = -steps[j]+gRandom->Uniform(2*steps[j]);
 	  x[j] = x[j]+step;
 	  if (j>0) 
@@ -565,7 +565,7 @@ Number My_Minimizer(V &Kpars,
 		  x[j] = K_0[j]-tol; 
                 }
             }
-	  
+	    
 	  Number loglike = logL(x,0,nebins);
 	  if (loglike >= maxlogL) 
 	    {
@@ -944,13 +944,13 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors)
 	  TH1 *h_cor = ParSpace->GetHistogram();
 	  h_cor -> SetMaximum(maxlogL);
 	  h_cor -> Fit(&f,"Q");
-	  
+	    
 	  Number cfactor = f.GetParameter(2)/sqrt(fabs(f.GetParameter(0)*f.GetParameter(1)));
 	  if (comp1==0) 
 	    {
 	      Cfactors.push_back(cfactor);
 	    }
-	  
+	    
 	  gPad->Update();
 	  gPad->Modified();
 	  gPad->WaitPrimitive();
@@ -965,3 +965,6 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors)
 }
 
   
+
+
+
