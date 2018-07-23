@@ -24,7 +24,7 @@ if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create 
 centerx = 80.0
 centery = -69.5
 
-r = 3.0
+r = 5.0
 ra_list=np.zeros(6)
 dec_list=np.zeros(6)
 for i in range(0,6):
@@ -66,7 +66,7 @@ for model in models:
         
     
         model = PATH_MODEL+'LMC_'+modelname+".xml"
-        suf = "rebin_0.1x100"
+        suf = "_rebin_0.1x100_Pointin5deg"
         cntcube = PATH_OBS+"cntcube_"+"LMC_"+modelname+suf+'.fits'
         modcube = PATH_OBS+"modcube_"+"LMC_"+modelname+suf+'.fits'
         outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')

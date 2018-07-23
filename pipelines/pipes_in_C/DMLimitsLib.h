@@ -1,14 +1,14 @@
 #pragma once
-#include "/home/queenmab/GitHub/Math/matrixes.h"
+#include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h"
 #include <vector>
 #include "TString.h"
 
 //Important Paths where data and models are stored
 
-TString dir = "/home/queenmab/DATA/LMC/Obs_";
+TString dir = "/scratch/bernardos/LMC/Obs_";
 
-TString dir_PS = "/home/queenmab/DATA/LMC/Obs_PS"; //Path for pointsources models
-TString dir_DM = "/home/queenmab/DATA/LMC/Obs_DM"; //Path for DM models 
+TString dir_PS = "/scratch/bernardos/LMC/Obs_PS"; //Path for pointsources models
+TString dir_DM = "/scratch/bernardos/LMC/Obs_DM"; //Path for DM models 
 
 
 //Global variables
@@ -75,6 +75,9 @@ Number calc_MaxlogL(V &Kpars, Number steps[], bool BestCase=false,Number tol=HUG
 
 void Upper_Minimizer();
 Number Upper_Minimizer(V &Kpars,bool test=false, Number tol=HUGE_VAL);
+
+Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number nuis_step);
+Number Upper_Finder(V Kpars,const int which_goal, V nuis);
 
 void calc_CorrFactors();
 void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors);

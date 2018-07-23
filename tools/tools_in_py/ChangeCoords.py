@@ -3,7 +3,7 @@ from astropy.io import fits
 from astropy import wcs
 import sys
 
-DATA_PATH = "/home/queenmab/DATA/LMC/DM/jfactor/"
+DATA_PATH = "/scratch/bernardos/LMC/DM/jfactor/"
 
 filename = DATA_PATH+"annihil_LMC2D_FOVdiameter10.0deg_alphaint0.10deg_nside1024NFW-JFACTOR-Jsmooth-image.fits"
 

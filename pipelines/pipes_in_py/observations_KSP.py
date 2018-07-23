@@ -36,9 +36,9 @@ duration = 180000 #Duration of each observation
 deadc = 0.95 #Dead time
 
 #Binning
-binsz = 0.1 #Spatial binning
-nxpix = 100
-nypix = 100
+binsz = 0.2 #Spatial binning
+nxpix = 50
+nypix = 50
 enumbins = 20 #Energy bins
 
 #I need to define the calibration files in two ways because "ctobssim" can read simply this, but gammalib GObservation class needs the full path
@@ -50,7 +50,7 @@ irf_ = 'South_z20_50h'
 
 debug = True
 
-Component = '3FHL_J0531.8-6639e' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
+Component = 'Irf+CR+DiffuseSources' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
 PATH_HERE = "../pipes_in_py" #Path where we are running
@@ -61,7 +61,7 @@ if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create 
 
 #Set Filenames wisely:
 
-suf = "rebin_0.1x100"
+suf = "_rebin_0.2x50"
 input_model = PATH_MODEL+'LMC_'+Component+'.xml' 
 cntcube = PATH_OBS+"cntcube_"+'LMC_'+Component+'_'+suf+'.fits'
 modcube = PATH_OBS+"modcube_"+'LMC_'+Component+'_'+suf+'.fits'

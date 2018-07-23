@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<source_library title="source library">
+  <source name="" type="PointSource">
+    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/DM/fluxb300GeV.txt">
+      <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
+    </spectrum>
+    <spatialModel type="PointSource">
+      <parameter name="RA" value="80" scale="1" free="0" />
+      <parameter name="DEC" value="-69.5" scale="1" free="0" />
+    </spatialModel>
+  </source>
+</source_library>

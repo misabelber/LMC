@@ -25,13 +25,14 @@ centerx = 80.0
 centery = -69.5
 
 r = 3.0
-ra_list=np.zeros(6)
-dec_list=np.zeros(6)
+ra_list=np.zeros(7)
+dec_list=np.zeros(7)
 for i in range(0,6):
     angle=(i-1)*2*math.pi/6
     ra_list[i] = r*math.cos(angle)+centerx
     dec_list[i] = r*math.sin(angle)+centery
-
+ra_list[6] = 89.1
+dec_list[6] = -65.5
 
 #Observation variables
 
@@ -54,7 +55,7 @@ irf = "irf_file.fits"
 caldb_= "1dc"
 irf_="South_z20_50h"
 
-particle = 'b' #Final state particle
+particle = 'Mu' #Final state particle
 #masses = [0]
 #masses = [0.100,0.200,0.500,1,5,10,50,100]
 masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
@@ -70,9 +71,9 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
-    suf = "rebin_0.1x100"
+    suf = "_jfactorNFW_rebin_0.1x100_Pointin5deg+1"
     
-    model = PATH_MODEL+modelname+'.xml'
+    model = PATH_MODEL+modelname+'_jfactorNFW'+'.xml'
     time = str(int(duration/3600))
     outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
     cntcube = PATH_OBS+"cntcube_"+modelname+suf+'.fits'

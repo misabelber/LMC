@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-
+#include "TStopwatch.h"
 using namespace std;
 
 
@@ -112,11 +112,11 @@ void Run()
                         "J0535-691",
                         "J0525-696",
                         "J0509.9-6418"};
-  TString suf = "_KSPpointing_v2_";
-  TString suf_DM = "_jfactorNFW";
+  TString suf = "_rebin_0.1x100";
+  TString suf_DM = "_jfactorNFW_rebin_0.1x100";
   
   FillContainer_Bkg(extended,point,suf);
-  FillContainer_DM(1,"W",suf_DM);
+  FillContainer_DM(100,"W",suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
   //Ntotal = DataSim(Obs_data);
   
@@ -133,10 +133,53 @@ void Run()
   cout << endl;
   cout << endl;
   cout << "Calculating Upper Limit on DM normalization..." << endl;
-  Number UpperLimit = Upper_Minimizer(Kpars,false);
-  cout << "Upper Limit: " << UpperLimit << endl;
+  //Number UpperLimit = Upper_Minimizer(Kpars,false);
+  //cout << "Upper Limit: " << UpperLimit << endl;
+  //cout << endl;
+  Number intervals[Nbar+1] = {500,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
+  V Cfactors;
+  cout << "Calculating Correlation Factors..." << endl;
+  calc_CorrFactors(Kpars,intervals,Cfactors);
+}
+
+void RunTest(Number dmmass,Number range)
+{
+  const int Ndif = 1;
+  const int Nps = 0;
+  const int Nbar = Ndif+Nps;
+  
+  Init(20,20,20,Ndif,Nps);
+  
+  TString extended[Ndif] = {"Irf"};
+  
+  TString point[Nps] = {};
+ 
+  //TString suf = "_KSPpointing_v2_";
+  TString suf = "_rebin_0.1x100_Pointin5deg+1";
+  TString suf_DM = "_jfactorNFW_rebin_0.1x100_Pointin5deg+1";
+  //TString suf_DM = "_jfactorNFW";
+  FillContainer_Bkg(extended,point,suf);
+  FillContainer_DM(dmmass,"W",suf_DM);
+  FillContainer_Obs("Irf",true,suf);
+  //Ntotal = DataSim(Obs_data);
+  
+  Number steps[Nbar+1]={10,0.001};//,0.001,0.001};
+  
+  V Kpars; init(Kpars,Nbar+1);
+  
+  cout << "Maximizing Likelihood..." << endl;
   cout << endl;
-  Number intervals[Nbar+1] = {UpperLimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.1,0.15,4.5,1,4,2,1,0.1,0.1,200};
+  cout << calc_MaxlogL(Kpars,steps,false) << endl;
+  
+  cout << "Maximum Likelihood parameters: " << endl;
+  for (int ii=0; ii<Nbar+1; ii++) cout << Kpars[ii] << "  ";
+  cout << endl;
+  cout << endl;
+  cout << "Calculating Upper Limit on DM normalization..." << endl;
+  //Number UpperLimit = Upper_Minimizer(Kpars,false);
+  //cout << "Upper Limit: " << UpperLimit << endl;
+  //cout << endl;
+  Number intervals[Nbar+1] = {range,0.00025};//,0.25,0.5};
   V Cfactors;
   cout << "Calculating Correlation Factors..." << endl;
   calc_CorrFactors(Kpars,intervals,Cfactors);
@@ -258,4 +301,62 @@ void CheckJFACTOR()
 	    }
 	}
     }
+}
+
+void Pruebas(Number dmmass){
+const int Ndif = 6;
+  const int Nps = 10;
+  const int Nbar = Ndif+Nps;
+  
+  Init(20,20,20,Ndif,Nps);
+  
+  TString extended[Ndif] = {"Irf",
+                            "Leptonic",
+                            "Hadronic",
+                            "3FHL_J0500.9-6945e",
+                            "3FHL_J0530.0-6900e",
+                            "3FHL_J0531.8-6639e"};
+  
+  TString point[Nps] = {"J0537-691",
+                        "J0524.5-6937",
+                        "J0534.1-6732",
+                        "J0525.2-6614",
+                        "J0535.3-6559",
+                        "J0454.6-6825",
+                        "J0537.0-7113",
+                        "J0535-691",
+                        "J0525-696",
+                        "J0509.9-6418"};
+  TString suf = "_rebin_0.1x100";
+  TString suf_DM = "_jfactorNFW_rebin_0.1x100";
+  
+  FillContainer_Bkg(extended,point,suf);
+  FillContainer_DM(dmmass,"W",suf_DM);
+  FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
+  Ntotal = DataSim(Obs_data);
+  Number steps[Nbar+1]={10,0.001,1,1,1,1,0.5,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+  
+  V Kpars; init(Kpars,Nbar+1);
+  TStopwatch t;
+
+  cout << calc_MaxlogL(Kpars,steps,false) << endl;
+  for (int ii=0; ii<Nbar+1; ii++){
+    cout << Kpars[ii] << "  ";
+  }
+  cout << endl;
+  cout << logL(Kpars,0,20) << endl;
+  
+  V Cfactors;
+  t.Start();
+  //  Number Upperlimit = Upper_Minimizer(Kpars);
+  //cout << Upper_Function(Kpars,-0.0001) << endl;
+  V nuis;
+  nuis.push_back(1); nuis.push_back(2); nuis.push_back(3);
+  Number Upperlimit = Upper_Finder(Kpars,0,nuis);
+  cout << "Upper limit: " << Upperlimit << endl;
+  t.Stop();
+  //Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
+  Number intervals[Nbar+1] = {Upperlimit+10,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
+  calc_CorrFactors(Kpars,intervals,Cfactors);
+  t.Print();
 }

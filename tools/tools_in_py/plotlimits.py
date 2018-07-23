@@ -17,7 +17,8 @@ def plot_Limits(filename,case,thermal):
     data = np.genfromtxt(filename,unpack=True)
     dm_mass = data[0]
     limit = data[1]*ThermalX
-
+    print(filename)
+    print(data[0],data[1])
     tx = np.full((data[0].size),ThermalX)
     if thermal==True:
         plt.plot(dm_mass,tx,"--",color='red',label="Thermal$<\sigma v>$" )
@@ -30,8 +31,8 @@ def plot_Limits(filename,case,thermal):
 # ======================== #
 if __name__ == '__main__':
     # Filepath to results
-    particle="Mu"
-    path = "/home/queenmab/GitHub/LMC/results/"
+    particle="W"
+    path = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/"
     filename         =["Limits"+particle+"_jfactorNFW",
                        "Limits"+particle+"_jfactorgamma0.5",
                        "Limits"+particle+"_jfactorgamma1.5"]

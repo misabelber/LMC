@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <source_library title="Source Library">
   <source name="J0537-691" type="PointSource" tscalc="1">
-    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0537-691.dat">
+    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0537-691.dat">
       <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
@@ -10,42 +10,42 @@
     </spatialModel>
   </source>
   <source  name="LeptonicDiffuse" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/diffuse/Spec_IC_LMC.dat">
+    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/diffuse/Spec_IC_LMC.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
-    <spatialModel file="/home/queenmab/DATA/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits" map_based_integral="true" type="SpatialMap">
+    <spatialModel file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits" map_based_integral="true" type="SpatialMap">
       <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
     </spatialModel>
   </source>
   <source  name="HadronicDiffuse" type="DiffuseSource" tscalc="1">
-    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/diffuse/Spec_Pion_LMC.dat">
+    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/diffuse/Spec_Pion_LMC.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
-    <spatialModel file="/home/queenmab/DATA/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits" map_based_integral="true" type="SpatialMap">
+    <spatialModel file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits" map_based_integral="true" type="SpatialMap">
       <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
     </spatialModel>
   </source>
   <source  name="3FHL J0530.0-6900e" type="DiffuseSource"  tscalc="1">
-    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0530.0-6900e.dat">
+    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0530.0-6900e.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
-    <spatialModel file="/home/queenmab/DATA/LMC/ExtendedSources/countsmaps/LMC-30DorWest.fits" map_based_integral="true" type="SpatialMap">
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-30DorWest.fits" map_based_integral="true" type="SpatialMap">
       <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
     </spatialModel>
   </source>
   <source  name="3FHL J0531.8-6639e" type="DiffuseSource"  tscalc="1">
-<spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0531.8-6639e.dat">
+<spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0531.8-6639e.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
-    <spatialModel file="/home/queenmab/DATA/LMC/ExtendedSources/countsmaps/LMC-North.fits" map_based_integral="true" type="SpatialMap">
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-North.fits" map_based_integral="true" type="SpatialMap">
       <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
     </spatialModel>
   </source>
   <source  name="3FHL J0500.9-6945e" type="DiffuseSource"  tscalc="1">
-    <spectrum type="FileFunction" file="/home/queenmab/GitHub/LMC/spectra/sources/spec_J0500.9-6945e.dat">
+    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0500.9-6945e.dat">
       <parameter scale="1.0" name="Normalization" min="0.0" max="1000.0" value="1.0" free="1"/>
     </spectrum>
-    <spatialModel file="/home/queenmab/DATA/LMC/ExtendedSources/countsmaps/LMC-FarWest.fits" map_based_integral="true" type="SpatialMap">
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-FarWest.fits" map_based_integral="true" type="SpatialMap">
       <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
     </spatialModel>
   </source>

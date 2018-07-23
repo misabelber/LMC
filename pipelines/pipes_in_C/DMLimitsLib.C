@@ -243,7 +243,7 @@ Number logL(V Kpars,int firstebin,int nebins)
 	      if (model<1e-15) 
                 {
 		  model=1e-10;
-                }
+		  }
 	      Number loglike=0;
 	      if (n<1e-15) 
                 {
@@ -513,20 +513,19 @@ Number My_Minimizer(V &Kpars,
   
   Number maxlogL = logL(Kpars,0,nebins);
   
-  gRandom          -> SetSeed(0); 
+  //gRandom          -> SetSeed(0); 
   V K_0            = Kpars;
-  int niter        = 5000;
+  int niter        = 100;
   V x; 
   x                = Kpars;
-  Number dm_step   = 10;
+  
   // Each baryonic sources is optimized for varying within a given range
   // (This was manually checked)
-  Number irf_step  = 0.001;
-  Number comp_step = 0.001;
-  Number ps_step = 0.001;
   
-  if (irf_step > tol) irf_step = tol;
-  if (comp_step > tol) comp_step = tol;
+  for (int i=1; i<Nbar+1; i++){
+    if (steps[i] > tol) steps[i] = tol;
+  }
+  
  
   // May be interesting to implement a convergence condition and leave
   //the loop if convergence is achieve, i.e. loglike - maxlogL < convergence
@@ -536,22 +535,7 @@ Number My_Minimizer(V &Kpars,
       for (int j=0; j<Nbar+1; j++)
         {
 	  Number step=0;
-	  /*if (j==0) 
-            {
-	          step = -dm_step + gRandom->Uniform(2*dm_step); 
-            }
-	      else if (j==1) 
-            {
-	          step = -irf_step + gRandom->Uniform(2*irf_step);
-            }
-	      else if(j>6)
-	          {
-		        step = -ps_step + gRandom->Uniform(2*ps_step);
-			    }
-			      else 
-            {
-	          step = -comp_step+gRandom->Uniform(2*comp_step);
-		  }*/
+	  
 	  step = -steps[j]+gRandom->Uniform(2*steps[j]);
 	  x[j] = x[j]+step;
 	  if (j>0) 
@@ -594,14 +578,23 @@ Number calc_MaxlogL(V &Kpars,Number steps[],bool BestCase,Number tol)
 {
   
   Number MaxlogL = 0;
-  Conjugate_Gradients(Kpars);
-  Expectation_Maximization(Kpars);
+  
+  MaxlogL = Conjugate_Gradients(Kpars);
+  cout << MaxlogL << "  ";
+  for (int i=0; i<Nbar+1; i++)cout << Kpars[i] << "  ";
+  cout << endl;
+  MaxlogL=Expectation_Maximization(Kpars);
+  cout << MaxlogL << "  ";
+  for (int i=0; i<Nbar+1; i++)cout << Kpars[i] << "  ";
+  cout << endl;
   if (BestCase)
     {
       for (int ii=1; ii<Nbar+1; ii++) Kpars[ii] = 1.;
     }
   MaxlogL = My_Minimizer(Kpars,steps,tol);
-
+  cout << MaxlogL << "  ";
+  for (int i=0; i<Nbar+1; i++)cout << Kpars[i] << "  ";
+  cout << endl;
   return MaxlogL;
   
 }
@@ -637,11 +630,11 @@ Number Upper_Minimizer(V &Kpars,
   Number maxlogL = logL(Kpars,0,nebins);
   gRandom          -> SetSeed(0);
   V K_0             = Kpars;
-  int niter         = 300;
+  int niter         = 100;
   int trials        = 50;
   V x               = Kpars;
   Number dm_step    = 50;
-  Number irf_step   = 0.001;
+  Number irf_step   = 0.0001;
   Number comp_step  = 0.001;
 
   if (irf_step > tol) irf_step   = tol;
@@ -807,9 +800,9 @@ Number Upper_Minimizer(V &Kpars,
           Number maxdiflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
           for (int i=0; i<niter; i++)
             {
-              for (int j=0; j<Nbar+1; j++)
+              for (int j=0; j<3/*Nbar+1*/; j++)
                 {
-                  Number step = 0;
+		  Number step = 0;
                   if (j==0)
                     {
                       if (x[j]<0)
@@ -858,6 +851,9 @@ Number Upper_Minimizer(V &Kpars,
                             {
                               Upperlimit = x[0];
                               Kpars      = x;
+			      cout << "Trial " << trial << ":  " 
+				   << Upperlimit << "  " 
+				   << fabs(2*(maxlogL-loglike)) << endl; 
                               continue;
                             }
                         }
@@ -872,6 +868,7 @@ Number Upper_Minimizer(V &Kpars,
                     }
                 }
             }
+	  cout << "Trial " << trial << endl;
         }
     }
   // Kpars are normalized parameters of the minimum
@@ -879,6 +876,74 @@ Number Upper_Minimizer(V &Kpars,
   // Return
   return fabs(Upperlimit); 
   
+}
+
+Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number nuis_step){
+  
+  Number goal_step = 1000.;
+    
+  V K; init(K,Kpars.size());
+  
+  Number tol = 0.001;
+  Number Upperlimit = 0;
+  
+  Number maxlogL = logL(Kpars,0,nebins);
+  Number loglike = maxlogL;
+  Number TS = 2*(fabs(maxlogL-loglike))-2.71;
+  
+  K = Kpars; K[which_nuis]+=nuis_step;
+  V Ka = K;
+  V Kb = K; Kb[which_goal]+= goal_step;  
+  V Kp; Kp = K;
+  do{
+    Number p = (Ka[which_goal]+Kb[which_goal])/2;
+    Kp[which_goal] = p;
+    Number TSa = 2*(fabs(maxlogL-logL(Ka,0,nebins)))-2.71;
+    Number TSb = 2*(fabs(maxlogL-logL(Kb,0,nebins)))-2.71;
+    Number TSp = 2*(fabs(maxlogL-logL(Kp,0,nebins)))-2.71;
+    //cout << Ka[which_goal] << "  " << Kb[which_goal] << "  " << Kp[which_goal] << endl;
+    //cout << TSa << "  " << TSb << "  " << TSp << endl;
+    if (TSa*TSp > 0) Ka[which_goal] = p;
+    if (TSb*TSp > 0) Kb[which_goal] = p;
+    if (TSa*TSb > 0) return -1;
+    
+    TS = fabs(TSa-TSb);
+    //cout << TS << endl;
+  }while(TS>tol);
+  Upperlimit = Kp[which_goal];
+  return Upperlimit;
+}
+
+Number Upper_Finder(V Kpars,const int which_goal, V nuis){
+ 
+  Number tol=0.00001;
+  
+
+  Number MaxUlimit = 0;
+
+  for (uint i=0; i<nuis.size(); i++){
+    const int which_nuis = nuis[i];
+
+    Number Astep = 0;
+    Number Bstep = 1;
+    Number A = Upper_Function(Kpars,which_goal,which_nuis,Astep);
+    Number B = Upper_Function(Kpars,which_goal,which_nuis,0.0001);
+    Number P = 0;
+    int sign=1;
+    if (B<A) sign=-1;
+    
+    do{
+      Number Pstep = (Astep+Bstep)/2;
+      A = Upper_Function(Kpars,which_goal,which_nuis,Astep*sign);
+      B = Upper_Function(Kpars,which_goal,which_nuis,Bstep*sign);
+      P = Upper_Function(Kpars,which_goal,which_nuis,Pstep*sign);
+      if(B > A) Astep=Bstep; Bstep = Pstep;
+      cout << "Component " << i << "  " <<  A << "  " << B << endl;
+      cout << Astep << "  " << Bstep << "  " << Pstep << endl;
+    }while(fabs(A-B) > tol);
+    if (P>MaxUlimit) MaxUlimit=P;
+  }
+  return MaxUlimit;
 }
 
 void calc_CorrFactors()
@@ -894,7 +959,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors)
   
   Number maxlogL = logL(Kpars,0,nebins);
   
-  int npoints = 100; 
+  int npoints = 25; 
 
   for (int comp1=0; comp1<1/*Nbar+1*/; comp1++)
     {
