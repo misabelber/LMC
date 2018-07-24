@@ -538,15 +538,15 @@ void calc_CorrFactors()
   cout << "USAGE: calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors" << endl;
 }
 
-void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors)
+void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpace)
 {
-  TNtuple *ParSpace = new TNtuple("ParSpace","ParSpace","type1:type2:logL:comp1:comp2");
+  ParSpace = new TNtuple("ParSpace","ParSpace","type1:type2:logL:comp1:comp2");
   
   Number maxlogL = logL(Kpars,0,nebins);
   
   int npoints = 100; 
 
-  for (int comp1=14; comp1<15/*Nbar*/; comp1++)
+  for (int comp1=0; comp1<Nbar; comp1++)
     {
       for (int comp2=comp1; comp2<Nbar; comp2++)
         {

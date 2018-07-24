@@ -1,5 +1,7 @@
 #include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h"
 #include "SrcAnalysisLib.h"
+#include "TNtuple.h"
+#include "TFile.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -31,7 +33,7 @@ void RunT(){
                         "J0535-691",
 			"J0525-696",
 			"J0509.9-6418"};
-  TString suf = "_rebin_0.1x100";
+  TString suf = "_rebin_0.1x100_Pointin5deg";
   
   FillContainer_Bkg(extended,point,suf);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
@@ -71,8 +73,10 @@ void RunT(){
 			    8};
     
   V Cfactors;
+  TFile *PSfile = new TFile("ParSpace_Baryonics.root","RECREATE");
+  TNtuple *ParSpace;
   cout << "Calculating Correlation Factors..." << endl;
-  calc_CorrFactors(Kpars,intervals,Cfactors);
+  calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
 }
 
 void TS(){
@@ -100,7 +104,7 @@ void TS(){
                         "J0535-691",
 			"J0525-696",
 			"J0509.9-6418"};
-  TString suf = "_rebin_0.1x100";
+  TString suf = "_rebin_0.1x100_Pointin5deg";
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);  
   FillContainer_Bkg(extended,point,suf);
 

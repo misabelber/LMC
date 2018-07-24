@@ -2,7 +2,7 @@
 #include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h"
 #include <vector>
 #include "TString.h"
-
+#include "TNtuple.h"
 //Important Paths where data and models are stored
 
 TString dir = "/scratch/bernardos/LMC/Obs_";
@@ -67,4 +67,4 @@ void calc_MaxlogL();
 Number calc_MaxlogL(V &Kpars, Number steps[],Number tol=HUGE_VAL);
 
 void calc_CorrFactors();
-void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors);
+void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpace);

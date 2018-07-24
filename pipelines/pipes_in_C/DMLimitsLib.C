@@ -591,7 +591,7 @@ Number calc_MaxlogL(V &Kpars,Number steps[],bool BestCase,Number tol)
     {
       for (int ii=1; ii<Nbar+1; ii++) Kpars[ii] = 1.;
     }
-  MaxlogL = My_Minimizer(Kpars,steps,tol);
+  //MaxlogL = My_Minimizer(Kpars,steps,tol);
   cout << MaxlogL <<"  ";
   for (int i=0; i<Nbar+1; i++) cout << Kpars[i] << "  ";
   cout << endl;

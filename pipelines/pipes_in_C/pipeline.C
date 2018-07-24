@@ -337,8 +337,8 @@ void Pruebas(Number dmmass){
   FillContainer_Bkg(extended,point,suf);
   FillContainer_DM(dmmass,"W",suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
-  Ntotal = DataSim(Obs_data);
-  Number steps[Nbar+1]={100,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+  //Ntotal = DataSim(Obs_data);
+  Number steps[Nbar+1]={10,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
   
   V Kpars; init(Kpars,Nbar+1);
   
@@ -363,7 +363,7 @@ void Pruebas(Number dmmass){
   //Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
   Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
   
-  TFile *PSfile = new TFile("parameterspace.root","RECREATE");
+  TFile *PSfile = new TFile("parameterspaceW_1TeV.root","RECREATE");
   TNtuple *ParSpace;
   calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
   ParSpace->Write();
