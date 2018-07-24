@@ -2,7 +2,7 @@
 #include "/afs/ciemat.es/user/b/bernardos/GitHub/Math/matrixes.h"
 #include <vector>
 #include "TString.h"
-
+#include "TNtuple.h"
 //Important Paths where data and models are stored
 
 TString dir = "/scratch/bernardos/LMC/Obs_";
@@ -80,6 +80,7 @@ Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number n
 Number Upper_Finder(V Kpars,const int which_goal, V nuis);
 
 void calc_CorrFactors();
-void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors);
+void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpace);
+
 
 

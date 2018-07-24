@@ -515,7 +515,7 @@ Number My_Minimizer(V &Kpars,
   
   //gRandom          -> SetSeed(0); 
   V K_0            = Kpars;
-  int niter        = 100;
+  int niter        = 200;
   V x; 
   x                = Kpars;
   
@@ -592,8 +592,8 @@ Number calc_MaxlogL(V &Kpars,Number steps[],bool BestCase,Number tol)
       for (int ii=1; ii<Nbar+1; ii++) Kpars[ii] = 1.;
     }
   MaxlogL = My_Minimizer(Kpars,steps,tol);
-  cout << MaxlogL << "  ";
-  for (int i=0; i<Nbar+1; i++)cout << Kpars[i] << "  ";
+  cout << MaxlogL <<"  ";
+  for (int i=0; i<Nbar+1; i++) cout << Kpars[i] << "  ";
   cout << endl;
   return MaxlogL;
   
@@ -880,7 +880,9 @@ Number Upper_Minimizer(V &Kpars,
 
 Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number nuis_step){
   
-  Number goal_step = 1000.;
+  Number sign = 1;
+  if (Kpars[which_goal] < 0) sign=-1;
+  Number goal_step = sign*1000.;
     
   V K; init(K,Kpars.size());
   
@@ -910,7 +912,7 @@ Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number n
     TS = fabs(TSa-TSb);
     //cout << TS << endl;
   }while(TS>tol);
-  Upperlimit = Kp[which_goal];
+  Upperlimit = fabs(Kp[which_goal]);
   return Upperlimit;
 }
 
@@ -925,7 +927,7 @@ Number Upper_Finder(V Kpars,const int which_goal, V nuis){
     const int which_nuis = nuis[i];
 
     Number Astep = 0;
-    Number Bstep = 1;
+    Number Bstep = 0.5;
     Number A = Upper_Function(Kpars,which_goal,which_nuis,Astep);
     Number B = Upper_Function(Kpars,which_goal,which_nuis,0.0001);
     Number P = 0;
@@ -938,10 +940,10 @@ Number Upper_Finder(V Kpars,const int which_goal, V nuis){
       B = Upper_Function(Kpars,which_goal,which_nuis,Bstep*sign);
       P = Upper_Function(Kpars,which_goal,which_nuis,Pstep*sign);
       if(B > A) Astep=Bstep; Bstep = Pstep;
-      cout << "Component " << i << "  " <<  A << "  " << B << endl;
-      cout << Astep << "  " << Bstep << "  " << Pstep << endl;
+      //cout << "Component " << i << "  " <<  A << "  " << B << endl;
+      //cout << Astep << "  " << Bstep << "  " << Pstep << endl;
     }while(fabs(A-B) > tol);
-    if (P>MaxUlimit) MaxUlimit=P;
+    if (fabs(P)>fabs(MaxUlimit)) MaxUlimit=fabs(P);
   }
   return MaxUlimit;
 }
@@ -953,13 +955,13 @@ void calc_CorrFactors()
   cout << "USAGE: calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors" << endl;
 }
 
-void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors)
+void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpace)
 {
-  TNtuple *ParSpace = new TNtuple("ParSpace","ParSpace","type1:type2:logL:comp1:comp2");
+  ParSpace = new TNtuple("ParSpace","ParSpace","type1:type2:logL:comp1:comp2");
   
   Number maxlogL = logL(Kpars,0,nebins);
   
-  int npoints = 25; 
+  int npoints = 100; 
 
   for (int comp1=0; comp1<1/*Nbar+1*/; comp1++)
     {

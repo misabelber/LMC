@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iostream>
 #include "TStopwatch.h"
+#include "TNtuple.h"
+#include "TFile.h"
 using namespace std;
 
 
@@ -139,7 +141,7 @@ void Run()
   Number intervals[Nbar+1] = {500,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
   V Cfactors;
   cout << "Calculating Correlation Factors..." << endl;
-  calc_CorrFactors(Kpars,intervals,Cfactors);
+  //calc_CorrFactors(Kpars,intervals,Cfactors);
 }
 
 void RunTest(Number dmmass,Number range)
@@ -182,7 +184,7 @@ void RunTest(Number dmmass,Number range)
   Number intervals[Nbar+1] = {range,0.00025};//,0.25,0.5};
   V Cfactors;
   cout << "Calculating Correlation Factors..." << endl;
-  calc_CorrFactors(Kpars,intervals,Cfactors);
+  //calc_CorrFactors(Kpars,intervals,Cfactors);
 }
 
 void RunRebinned()
@@ -237,7 +239,7 @@ void RunRebinned()
   Number intervals[Nbar+1] = {UpperLimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.1,0.15,4.5,1,4,2,1,0.1,0.1,200};
   V Cfactors;
   cout << "Calculating Correlation Factors..." << endl;
-  calc_CorrFactors(Kpars,intervals,Cfactors);
+  //calc_CorrFactors(Kpars,intervals,Cfactors);
 }
 
 void CheckJFACTOR()
@@ -294,7 +296,7 @@ void CheckJFACTOR()
 	      Number intervals[Nbar+1] = {UpperLimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.1};
 	      V Cfactors;
 	      cout << "Calculating Correlation Factors..." << endl;
-	      calc_CorrFactors(Kpars,intervals,Cfactors);
+	      //calc_CorrFactors(Kpars,intervals,Cfactors);
 	      outfilecfact << DMmasses[nmass] << "  ";
 	      for (int ii=0; ii<Nbar; ii++) outfilecfact << Cfactors[ii] << "  ";
 	      outfilecfact << endl;
@@ -304,7 +306,9 @@ void CheckJFACTOR()
 }
 
 void Pruebas(Number dmmass){
-const int Ndif = 6;
+  TStopwatch t;
+  t.Start();
+  const int Ndif = 6;
   const int Nps = 10;
   const int Nbar = Ndif+Nps;
   
@@ -327,17 +331,17 @@ const int Ndif = 6;
                         "J0535-691",
                         "J0525-696",
                         "J0509.9-6418"};
-  TString suf = "_rebin_0.1x100";
-  TString suf_DM = "_jfactorNFW_rebin_0.1x100";
+  TString suf = "_rebin_0.1x100_Pointin5deg";
+  TString suf_DM = "_jfactorNFW_rebin_0.1x100_Pointin5deg";
   
   FillContainer_Bkg(extended,point,suf);
   FillContainer_DM(dmmass,"W",suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
   Ntotal = DataSim(Obs_data);
-  Number steps[Nbar+1]={10,0.001,1,1,1,1,0.5,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+  Number steps[Nbar+1]={100,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
   
   V Kpars; init(Kpars,Nbar+1);
-  TStopwatch t;
+  
 
   cout << calc_MaxlogL(Kpars,steps,false) << endl;
   for (int ii=0; ii<Nbar+1; ii++){
@@ -347,7 +351,7 @@ const int Ndif = 6;
   cout << logL(Kpars,0,20) << endl;
   
   V Cfactors;
-  t.Start();
+  
   //  Number Upperlimit = Upper_Minimizer(Kpars);
   //cout << Upper_Function(Kpars,-0.0001) << endl;
   V nuis;
@@ -355,8 +359,13 @@ const int Ndif = 6;
   Number Upperlimit = Upper_Finder(Kpars,0,nuis);
   cout << "Upper limit: " << Upperlimit << endl;
   t.Stop();
-  //Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
-  Number intervals[Nbar+1] = {Upperlimit+10,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
-  calc_CorrFactors(Kpars,intervals,Cfactors);
   t.Print();
+  //Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
+  Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
+  
+  TFile *PSfile = new TFile("parameterspace.root","RECREATE");
+  TNtuple *ParSpace;
+  calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
+  ParSpace->Write();
+  
 }
