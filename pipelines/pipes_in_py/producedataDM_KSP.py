@@ -55,11 +55,11 @@ irf = "irf_file.fits"
 caldb_= "1dc"
 irf_="South_z20_50h"
 
-particle = 'Mu' #Final state particle
+particle = 'W' #Final state particle
 #masses = [0]
 #masses = [0.100,0.200,0.500,1,5,10,50,100]
-masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
-
+#masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
+masses = [0]
 
 for mass in masses:
     rndseed = random.randint(1,300000)
@@ -71,9 +71,11 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
-    suf = "_jfactorNFW_rebin_0.1x100_Pointin5deg+1"
+    suf = "_jfactorNFW_rebin_0.1x100_Pointin5deg"
+    modelname = 'dm_LMC_Crab.xml'
     
-    model = PATH_MODEL+modelname+'_jfactorNFW'+'.xml'
+    model = PATH_MODEL+modelname+'_jfactorgamma0.5'+'.xml'
+    model = PATH_MODEL+modelname
     time = str(int(duration/3600))
     outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
     cntcube = PATH_OBS+"cntcube_"+modelname+suf+'.fits'

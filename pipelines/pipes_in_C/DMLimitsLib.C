@@ -52,6 +52,7 @@ void ReadFits()
 Number ReadFits(VM &data,
 		TString filename)
 {
+  //cout << filename << endl;
   data.clear();
   //Open the model component fits file
   TFITSHDU *hdu =  new TFITSHDU(filename);
@@ -63,7 +64,7 @@ Number ReadFits(VM &data,
     }
 
   Number TotalCounts = 0;
-  for (int bin=0; bin<nebins; bin++)
+  for (int bin=0; bin<20; bin++)
     {
       TMatrixD *mat =  hdu->ReadAsMatrix(bin); 
       if (bin==0)
@@ -143,13 +144,13 @@ void FillContainer_DM(Number dm_mass, TString particle, TString suf)
   TString masstr;
   
   //Build wisely the name of the file model from DM
-  if (dm_mass < 1.0)
+  if (dm_mass < 1.0 && dm_mass > 0.0)
     {
       ostringstream os;
       os << dm_mass*1000;
       masstr = os.str() + "GeV";
     }
-  else
+  if (dm_mass >= 1.0)
     {
       ostringstream os;
       os << dm_mass;
@@ -157,6 +158,10 @@ void FillContainer_DM(Number dm_mass, TString particle, TString suf)
     }
   
   TString modelname = "dm_LMC_" + particle + masstr;
+  if (dm_mass==0){
+    modelname = "dm_LMC_Crab";
+  }
+
   TString filename = dir_DM + "/modcube_" + modelname + suf + ".fits";
 
   N_dm = ReadFits(DM_model,filename);
@@ -203,7 +208,7 @@ Number DataSim(VM &data)
   int ybin = data[0][0].size();
   
   Number TotalCounts = 0;
-  for (int i=0; i<ebin; i++)
+  for (int i=firstebin; i<ebin; i++)
     {
       for (int j=0; j<xbin; j++)
         {
@@ -272,7 +277,7 @@ void calc_P(V &P, vector<VM> &p_compbin)
   vector<VM> p_bkg = Bkg_model;
   
   init(P,Nbar+1);
-  for (int ebin=0; ebin<nebins; ebin++)
+  for (int ebin=firstebin; ebin<nebins; ebin++)
     {
       for (int i=0; i<nxbins; i++)
         {
@@ -316,7 +321,7 @@ Number Conjugate_Gradients(V &Kpars)
   M Mat;
   init(Mat,Nbar+1,Nbar+1);
   
-  for (int ebin=0; ebin<nebins; ebin++)
+  for (int ebin=firstebin; ebin<nebins; ebin++)
     {
       for (int i=0; i<nxbins; i++)
         {
@@ -365,7 +370,7 @@ Number Conjugate_Gradients(V &Kpars)
       Kpars[ii] = W[ii]*Ntotal/N_bkg[ii-1];
     }
     
-  Number MaxlogL = logL(Kpars,0,nebins);
+  Number MaxlogL = logL(Kpars,firstebin,nebins);
   // Return
   return MaxlogL;
 }
@@ -378,7 +383,7 @@ Number EM_Estimate(VM &data, VM &dm, vector<VM> &back,Number &Nest_dm, V &Nest_b
   Number sumlogL = 0;
   init(Nest_bkg, Nbar);
   //Loop over bins.
-  for (int ebin=0; ebin<nebins; ebin++)
+  for (int ebin=firstebin; ebin<nebins; ebin++)
     {
       for (int i=0; i<nxbins; i++)
         {
@@ -454,7 +459,7 @@ void Expectation_Maximization()
 
 Number Expectation_Maximization(V &Kpars)
 {
-  Number maxlogL=logL(Kpars,0,nebins);
+  Number maxlogL=logL(Kpars,firstebin,nebins);
   // Initialize parameters to values close to the estimated 
   
   Number DMnorm;
@@ -479,11 +484,11 @@ Number Expectation_Maximization(V &Kpars)
   
   do
     {    
-      Number old_loglike = logL(Kpars,0,nebins);
+      Number old_loglike = logL(Kpars,firstebin,nebins);
       V old_Kpars        = Kpars;
       EM_Estimate(Obs_data,dm,back,Nest_dm,Nest_bkg,DMnorm,P);
       EM_Update_pars(Nest_dm,Nest_bkg,Kpars,DMnorm,P);
-      maxlogL            = logL(Kpars,0,nebins);
+      maxlogL            = logL(Kpars,firstebin,nebins);
       endiff             = fabs(maxlogL-old_loglike);
       if (maxlogL <= old_loglike) 
         {
@@ -492,7 +497,7 @@ Number Expectation_Maximization(V &Kpars)
 	}
     }
   while(endiff>tol);
-  maxlogL = logL(Kpars,0,nebins);
+  maxlogL = logL(Kpars,firstebin,nebins);
   // Return
   return maxlogL;
 }
@@ -511,7 +516,7 @@ Number My_Minimizer(V &Kpars,
   // Randomly scan normalization parameter space in order to find the 
   // maximum likelihood
   
-  Number maxlogL = logL(Kpars,0,nebins);
+  Number maxlogL = logL(Kpars,firstebin,nebins);
   
   //gRandom          -> SetSeed(0); 
   V K_0            = Kpars;
@@ -550,7 +555,7 @@ Number My_Minimizer(V &Kpars,
                 }
             }
 	    
-	  Number loglike = logL(x,0,nebins);
+	  Number loglike = logL(x,firstebin,nebins);
 	  if (loglike >= maxlogL) 
 	    {
 	      maxlogL = loglike; 
@@ -562,7 +567,7 @@ Number My_Minimizer(V &Kpars,
 	    }
         }
     }
-  maxlogL = logL(Kpars,0,nebins);
+  maxlogL = logL(Kpars,firstebin,nebins);
   // Return
   return maxlogL; 
 }
@@ -591,7 +596,7 @@ Number calc_MaxlogL(V &Kpars,Number steps[],bool BestCase,Number tol)
     {
       for (int ii=1; ii<Nbar+1; ii++) Kpars[ii] = 1.;
     }
-  //MaxlogL = My_Minimizer(Kpars,steps,tol);
+  MaxlogL = My_Minimizer(Kpars,steps,tol);
   cout << MaxlogL <<"  ";
   for (int i=0; i<Nbar+1; i++) cout << Kpars[i] << "  ";
   cout << endl;
@@ -627,7 +632,7 @@ Number Upper_Minimizer(V &Kpars,
 {
   //This function searches for the maximum DM normalization value that gives
   // a likelihood ratio = 2.71 (Say, the upper limit)
-  Number maxlogL = logL(Kpars,0,nebins);
+  Number maxlogL = logL(Kpars,firstebin,nebins);
   gRandom          -> SetSeed(0);
   V K_0             = Kpars;
   int niter         = 100;
@@ -680,7 +685,7 @@ Number Upper_Minimizer(V &Kpars,
                           Number norm2   = minComp2+j*((maxComp2-minComp2)/npoints);
                           Kpars[comp1]   = norm1;
                           Kpars[comp2]   = norm2;
-                          Number loglike = logL(Kpars, 0, nebins);
+                          Number loglike = logL(Kpars, firstebin, nebins);
                           like          -> Fill(2*(maxlogL-loglike), norm1, norm2);
                           out1 << norm1 << "  " << norm2 << "  "
                                << 2*(maxlogL-loglike) << endl;
@@ -705,7 +710,7 @@ Number Upper_Minimizer(V &Kpars,
               out2 << K_0[0] << "  " << K_0[1] << "  " << trial
                    << endl;
               //for (int ii=1; ii<Nbar+1; ii++) x[ii] = K_0[ii];
-              Number maxdiflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+              Number maxdiflog = fabs(2*(maxlogL-logL(x,firstebin,nebins)))-2.71;
               for (int i=0; i<niter; i++)
                 {
                   for (int j=0; j<Nbar+1; j++)
@@ -742,14 +747,14 @@ Number Upper_Minimizer(V &Kpars,
                               x[j] = K_0[j]-tol; //Only for fixed bkg
                             }
                         }
-                      Number difflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+                      Number difflog = fabs(2*(maxlogL-logL(x,firstebin,nebins)))-2.71;
                       if (fabs(difflog)<=fabs(maxdiflog))
                         {
                           maxdiflog = difflog;
                           Kpars     = x;
                           out2 << Kpars[0] << "  " << Kpars[1] << "  " << trial
                                << endl;
-                          Number loglike = logL(x,0,nebins);
+                          Number loglike = logL(x,firstebin,nebins);
                           if (fabs(x[0]) > fabs(Upperlimit))
                             {
                               if (fabs(2*(maxlogL-loglike))>2.715 ||
@@ -797,7 +802,7 @@ Number Upper_Minimizer(V &Kpars,
         {
           x = K_0;
           //for (int ii=1; ii<Nbar+1; ii++) x[ii] = K_0[ii];
-          Number maxdiflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+          Number maxdiflog = fabs(2*(maxlogL-logL(x,firstebin,nebins)))-2.71;
           for (int i=0; i<niter; i++)
             {
               for (int j=0; j<3/*Nbar+1*/; j++)
@@ -834,12 +839,12 @@ Number Upper_Minimizer(V &Kpars,
                           x[j] = K_0[j]-tol; //Only for fixed bkg
                         }
                     }
-                  Number difflog = fabs(2*(maxlogL-logL(x,0,nebins)))-2.71;
+                  Number difflog = fabs(2*(maxlogL-logL(x,firstebin,nebins)))-2.71;
                   if (fabs(difflog)<=fabs(maxdiflog))
                     {
                       maxdiflog = difflog;
                       Kpars     = x;
-                      Number loglike = logL(x,0,nebins);
+                      Number loglike = logL(x,firstebin,nebins);
                       if (fabs(x[0]) > fabs(Upperlimit))
                         {
                           if (fabs(2*(maxlogL-loglike))>2.715 ||
@@ -889,7 +894,7 @@ Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number n
   Number tol = 0.001;
   Number Upperlimit = 0;
   
-  Number maxlogL = logL(Kpars,0,nebins);
+  Number maxlogL = logL(Kpars,firstebin,nebins);
   Number loglike = maxlogL;
   Number TS = 2*(fabs(maxlogL-loglike))-2.71;
   
@@ -900,9 +905,9 @@ Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number n
   do{
     Number p = (Ka[which_goal]+Kb[which_goal])/2;
     Kp[which_goal] = p;
-    Number TSa = 2*(fabs(maxlogL-logL(Ka,0,nebins)))-2.71;
-    Number TSb = 2*(fabs(maxlogL-logL(Kb,0,nebins)))-2.71;
-    Number TSp = 2*(fabs(maxlogL-logL(Kp,0,nebins)))-2.71;
+    Number TSa = 2*(fabs(maxlogL-logL(Ka,firstebin,nebins)))-2.71;
+    Number TSb = 2*(fabs(maxlogL-logL(Kb,firstebin,nebins)))-2.71;
+    Number TSp = 2*(fabs(maxlogL-logL(Kp,firstebin,nebins)))-2.71;
     //cout << Ka[which_goal] << "  " << Kb[which_goal] << "  " << Kp[which_goal] << endl;
     //cout << TSa << "  " << TSb << "  " << TSp << endl;
     if (TSa*TSp > 0) Ka[which_goal] = p;
@@ -959,7 +964,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
 {
   ParSpace = new TNtuple("ParSpace","ParSpace","type1:type2:logL:comp1:comp2");
   
-  Number maxlogL = logL(Kpars,0,nebins);
+  Number maxlogL = logL(Kpars,firstebin,nebins);
   
   int npoints = 100; 
 
@@ -986,7 +991,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
 		  Number norm2=minComp2 + j*((maxComp2-minComp2)/npoints); 
 		  K[comp1] = norm1;
 		  K[comp2] = norm2;
-		  Number loglike = logL(K,0,nebins);
+		  Number loglike = logL(K,firstebin,nebins);
 		  ParSpace->Fill(comp1,comp2,loglike,norm1,norm2);
                 }
             }

@@ -53,14 +53,14 @@ def plotbands(filepath, masses, particle,suf, bestCase=True, tol=0.01):
         if bestCase==True:
             filename = filepath+"Limits_"+particle+masstr+suf+"_bestCase_tol0.01.dat"
         else:
-            filename = filepath+"Limits_"+particle+masstr+suf+".dat"
+            filename = filepath+"Bands_"+particle+masstr+suf+".dat"
 
         data   = np.genfromtxt(filename, unpack=True) 
         limits = data*3e-26
         mean   = np.mean(limits)
         std    = np.std(limits)
         # Plot mean and standard deviation
-        print mean, "  ", std
+        print mean/3e-26, "  ", std
 
         meanlimit[i] = mean;
         # 95% containment bands
@@ -101,6 +101,6 @@ if __name__ == '__main__':
     # Filepath to results
     filepath_to_here = os.getcwd()
     filepath         = filepath_to_here + "/../../results/"
-    suf = "_gamma0.5"
+    suf = ""
     # Call plotbands function
     plotbands(filepath, masses, particle, suf,False)

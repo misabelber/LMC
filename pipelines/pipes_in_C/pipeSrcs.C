@@ -77,6 +77,7 @@ void RunT(){
   TNtuple *ParSpace;
   cout << "Calculating Correlation Factors..." << endl;
   calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
+  ParSpace->Write();
 }
 
 void TS(){
@@ -132,7 +133,7 @@ void TS(){
     V Kpars; init(Kpars,Nbar);
     Number tol=HUGE_VAL;
     Number NullogL = Conjugate_Gradients(Kpars);
-    cout <<"Source: " << extended[i] << " TS: " <<  2*(MaxlogL-NullogL) << endl;
+    cout <<"Source: " << extended[i] << " TS: " <<  2*(MaxlogL-NullogL) << "  " << sqrt(2*(MaxlogL-NullogL))<< endl;
     //for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";
     //cout << endl;
   }
@@ -152,7 +153,7 @@ void TS(){
     V Kpars; init(Kpars,Nbar);
     Number tol=HUGE_VAL;
     Number NullogL = Conjugate_Gradients(Kpars);
-    cout << "Source: " << point[i] << "  TS: " << 2*(MaxlogL-NullogL) << endl;
+    cout << "Source: " << point[i] << "  TS: " << 2*(MaxlogL-NullogL) << "  " << sqrt(2*(MaxlogL-NullogL))<< endl;
     //for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";
     //cout << endl;
   }  

@@ -576,7 +576,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
         }
     }
   cout << "PLEASE, CHECK THAT PLOTS ARE CORRECT!" << endl;  
-  for (int comp1=14; comp1<15/*Nbar*/; comp1++)
+  for (int comp1=0; comp1<Nbar; comp1++)
     {
       for (int comp2=comp1; comp2<Nbar; comp2++)
 	{

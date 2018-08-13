@@ -14,6 +14,7 @@ TString dir_DM = "/scratch/bernardos/LMC/Obs_DM"; //Path for DM models
 //Global variables
 
 //Number of bins
+int firstebin=0;
 int nebins=0; //Energy bins
 int nxbins=0; //Spatial bins
 int nybins=0;
