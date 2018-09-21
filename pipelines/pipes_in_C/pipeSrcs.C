@@ -11,7 +11,7 @@ using namespace std;
 void RunT(){
 
   const  int Ndif = 6;
-  const int Nps = 10;
+  const int Nps = 9;
   const int Nbar = Ndif+Nps;
   
   Init(20,20,20,Ndif,Nps);
@@ -31,13 +31,13 @@ void RunT(){
                         "J0454.6-6825",
                         "J0537.0-7113",
                         "J0535-691",
-			"J0525-696",
-			"J0509.9-6418"};
-  TString suf = "_rebin_0.1x100_Pointin5deg";
+			"J0525-696"};
+
+  TString suf = "_KSP_100GeV-100TeV";
   
   FillContainer_Bkg(extended,point,suf);
-  FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
-  //Ntotal = DataSim(Obs_data);
+  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"01");//true: modcube,false: cntcube
+  //  Ntotal = DataSim(Obs_data);
     
   V Kpars; init(Kpars,Nbar);
   Number tol=HUGE_VAL;
@@ -50,8 +50,8 @@ void RunT(){
   cout << MaxlogL << endl;                                                                 
   for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";   
   cout << endl;
-  //Number steps[Nbar]={0.001,1,1,1,1,0.5,0.01,0.5,0.01,0.01,0.01,0.01,0.01,0.01,0.01,0.01};
-  //MaxlogL = My_Minimizer(Kpars,steps,tol);
+  Number steps[Nbar]={0.001,1,1,1,1,0.5,0.01,0.5,0.01,0.01,0.01,0.01,0.01,0.01,0.01};
+  MaxlogL = My_Minimizer(Kpars,steps,tol);
   for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";                        
   cout << endl;
   
@@ -69,8 +69,7 @@ void RunT(){
 			    0.04,
 			    0.3,
 			    0.1,
-			    0.1,
-			    8};
+			    0.1};
     
   V Cfactors;
   TFile *PSfile = new TFile("ParSpace_Baryonics.root","RECREATE");
@@ -83,7 +82,7 @@ void RunT(){
 void TS(){
 
   const  int Ndif = 6;
-  const int Nps = 10;
+  const int Nps = 9;
   const int Nbar = Ndif+Nps;
   
   Init(20,20,20,Ndif,Nps);
@@ -96,64 +95,72 @@ void TS(){
                             "3FHL_J0531.8-6639e"};
   
   TString point[Nps] = {"J0537-691",
-                        "J0524.5-6937",
+			"J0524.5-6937",
                         "J0534.1-6732",
-                        "J0525.2-6614",
-                        "J0535.3-6559",
-                        "J0454.6-6825",
-                        "J0537.0-7113",
-                        "J0535-691",
-			"J0525-696",
-			"J0509.9-6418"};
-  TString suf = "_rebin_0.1x100_Pointin5deg";
-  FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);  
+			"J0525.2-6614",
+			"J0535.3-6559",
+			"J0454.6-6825",
+			"J0537.0-7113",
+			"J0535-691",
+			"J0525-696"};
+  TString suf = "_KSP_100GeV-100TeV";
+  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"099");  
   FillContainer_Bkg(extended,point,suf);
-
+  //Ntotal = DataSim(Obs_data);
   V Kpars; init(Kpars,Nbar);
   Number tol=HUGE_VAL;
-  Number MaxlogL = 0;                                                                              
-  MaxlogL = Conjugate_Gradients(Kpars);
+  Number MaxlogL = 0;
+  Number steps[Nbar]={0.001,1,1,1,1,0.5,0.01,0.5,0.01,0.01,0.01,0.01,0.01,0.01,0.01};
+  //MaxlogL = Conjugate_Gradients(Kpars);
+  MaxlogL = calc_MaxlogL(Kpars,steps,tol);
   cout <<"MaxlogL: " << "  " <<  MaxlogL << endl;
   
   vector<TString> extended_;
   vector<TString>  point_;
   
   Init(20,20,20,Ndif-1,Nps);
-    
+  Number new_steps[Nbar-1];  
   for(int i=1; i<Ndif; i++){
     extended_.clear();
+    int count=0;
+    for (int j=0; j<Nbar; j++){
+      if (i==j) continue;
+      new_steps[count] = steps[j];
+      count++;}
     for (int ii=0; ii<Ndif; ii++) extended_.push_back(extended[ii]);
     extended_.erase(extended_.begin()+i);
     TString ext[Ndif];
     for (int ii=0; ii<Ndif; ii++) {ext[ii] = extended_[ii];}
     FillContainer_Bkg(ext,point,suf);
     
-    //Ntotal = DataSim(Obs_data);
-    
-    V Kpars; init(Kpars,Nbar);
+    V Kpars; init(Kpars,Nbar-1);
     Number tol=HUGE_VAL;
-    Number NullogL = Conjugate_Gradients(Kpars);
-    cout <<"Source: " << extended[i] << " TS: " <<  2*(MaxlogL-NullogL) << "  " << sqrt(2*(MaxlogL-NullogL))<< endl;
-    //for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";
-    //cout << endl;
+    Number NullogL = calc_MaxlogL(Kpars,new_steps,tol);
+    //Number NullogL = Conjugate_Gradients(Kpars);
+    cout <<"Source: " << extended[i] << " TS: " <<  2*fabs(MaxlogL-NullogL) << "  " << sqrt(2*fabs(MaxlogL-NullogL))<< endl;
   }
 
   Init(20,20,20,Ndif,Nps-1);
     
   for(int i=0; i<Nps; i++){
     point_.clear();
+    int count=0;
+    for (int j=0; j<Nbar; j++){
+      if (i+Ndif==j) continue;
+      new_steps[count] = steps[j];
+      count++;}
     for (int ii=0; ii<Nps; ii++) point_.push_back(point[ii]);
     point_.erase(point_.begin()+i);
     TString pnt[Nps];
     for (int ii=0; ii<Nps; ii++) {pnt[ii] = point_[ii];}
     FillContainer_Bkg(extended,pnt,suf);
     
-    //Ntotal = DataSim(Obs_data);
-    
-    V Kpars; init(Kpars,Nbar);
+    V Kpars; init(Kpars,Nbar-1);
     Number tol=HUGE_VAL;
-    Number NullogL = Conjugate_Gradients(Kpars);
-    cout << "Source: " << point[i] << "  TS: " << 2*(MaxlogL-NullogL) << "  " << sqrt(2*(MaxlogL-NullogL))<< endl;
+    //Number NullogL = Conjugate_Gradients(Kpars);
+    Number NullogL = calc_MaxlogL(Kpars,new_steps);
+    cout << MaxlogL << "  " << NullogL << endl;
+    cout << "Source: " << point[i] << "  TS: " << 2*fabs(MaxlogL-NullogL) << "  " << sqrt(2*fabs(MaxlogL-NullogL))<< endl;
     //for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";
     //cout << endl;
   }  

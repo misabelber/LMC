@@ -24,7 +24,7 @@ if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create 
 centerx = 80.0
 centery = -69.5
 
-r = 5.0
+r = 2.0
 ra_list=np.zeros(6)
 dec_list=np.zeros(6)
 for i in range(0,6):
@@ -35,11 +35,11 @@ for i in range(0,6):
 
 #Observation variables
 
-rad = 5 #Radius of ROI
-emin = 0.03 #Minimum energy in TeV
+rad = 3 #Radius of ROI
+emin = 0.1 #Minimum energy in TeV
 emax = 100.0 #Maximum enery in TeV
 tstart = 0.0 #Starting time
-duration = 180000 #Ending time
+duration = 204000 #Ending time
 deadc = 0.95 #Dead time
 
 binsz = 0.1 #Spatial binning
@@ -47,11 +47,11 @@ nxpix = 100
 nypix = 100
 enumbins = 20
 
-caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/1dc/bcf/South_z20_50h") #Calibration Files for gammalib class
+caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/prod3b-v1/bcf/South_z40_average_50h") #Calibration Files for gammalib class
 irf = "irf_file.fits"
 
-caldb_= "1dc"
-irf_="South_z20_50h"
+caldb_ = 'prod3b-v1' #Calibration files for ctobssim
+irf_ = 'South_z40_average_50h'
 
 #Get model name
 models = gammalib.GModels(PATH_MODEL+"LMC_closer_files.xml")
@@ -66,7 +66,7 @@ for model in models:
         
     
         model = PATH_MODEL+'LMC_'+modelname+".xml"
-        suf = "_rebin_0.1x100_Pointin5deg"
+        suf = "_KSP_100GeV-100TeV"
         cntcube = PATH_OBS+"cntcube_"+"LMC_"+modelname+suf+'.fits'
         modcube = PATH_OBS+"modcube_"+"LMC_"+modelname+suf+'.fits'
         outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')

@@ -365,6 +365,7 @@ Number Conjugate_Gradients(V &Kpars)
   solvecholesky(Mat,P,W,det);
   
   Kpars[0] = W[0]*Ntotal/N_dm;
+  
   for (int ii=1; ii<Nbar+1; ii++) 
     {
       Kpars[ii] = W[ii]*Ntotal/N_bkg[ii-1];
@@ -585,11 +586,13 @@ Number calc_MaxlogL(V &Kpars,Number steps[],bool BestCase,Number tol)
   Number MaxlogL = 0;
   
   MaxlogL = Conjugate_Gradients(Kpars);
-  cout << MaxlogL << "  ";
+  cout << MaxlogL << endl;
+  //for (int i=0; i<Nbar+1; i++) Kpars[i]=1;
+  //Kpars[0]=0.00001;
   for (int i=0; i<Nbar+1; i++)cout << Kpars[i] << "  ";
   cout << endl;
   MaxlogL=Expectation_Maximization(Kpars);
-  cout << MaxlogL << "  ";
+  cout << MaxlogL << endl;
   for (int i=0; i<Nbar+1; i++)cout << Kpars[i] << "  ";
   cout << endl;
   if (BestCase)
@@ -966,7 +969,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
   
   Number maxlogL = logL(Kpars,firstebin,nebins);
   
-  int npoints = 100; 
+  int npoints = 25; 
 
   for (int comp1=0; comp1<1/*Nbar+1*/; comp1++)
     {

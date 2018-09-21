@@ -24,23 +24,22 @@ if not os.path.exists(PATH_OBS):
 centerx = 80.0
 centery = -69.5
 
-r = 3.0
-ra_list=np.zeros(7)
-dec_list=np.zeros(7)
+r = 2.0
+#r = 5.0
+ra_list=np.zeros(6)
+dec_list=np.zeros(6)
 for i in range(0,6):
     angle=(i-1)*2*math.pi/6
     ra_list[i] = r*math.cos(angle)+centerx
     dec_list[i] = r*math.sin(angle)+centery
-ra_list[6] = 89.1
-dec_list[6] = -65.5
 
 #Observation variables
 
-rad = 5 #Radius of ROI
-emin = 0.03 #Minimum energy in TeV
+rad = 3 #Radius of ROI
+emin = 0.1 #Minimum energy in TeV
 emax = 100.0 #Maximum enery in TeV
 tstart = 0.0 #Startind time
-duration = 180000 #Ending time
+duration = 204000 #Ending time
 deadc = 0.95 #Dead time
 
 binsz = 0.1 #Spatial binning
@@ -49,17 +48,17 @@ nypix = 100
 
 enumbins = 20
 
-caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/1dc/bcf/South_z20_50h") #Calibration Files for gammalib class
+caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/prod3b-v1/bcf/South_z40_average_50h") #Calibration Files for gammalib class
 irf = "irf_file.fits"
 
-caldb_= "1dc"
-irf_="South_z20_50h"
+caldb_ = 'prod3b-v1' #Calibration files for ctobssim
+irf_ = 'South_z40_average_50h'
 
 particle = 'W' #Final state particle
 #masses = [0]
 #masses = [0.100,0.200,0.500,1,5,10,50,100]
-#masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
-masses = [0]
+masses = [0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
+#masses = [0]
 
 for mass in masses:
     rndseed = random.randint(1,300000)
@@ -71,11 +70,10 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
-    suf = "_jfactorNFW_rebin_0.1x100_Pointin5deg"
-    modelname = 'dm_LMC_Crab.xml'
+    suf = "_jfactorisomax_KSP_100GeV-100TeV"
+    #modelname = 'dm_LMC_Crab.xml'
     
-    model = PATH_MODEL+modelname+'_jfactorgamma0.5'+'.xml'
-    model = PATH_MODEL+modelname
+    model = PATH_MODEL+modelname+'_jfactorisomax'+'.xml'
     time = str(int(duration/3600))
     outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
     cntcube = PATH_OBS+"cntcube_"+modelname+suf+'.fits'

@@ -3,9 +3,9 @@ from astropy.io import fits
 from astropy import wcs
 import sys
 
-DATA_PATH = "/scratch/bernardos/LMC/DM/jfactor/"
+DATA_PATH = "/scratch/bernardos/LMC/DM/jfactor/isothermal/"
 
-filename = DATA_PATH+"annihil_LMC2D_FOVdiameter10.0deg_alphaint0.10deg_nside1024NFW-JFACTOR-Jsmooth-image.fits"
+filename = DATA_PATH+"annihil_LMC2D_FOVdiameter20.0deg_alphaint0.10deg_nside1024ISO_mean_Buckley15-JFACTOR-Jsmooth-image.fits"
 
 hdul = fits.open(filename)
 
@@ -15,8 +15,8 @@ w = wcs.WCS(naxis=2)
 
 # Set up an "Airy's zenithal" projection
 # Vector properties may be set with Python lists, or Numpy arrays
-w.wcs.crpix = [210.0, 210.0]
-w.wcs.cdelt = np.array([0.02863961813842482, 0.02863961813842482])
+w.wcs.crpix = [420.0, 420.0]
+w.wcs.cdelt = np.array([0.028639618138425,0.028639618138425])
 w.wcs.crval = [80.0, -69.5]
 w.wcs.ctype = ["RA---CAR", "DEC--CAR"]
 

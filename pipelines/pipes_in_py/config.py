@@ -3,7 +3,7 @@
 
 #PATH for ctools installation:
 
-CTOOLS_PATH = "/scratch/bernardos/ctools/gamma" #gamma folder must be contained here
+CTOOLS_PATH = "/afs/ciemat.es/user/b/bernardos/.conda/envs/ctools/" #gamma folder must be contained here
 
 #PATH for big data files storage (Observations and modelcubes)
 

@@ -114,13 +114,13 @@ void Run()
                         "J0454.6-6825",
                         "J0537.0-7113",
                         "J0535-691",
-                        "J0525-696",
-                        "J0509.9-6418"};
-  TString suf = "_rebin_0.1x100";
-  TString suf_DM = "_jfactorNFW_rebin_0.1x100";
+                        "J0525-696"};
+                        
+  TString suf = "_KSP_100GeV-100TeV";
+  TString suf_DM = "_jfactorNFW_KSP_100GeV-100TeV";
   
   FillContainer_Bkg(extended,point,suf);
-  FillContainer_DM(100,"W",suf_DM);
+  FillContainer_DM(0.1,"W",suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
   //Ntotal = DataSim(Obs_data);
   
@@ -137,13 +137,13 @@ void Run()
   cout << endl;
   cout << endl;
   cout << "Calculating Upper Limit on DM normalization..." << endl;
-  //Number UpperLimit = Upper_Minimizer(Kpars,false);
-  //cout << "Upper Limit: " << UpperLimit << endl;
-  //cout << endl;
-  Number intervals[Nbar+1] = {500,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
+  Number UpperLimit = Upper_Minimizer(Kpars,false);
+  cout << "Upper Limit: " << UpperLimit << endl;
+  cout << endl;
+  Number intervals[Nbar+1] = {UpperLimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
   V Cfactors;
   cout << "Calculating Correlation Factors..." << endl;
-  //calc_CorrFactors(Kpars,intervals,Cfactors);
+  //  calc_CorrFactors(Kpars,intervals,Cfactors);
 }
 
 void RunTest(Number dmmass,Number range)
@@ -311,7 +311,7 @@ void Pruebas(Number dmmass){
   TStopwatch t;
   t.Start();
   const int Ndif = 6;
-  const int Nps = 10;
+  const int Nps = 9;
   const int Nbar = Ndif+Nps;
   
   Init(20,20,20,Ndif,Nps);
@@ -331,29 +331,26 @@ void Pruebas(Number dmmass){
                         "J0454.6-6825",
                         "J0537.0-7113",
                         "J0535-691",
-                        "J0525-696",
-                        "J0509.9-6418"};
-  TString suf = "_rebin_0.1x100_Pointin5deg";
-  TString suf_DM = "_jfactorNFW_rebin_0.1x100_Pointin5deg";
+                        "J0525-696"};
+  
+  TString suf = "_KSP_100GeV-100TeV";
+  TString suf_DM = "_jfactorisomax_KSP_100GeV-100TeV";
   
   FillContainer_Bkg(extended,point,suf);
   FillContainer_DM(dmmass,"W",suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
   //Ntotal = DataSim(Obs_data);
-  Number steps[Nbar+1]={10,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+  
+  Number steps[Nbar+1]={10,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
   
   V Kpars; init(Kpars,Nbar+1);
   
-
   cout << calc_MaxlogL(Kpars,steps,false) << endl;
   for (int ii=0; ii<Nbar+1; ii++){
     cout << Kpars[ii] << "  ";
   }
   cout << endl;
-  cout << logL(Kpars,0,20) << endl;
-  
   V Cfactors;
-  
   //  Number Upperlimit = Upper_Minimizer(Kpars);
   //cout << Upper_Function(Kpars,-0.0001) << endl;
   V nuis;
@@ -363,23 +360,23 @@ void Pruebas(Number dmmass){
   t.Stop();
   t.Print();
   //Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
-  Number intervals[Nbar+1] = {Upperlimit,0.00025,0.3,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
+  Number intervals[Nbar+1] = {Upperlimit,0.0003,0.3,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1};
   
-  TFile *PSfile = new TFile("parameterspaceW_100GeV_test_gamma0.5.root","RECREATE");
-  TNtuple *ParSpace;
-  calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
-  ParSpace->Write();
+  //TFile *PSfile = new TFile("parameterspaceW_100GeV_test_gamma0.5.root","RECREATE");
+  //TNtuple *ParSpace;
+  //calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
+  //ParSpace->Write();
   
 }
 
-void Bin(Number dmmass,int first){
+void Bin(Number dmmass,int first,int more){
   TStopwatch t;
   t.Start();
   const int Ndif = 6;
   const int Nps = 10;
   const int Nbar = Ndif+Nps;
   firstebin = first;
-  nebins = firstebin+1;
+  nebins = firstebin+more;
 
   Init(nebins,20,20,Ndif,Nps);
   
@@ -407,8 +404,8 @@ void Bin(Number dmmass,int first){
   FillContainer_Bkg(extended,point,suf);
   FillContainer_DM(dmmass,"W",suf_DM);
   FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
-  //Ntotal = DataSim(Obs_data);
-  Number steps[Nbar+1]={10,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+  Ntotal = DataSim(Obs_data);
+  Number steps[Nbar+1]={0.01,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
   
   V Kpars; init(Kpars,Nbar+1);
   
@@ -424,18 +421,16 @@ void Bin(Number dmmass,int first){
   
   //  Number Upperlimit = Upper_Minimizer(Kpars);
   //cout << Upper_Function(Kpars,-0.0001) << endl;
+  ofstream outfile;
+  outfile.open("fluxlimits.dat",ios::app);
   V nuis;
   nuis.push_back(1); nuis.push_back(2); nuis.push_back(3);
   Number Upperlimit = Upper_Finder(Kpars,0,nuis);
   cout << "Upper limit: " << Upperlimit << endl;
+  outfile << Upperlimit << endl;
   t.Stop();
   t.Print();
-  //Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
-  Number intervals[Nbar+1] = {Upperlimit,0.001,3,2.6,1.5,1,1,0.2,0.6,15,1.5,1.5,2,8,100,100,8};
-  
-  //TFile *PSfile = new TFile("parameterspaceW_100GeV_test_gamma0.5.root","RECREATE");
-  TNtuple *ParSpace;
-  calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
-  //ParSpace->Write();
+
+
   
 }

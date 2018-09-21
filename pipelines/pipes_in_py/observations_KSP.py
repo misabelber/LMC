@@ -20,7 +20,7 @@ centerx = 80.0
 centery = -69.5
 
 #Define pointings
-r = 3.0
+r = 2.0
 ra_list=np.zeros(6)
 dec_list=np.zeros(6)
 for i in range(0,6):
@@ -28,29 +28,29 @@ for i in range(0,6):
     ra_list[i] = r*math.cos(angle)+centerx
     dec_list[i] = r*math.sin(angle)+centery
     
-rad = 5 #Radius of ROI
-emin = 0.03 #Minimum energy in TeV
+rad = 3 #Radius of ROI
+emin = 0.1 #Minimum energy in TeV
 emax = 100.0 #Maximum energy in TeV
 tstart = 0.0 #Starting time
-duration = 180000 #Duration of each observation
+duration = 204000 #Duration of each observation
 deadc = 0.95 #Dead time
 
 #Binning
-binsz = 0.2 #Spatial binning
-nxpix = 50
-nypix = 50
+binsz = 0.1 #Spatial binning
+nxpix = 100
+nypix = 100
 enumbins = 20 #Energy bins
 
 #I need to define the calibration files in two ways because "ctobssim" can read simply this, but gammalib GObservation class needs the full path
-caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/1dc/bcf/South_z20_50h") #Calibration Files for gammalib class
+caldb = gammalib.GCaldb(config.CTOOLS_PATH+"/share/caldb/data/cta/prod3b-v1/bcf/South_z40_average_50h") #Calibration Files for gammalib class
 irf = "irf_file.fits"
 
-caldb_ = '1dc' #Calibration files for ctobssim
-irf_ = 'South_z20_50h'
+caldb_ = 'prod3b-v1' #Calibration files for ctobssim
+irf_ = 'South_z40_average_50h'
 
 debug = True
 
-Component = 'Irf+CR+DiffuseSources' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
+Component = '3FHL_J0531.8-6639e' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
 PATH_HERE = "../pipes_in_py" #Path where we are running
@@ -61,11 +61,11 @@ if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create 
 
 #Set Filenames wisely:
 
-suf = "_rebin_0.2x50"
+suf = "_KSP_100GeV-100TeV"
 input_model = PATH_MODEL+'LMC_'+Component+'.xml' 
 cntcube = PATH_OBS+"cntcube_"+'LMC_'+Component+'_'+suf+'.fits'
 modcube = PATH_OBS+"modcube_"+'LMC_'+Component+'_'+suf+'.fits'
-outfile = PATH_OBS+'observations_'+'LMC_'+Component+'_'+'KSPpointing_v2_.xml' #List of Observations file that will be produced ('.xml')
+outfile = PATH_OBS+'observations_'+'LMC_'+Component+'_'+'.xml' #List of Observations file that will be produced ('.xml')
 file = open(outfile,'w') 
 
 Obs_list = gammalib.GObservations()

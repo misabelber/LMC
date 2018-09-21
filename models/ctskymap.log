@@ -1,0 +1,9 @@
+2018-08-27T09:29:01: ********************************************************************************
+2018-08-27T09:29:01: *                                   ctskymap                                   *
+2018-08-27T09:29:01: * ---------------------------------------------------------------------------- *
+2018-08-27T09:29:01: * Version: 1.5.2                                                               *
+2018-08-27T09:29:01: ********************************************************************************
+2018-08-27T09:29:12: *** ERROR encounterted in the execution of ctskymap. Run aborted ...
+2018-08-27T09:29:12: *** ERROR in GXmlNode* GXmlNode::element(std::string&, int&): XML element name "observation_list" not found.
+2018-08-27T09:29:12: 
+2018-08-27T09:29:12: Application "ctskymap" terminated after 12 wall clock seconds, consuming 0.01 seconds of CPU time.

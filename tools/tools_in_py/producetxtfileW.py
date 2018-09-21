@@ -19,7 +19,7 @@ OUT_PATH = "../../spectra/DM/"
 
 filename = 'AtProduction_gammas.dat'
 
-finalstate = "Mu"  # choose particle W, b, etc
+finalstate = "Z"  # choose particle W, b, etc
 
 with open(filename) as f:
     lines = (line for line in f if not line.startswith('#'))
