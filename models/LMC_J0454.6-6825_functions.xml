@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<source_library title="source library">
+  <source name="J0454.6-6825" type="PointSource" tscalc="1">
+    <spectrum type="PowerLaw">
+      <parameter scale="1e-08" name="PhotonFlux" min="1e-07" max="1000.0"    value="0.742" free="1"/>
+      <parameter scale="-1.0"   name="Index"      min="-5.0"  max="+5.0"      value="2.197" free="1"/>
+      <parameter scale="1.0"   name="LowerLimit" min="10.0"  max="1000000.0" value="100.0" free="0"/>
+      <parameter scale="1.0"   name="UpperLimit" min="10.0"  max="1000000.0" value="100000.0" free="0"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="73.6591" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-68.4317" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+</source_library>

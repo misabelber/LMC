@@ -14,21 +14,20 @@ void RunBands(Number dm_mass)
   TString particle = "W";
   //Build wisely the name of the file
   TString masstr;
+  ostringstream os;
   if (dm_mass < 1.0){
-    ostringstream os;
     os<<dm_mass*1000;
     masstr = os.str()+"GeV";
   }
   else{
-    ostringstream os;
     os<<dm_mass;
     masstr = os.str()+"TeV";
   }      
   
-  TString filename = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/Bands_"+particle+masstr+".dat";
+  TString filename = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/Bands_"+particle+masstr+"_poisson.dat";
   
   const int Ndif = 6;
-  const int Nps = 10;
+  const int Nps = 9;
   const int Nbar = Ndif+Nps;
   
   Init(20,20,20,Ndif,Nps);
@@ -50,24 +49,44 @@ void RunBands(Number dm_mass)
                         "J0454.6-6825",
                         "J0537.0-7113",
                         "J0535-691",
-                        "J0525-696",
-                        "J0509.9-6418"};
-  TString suf = "_rebin_0.1x100_Pointin5deg";
-  TString suf_DM = "_jfactorNFW_rebin_0.1x100_Pointin5deg";
+                        "J0525-696"};
+  
+  /*TString point[Nps] = {"J0525.2-6614",
+                        "J0535.3-6559",
+                        "J0454.6-6825",
+                        "J0537.0-7113",
+                        "J0535-691"};*/
+                        
+  TString suf = "_KSP_100GeV-100TeV";
+  TString suf_DM = "_jfactorNFW_KSP_100GeV-100TeV";
   
   FillContainer_Bkg(extended,point,suf);
   FillContainer_DM(dm_mass,particle,suf_DM);
-  FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
+
   
-  VM data_model = Obs_data;
+  //  VM data_model = Obs_data;
   
-  int reals = 100;
+  int reals=20;
   
   for (int i=0; i<reals; i++){
-    Obs_data = data_model;
+
+    TString realization; 
+    int digit1 = 0; int digit2 = 0; int digit3 = 0;
+    if (i<10) {digit3=i;}
+    if (i>=10 && i<100){digit2=i/10; digit3=i-digit2*10;}
+    if (i>=100) {digit1 = i/100; digit2 = (i-digit1*100)/10; digit3 = i-digit1*100-digit2*10;}   
+    realization.Form("%d%d%d",digit1,digit2,digit3);
+    
+    cout << "Realization number " << realization << endl;
+
+    //    FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+realization);
+    FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
+    //Obs_data = data_model;
     Ntotal = DataSim(Obs_data);
     
-    Number steps[Nbar+1]={10,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+    //Number steps[Nbar+1]={10,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+    //Number steps[Nbar+1]={100,0.005,1,1,1,1,0.5,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+    Number steps[Nbar+1]={100,0.005,1,1,1,1,0.5,0.001,0.001,0.001,0.001,0.001};
     
     V Kpars; init(Kpars,Nbar+1);
     
@@ -334,14 +353,14 @@ void Pruebas(Number dmmass){
                         "J0525-696"};
   
   TString suf = "_KSP_100GeV-100TeV";
-  TString suf_DM = "_jfactorisomax_KSP_100GeV-100TeV";
+  TString suf_DM = "_jfactorNFW_KSP_100GeV-100TeV";
   
   FillContainer_Bkg(extended,point,suf);
   FillContainer_DM(dmmass,"W",suf_DM);
-  FillContainer_Obs("Irf+CR+DiffuseSources+PS",true,suf);
+  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"000");
   //Ntotal = DataSim(Obs_data);
   
-  Number steps[Nbar+1]={10,0.005,1,1,1,1,0.1,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
+  Number steps[Nbar+1]={100,0.005,1,1,1,1,0.5,0.001,0.5,0.001,0.001,0.001,0.001,0.001,0.001,0.001};
   
   V Kpars; init(Kpars,Nbar+1);
   
@@ -351,8 +370,6 @@ void Pruebas(Number dmmass){
   }
   cout << endl;
   V Cfactors;
-  //  Number Upperlimit = Upper_Minimizer(Kpars);
-  //cout << Upper_Function(Kpars,-0.0001) << endl;
   V nuis;
   nuis.push_back(1); nuis.push_back(2); nuis.push_back(3);
   Number Upperlimit = Upper_Finder(Kpars,0,nuis);
@@ -360,12 +377,12 @@ void Pruebas(Number dmmass){
   t.Stop();
   t.Print();
   //Number intervals[Nbar+1] = {Upperlimit,0.00025,0.25,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1,8};
-  Number intervals[Nbar+1] = {Upperlimit,0.0003,0.3,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1};
+  Number intervals[Nbar+1] = {Upperlimit,0.001,0.5,0.5,0.02,0.06,0.015,0.015,0.03,0.1,0.04,0.04,0.04,0.3,0.1,0.1};
   
-  //TFile *PSfile = new TFile("parameterspaceW_100GeV_test_gamma0.5.root","RECREATE");
-  //TNtuple *ParSpace;
-  //calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
-  //ParSpace->Write();
+  TFile *PSfile = new TFile("parameterspaceW_100GeV_test_gamma0.5.root","RECREATE");
+  TNtuple *ParSpace;
+  calc_CorrFactors(Kpars,intervals,Cfactors,ParSpace);
+  ParSpace->Write();
   
 }
 

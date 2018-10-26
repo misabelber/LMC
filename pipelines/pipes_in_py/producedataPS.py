@@ -53,8 +53,10 @@ irf = "irf_file.fits"
 caldb_ = 'prod3b-v1' #Calibration files for ctobssim
 irf_ = 'South_z40_average_50h'
 
+NObs = 300
+
 #Get model name
-models = gammalib.GModels(PATH_MODEL+"LMC_closer_files.xml")
+models = gammalib.GModels(PATH_MODEL+"LMC_Irf+CR+DiffuseSources+PS_functions.xml")
 for model in models:
     modelcontainer = gammalib.GModels()
     modelname = model.name()
@@ -62,148 +64,176 @@ for model in models:
     par = model.spectral().at(0)
     if srctype=='PointSource' and par.is_free():
         modelcontainer.append(model)
-        filename = 'LMC_'+modelname+'.xml'
-        
-    
-        model = PATH_MODEL+'LMC_'+modelname+".xml"
-        suf = "_KSP_100GeV-100TeV"
-        cntcube = PATH_OBS+"cntcube_"+"LMC_"+modelname+suf+'.fits'
-        modcube = PATH_OBS+"modcube_"+"LMC_"+modelname+suf+'.fits'
-        outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
-        file = open(outfile,'w')
+        filename = 'LMC_'+modelname+'_functions.xml'
+        model = PATH_MODEL+'LMC_'+modelname+"_functions.xml"
+        suf = "functions_KSP_100GeV-100TeV"
 
-        #_______________________________________________
-    
-        Obs_list = gammalib.GObservations()
-        xml = gammalib.GXml(outfile)
-        
         rndseed = random.randint(1,300000)
-        number = 1
 
-        for ra in ra_list:
+        for i in range(0,NObs):
 
-            dec = dec_list[number-1]
-            # SIMULATE EACH 50h OBSERVATION
-            filename = 'events_'+'LMC_'+modelname+'_'+str(duration/3600)+'h_'+'0'+str(number)+'.fits'
-            eventfile = gammalib.GFilename(filename)
+            obstring = "%03d" % i
             
-            sim = ctools.ctobssim()
-            sim["inmodel"]=model
-            sim["seed"] = number+rndseed
-            sim["outevents"]=filename
-            sim["caldb"]=caldb_
-            sim["irf"]=irf_
-            sim["ra"]=ra
-            sim["dec"]=dec
-            sim["rad"]=rad
-            sim["tmin"]=tstart
-            sim["tmax"]=tstart+duration
-            sim["emin"]=emin
-            sim["emax"]=emax
-            sim["debug"]=True
-            sim.execute()
+            cntcube = PATH_OBS+"cntcube_"+"LMC_"+modelname+suf+obstring+'.fits'
+            modcube = PATH_OBS+"modcube_"+"LMC_"+modelname+suf+obstring+'.fits'
+            expcube = PATH_OBS+"expcube_"+'LMC_'+modelname+suf+obstring+'.fits'
+            psfcube = PATH_OBS+"psfcube_"+'LMC_'+modelname+suf+obstring+'.fits'
+            
+            outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
+            file = open(outfile,'w')
 
-            #STORE THE OBSERVATION IN GObservations Class and store it in the .xml output file.
-            #Allocate CTA observation
-            obs = gammalib.GCTAObservation()
-            #Set pointing direction
-            pntdir = gammalib.GSkyDir()
-            pntdir.radec_deg(ra,dec)
-
-            pnt = gammalib.GCTAPointing()
-            pnt.dir(pntdir)
-            obs.pointing(pnt)
-
-            #Set ROI
-
-            roi = gammalib.GCTARoi()
-            instdir = gammalib.GCTAInstDir()
-            instdir.dir(pntdir)
-            roi.centre(instdir)
-            roi.radius(rad)
-
-            #Set GTI
+            #_______________________________________________
     
-            gti = gammalib.GGti()
-            start = gammalib.GTime(tstart)
-            stop = gammalib.GTime(tstart+duration)
-            gti.append(start,stop)
-
-            #Set Energy Boundaries
-            ebounds = gammalib.GEbounds()
-            e_min = gammalib.GEnergy(emin,'TeV')
-            e_max = gammalib.GEnergy(emax,'TeV')
-            ebounds.append(e_min,e_max)
+            Obs_list = gammalib.GObservations()
+            xml = gammalib.GXml(outfile)
             
-            #Allocate event list
-            events = gammalib.GCTAEventList(eventfile)
-            obs.eventfile(eventfile)
-            events.roi(roi)
-            events.gti(gti)
-            events.ebounds(ebounds)
-            obs.events(events)
-
-            #Set instrument response
-            obs.response(irf,caldb)
+            rndseed = random.randint(1,300000)
+            number = 1
             
-            #Set ontime, livetime, and deadtime correction factor
-            obs.ontime(duration)
-            obs.livetime(duration*deadc)
-            obs.deadc(deadc)
+            for ra in ra_list:
+                
+                dec = dec_list[number-1]
+                # SIMULATE EACH 50h OBSERVATION
+                filename = 'events_'+'LMC_'+modelname+'_'+str(duration/3600)+'h_'+'0'+str(number)+'.fits'
+                eventfile = gammalib.GFilename(filename)
+                
+                sim = ctools.ctobssim()
+                sim["inmodel"]=model
+                sim["seed"] = number+rndseed
+                sim["outevents"]=filename
+                sim["caldb"]=caldb_
+                sim["irf"]=irf_
+                sim["ra"]=ra
+                sim["dec"]=dec
+                sim["rad"]=rad
+                sim["tmin"]=tstart
+                sim["tmax"]=tstart+duration
+                sim["emin"]=emin
+                sim["emax"]=emax
+                sim["debug"]=True
+                sim.execute()
 
-            obs.id(str(number))
-            obs.name('events_'+'LMC_'+modelname+'_'+str(duration/3600)+'h'+'_'+str(number))
+                #STORE THE OBSERVATION IN GObservations Class and store it in the .xml output file.
+                #Allocate CTA observation
+                obs = gammalib.GCTAObservation()
+                #Set pointing direction
+                pntdir = gammalib.GSkyDir()
+                pntdir.radec_deg(ra,dec)
+                
+                pnt = gammalib.GCTAPointing()
+                pnt.dir(pntdir)
+                obs.pointing(pnt)
+                
+                #Set ROI
+                
+                roi = gammalib.GCTARoi()
+                instdir = gammalib.GCTAInstDir()
+                instdir.dir(pntdir)
+                roi.centre(instdir)
+                roi.radius(rad)
+                
+                #Set GTI
+                
+                gti = gammalib.GGti()
+                start = gammalib.GTime(tstart)
+                stop = gammalib.GTime(tstart+duration)
+                gti.append(start,stop)
+
+                #Set Energy Boundaries
+                ebounds = gammalib.GEbounds()
+                e_min = gammalib.GEnergy(emin,'TeV')
+                e_max = gammalib.GEnergy(emax,'TeV')
+                ebounds.append(e_min,e_max)
+                
+                #Allocate event list
+                events = gammalib.GCTAEventList(eventfile)
+                obs.eventfile(eventfile)
+                events.roi(roi)
+                events.gti(gti)
+                events.ebounds(ebounds)
+                obs.events(events)
+
+                #Set instrument response
+                obs.response(irf,caldb)
+                
+                #Set ontime, livetime, and deadtime correction factor
+                obs.ontime(duration)
+                obs.livetime(duration*deadc)
+                obs.deadc(deadc)
+
+                obs.id(str(number))
+                obs.name('events_'+'LMC_'+modelname+'_'+str(duration/3600)+'h'+'_'+str(number))
 
             
-            Obs_list.append(obs)
+                Obs_list.append(obs)
 
-            number=number+1
+                number=number+1
 
-        Obs_list.models(model)
-        Obs_list.save(outfile)
+            Obs_list.models(model)
+            Obs_list.save(outfile)
 
-        for src_dir,dirs,files in os.walk(PATH_HERE):
-            dst_dir = PATH_OBS
-            if not os.path.exists(dst_dir):
-                os.makedirs(dst_dir)
-            for file in files:
-                src_file = os.path.join(PATH_HERE,file)
-                dst_file = os.path.join(PATH_OBS,file)
-                if file.endswith('.fits'):
-                    if os.path.exists(dst_file):
-                        os.remove(dst_file)
-                    shutil.move(src_file,PATH_OBS)
+            for src_dir,dirs,files in os.walk(PATH_HERE):
+                dst_dir = PATH_OBS
+                if not os.path.exists(dst_dir):
+                    os.makedirs(dst_dir)
+                for file in files:
+                    src_file = os.path.join(PATH_HERE,file)
+                    dst_file = os.path.join(PATH_OBS,file)
+                    if file.endswith('.fits'):
+                        if os.path.exists(dst_file):
+                            os.remove(dst_file)
+                        shutil.move(src_file,PATH_OBS)
 
 
         
-        # BIN THE DATA
-        binn = ctools.ctbin()
-        binn["inobs"]=outfile
-        binn["outcube"]=cntcube
-        binn["coordsys"] = "CEL"
-        binn["proj"] = "CAR"
-        binn["ebinalg"] = "LOG"
-        binn["xref"]=centerx
-        binn["yref"]=centery
-        binn["nxpix"] = nxpix
-        binn["nypix"] = nypix
-        binn["binsz"] = binsz
-        binn["enumbins"] = enumbins
-        binn["emin"]=emin
-        binn["emax"]=emax
-        binn["debug"]=True
-        binn.execute()
+            # BIN THE DATA
+            binn = ctools.ctbin()
+            binn["inobs"]=outfile
+            binn["outcube"]=cntcube
+            binn["coordsys"] = "CEL"
+            binn["proj"] = "CAR"
+            binn["ebinalg"] = "LOG"
+            binn["xref"]=centerx
+            binn["yref"]=centery
+            binn["nxpix"] = nxpix
+            binn["nypix"] = nypix
+            binn["binsz"] = binsz
+            binn["enumbins"] = enumbins
+            binn["emin"]=emin
+            binn["emax"]=emax
+            binn["debug"]=True
+            binn.execute()
 
-        #PRODUCE MODELCUBE
-        mod = ctools.ctmodel()
-        mod["inobs"]= outfile
-        mod["inmodel"]= model
-        mod["outcube"] = modcube
-        mod["incube"] = cntcube
-        mod["expcube"] = "NONE" 
-        mod["psfcube"] = "NONE"
-        mod["bkgcube"] = "NONE"
-        mod["caldb"]=caldb_
-        mod["irf"]=irf_
-        mod["debug"]=True
-        mod.execute()
+            if i==0:
+                exp = ctools.ctexpcube()
+                exp["inobs"] = outfile
+                exp["incube"] = cntcube
+                exp["caldb"]=caldb_
+                exp["irf"]=irf_
+                exp["outcube"] = expcube 
+                exp["debug"]=True 
+                exp.execute()
+                
+                psf = ctools.ctpsfcube()
+                psf["inobs"] = outfile
+                psf["incube"] = cntcube
+                psf["caldb"]=caldb_
+                psf["irf"]=irf_
+                psf["outcube"] = psfcube 
+                psf["debug"]=True 
+                psf.execute()
+
+                #PRODUCE MODELCUBE
+                mod = ctools.ctmodel()
+                mod["inobs"]= outfile
+                mod["inmodel"]= model
+                mod["outcube"] = modcube
+                mod["incube"] = cntcube
+                mod["expcube"] = expcube 
+                mod["psfcube"] = psfcube
+                mod["bkgcube"] = "NONE"
+                mod["caldb"]=caldb_
+                mod["irf"]=irf_
+                mod["debug"]=True
+                mod.execute()
+                

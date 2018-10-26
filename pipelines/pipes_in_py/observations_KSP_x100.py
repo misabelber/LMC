@@ -50,7 +50,7 @@ irf_ = 'South_z40_average_50h'
 
 debug = True
 
-Component = 'Irf+CR+DiffuseSources+PS' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
+Component = 'Leptonic' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
 PATH_HERE = "../pipes_in_py" #Path where we are running
@@ -61,7 +61,7 @@ if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create 
 
 #Set Filenames wisely:
 
-suf = "_KSP_100GeV-100TeV"
+suf = "functions_KSP_100GeV-100TeV"
 input_model = PATH_MODEL+'LMC_'+Component+'.xml' 
 
 outfile = PATH_OBS+'observations_'+'LMC_'+Component+'_'+'.xml' #List of Observations file that will be produced ('.xml')
@@ -71,9 +71,9 @@ file = open(outfile,'w')
 rndseed = random.randint(1,300000)
 
 
-NObs = 2
+NObs = 300
 
-for i in range(0,NObs):
+for i in range(20,NObs):
 
     Obs_list = gammalib.GObservations()
     xml = gammalib.GXml(outfile)
@@ -205,47 +205,47 @@ for i in range(0,NObs):
     binn["debug"]=True
     binn.execute()
     
-    #Pre-comute the binned response
-    
-    exp = ctools.ctexpcube()
-    exp["inobs"] = outfile
-    exp["incube"] = cntcube
-    exp["caldb"]=caldb_
-    exp["irf"]=irf_
-    exp["outcube"] = expcube 
-    exp["debug"]=True 
-    exp.execute()
-    
-    psf = ctools.ctpsfcube()
-    psf["inobs"] = outfile
-    psf["incube"] = cntcube
-    psf["caldb"]=caldb_
-    psf["irf"]=irf_
-    psf["outcube"] = psfcube 
-    psf["debug"]=True 
-    psf.execute()
-    
-    bkg = ctools.ctbkgcube()
-    bkg["inobs"] = outfile
-    bkg["incube"] = cntcube
-    bkg["caldb"]=caldb_
-    bkg["irf"]=irf_
-    bkg["inmodel"]= input_mode
-    bkg["outcube"] = bkgcube
-    bkg["outmodel"] = bkgmodel
-    bkg["debug"]=True 
-    bkg.execute()
-    
-
     if i==0:
+        
+        #Pre-comute the binned response
+    
+        exp = ctools.ctexpcube()
+        exp["inobs"] = outfile
+        exp["incube"] = cntcube
+        exp["caldb"]=caldb_
+        exp["irf"]=irf_
+        exp["outcube"] = expcube 
+        exp["debug"]=True 
+        exp.execute()
+    
+        psf = ctools.ctpsfcube()
+        psf["inobs"] = outfile
+        psf["incube"] = cntcube
+        psf["caldb"]=caldb_
+        psf["irf"]=irf_
+        psf["outcube"] = psfcube 
+        psf["debug"]=True 
+        psf.execute()
+    
+        bkg = ctools.ctbkgcube()
+        bkg["inobs"] = outfile
+        bkg["incube"] = cntcube
+        bkg["caldb"]=caldb_
+        bkg["irf"]=irf_
+        bkg["inmodel"]= input_model
+        bkg["outcube"] = bkgcube
+        bkg["outmodel"] = bkgmodel
+        bkg["debug"]=True 
+        #bkg.execute()
+    
         #PRODUCE MODELCUBE
         mod = ctools.ctmodel()
         mod["inobs"]= outfile
         mod["inmodel"]= input_model
         mod["outcube"] = modcube
         mod["incube"] = cntcube
-        mod["expcube"] = "NONE" 
-        mod["psfcube"] = "NONE"
+        mod["expcube"] = expcube 
+        mod["psfcube"] = psfcube
         mod["bkgcube"] = "NONE"
         mod["caldb"]=caldb_
         mod["irf"]=irf_

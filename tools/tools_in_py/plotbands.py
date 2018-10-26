@@ -60,7 +60,7 @@ def plotbands(filepath, masses, particle,suf, bestCase=True, tol=0.01):
         mean   = np.mean(limits)
         std    = np.std(limits)
         # Plot mean and standard deviation
-        print mean/3e-26, "  ", std
+        print(mean/3e-26, "  ", std)
 
         meanlimit[i] = mean;
         # 95% containment bands
@@ -70,7 +70,9 @@ def plotbands(filepath, masses, particle,suf, bestCase=True, tol=0.01):
         # Thermal averaged cross section
         thermalX[i]  = 3e-26
         
-    fig, ax = plt.subplots()
+    #fig, ax = plt.subplots()
+    
+    """
     # Plot mean constraint line
     ax.plot(masses, meanlimit, lw=2., color="k", label="Mean Expected")
     # Plot 95% containment band
@@ -82,25 +84,59 @@ def plotbands(filepath, masses, particle,suf, bestCase=True, tol=0.01):
     # Plot thermal average annihilation cross section
     ax.axhline(3e-26, color="red", ls="--", 
                label="Thermal $\\langle\\sigma v \\rangle$")
+    
     ax.set_yscale("log")
     ax.set_xscale("log")
     ax.set_ylabel("$\\langle\\sigma v \\rangle$ $\\rm [cm^3s^{-1}]$")
     ax.set_xlabel("DM mass [TeV]")
     ax.grid(True, which="both", ls="--", alpha=0.5)
     ax.legend(frameon=False)
-    plt.show()
+    """
+    # Plot mean constraint line
+    plt.plot(masses, meanlimit, lw=2., color="k", label="Mean Expected")
+    # Plot 95% containment band
+    plt.fill_between(masses, meanlimit-sstdevs, meanlimit+sstdevs, 
+                    color="#FFFF33", alpha=0.7, label="95$\%$ containment")
+    # Plot 84% containment band
+    plt.fill_between(masses, meanlimit-sstdevs2, meanlimit+sstdevs2, 
+                    color="#00CC33", alpha=0.7, label="84$\%$ containment")
+    # Plot thermal average annihilation cross section
+    plt.axhline(3e-26, color="red", ls="--", 
+               label="Thermal $\\langle\\sigma v \\rangle$")
+        
+    #plt.show()
 
 # ======================== #
 # Main routine entry point #
 # ======================== #
 if __name__ == '__main__':
     # DM masses
-    masses           = [0.100,0.200,0.500, 1, 5, 10, 50, 100]
+    #masses           = [0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
+    masses           = [0.2,0.5,1,2,4,5,7,10,40,50,100]
     # Annihilated final particle
     particle         = "W";
     # Filepath to results
     filepath_to_here = os.getcwd()
     filepath         = filepath_to_here + "/../../results/"
-    suf = ""
+    suf = "_poisson"
     # Call plotbands function
     plotbands(filepath, masses, particle, suf,False)
+
+
+#    masses           = [0.2,0.5,1,10,40,50,100]
+    # Annihilated final particle
+    particle         = "b";
+    # Filepath to results
+    filepath_to_here = os.getcwd()
+    filepath         = filepath_to_here + "/../../results/"
+    suf = "_poisson"
+    # Call plotbands function
+    plt.legend(frameon=False)
+    plotbands(filepath, masses, particle, suf,False)
+    plt.yscale("log")
+    plt.xscale("log")
+    plt.ylabel("$\\langle\\sigma v \\rangle$ $\\rm [cm^3s^{-1}]$")
+    plt.xlabel("DM mass [TeV]")
+    plt.grid(True, which="both", ls="--", alpha=0.5)
+
+    plt.show()

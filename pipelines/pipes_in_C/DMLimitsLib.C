@@ -52,7 +52,6 @@ void ReadFits()
 Number ReadFits(VM &data,
 		TString filename)
 {
-  //cout << filename << endl;
   data.clear();
   //Open the model component fits file
   TFITSHDU *hdu =  new TFITSHDU(filename);
@@ -521,7 +520,7 @@ Number My_Minimizer(V &Kpars,
   
   //gRandom          -> SetSeed(0); 
   V K_0            = Kpars;
-  int niter        = 200;
+  int niter        = 600;
   V x; 
   x                = Kpars;
   
@@ -890,7 +889,7 @@ Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number n
   
   Number sign = 1;
   if (Kpars[which_goal] < 0) sign=-1;
-  Number goal_step = sign*1000.;
+  Number goal_step = sign*3000.;
     
   V K; init(K,Kpars.size());
   
@@ -969,7 +968,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
   
   Number maxlogL = logL(Kpars,firstebin,nebins);
   
-  int npoints = 25; 
+  int npoints = 50; 
 
   for (int comp1=0; comp1<1/*Nbar+1*/; comp1++)
     {

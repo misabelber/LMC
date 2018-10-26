@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<source_library title="Source Library">
+  <source  name="3FHL J0500.9-6945e" type="DiffuseSource"  tscalc="1">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor"   scale="1e-15" value="1.518"  min="1e-07" max="1000.0" free="1"/>
+      <parameter name="Index"       scale="-1"    value="1.9123" min="0.0"   max="+5.0"   free="1"/>
+      <parameter name="PivotEnergy" scale="1e3"   value="17.229"  min="0.01"  max="1000.0" free="0"/>
+    </spectrum>
+    <spatialModel file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-FarWest.fits" map_based_integral="true" type="SpatialMap">
+      <parameter free="0" max="1" min="1" name="Prefactor" scale="1" value="1"/>
+    </spatialModel>
+  </source>
+</source_library>

@@ -33,7 +33,7 @@ if __name__ == '__main__':
     particle = "W"
     path = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/"
     #suf              ="_KSP_100GeV-100TeVisomean"    
-    suf = ["_KSP_100GeV-100TeV","_KSP_100GeV-100TeVgamma1.5","_KSP_100GeV-100TeVisomean","_KSP_100GeV-100TeVisomin"]
+    suf = ["_KSP_100GeV-100TeV","_KSP_100GeV-100TeVgamma0.5","_KSP_100GeV-100TeVgamma1.5","_KSP_100GeV-100TeVisomean","_KSP_100GeV-100TeVisomin","_KSP_100GeV-100TeVisomax"]
     '''
     filename         =["Limits"+particle[0]+suf+".dat",
                        "Limits"+particle[1]+suf+".dat",
@@ -48,20 +48,22 @@ if __name__ == '__main__':
     filename         =["Limits"+particle+suf[0]+".dat",
                        "Limits"+particle+suf[1]+".dat",
                        "Limits"+particle+suf[2]+".dat",
-                       "Limits"+particle+suf[3]+".dat",];
+                       "Limits"+particle+suf[3]+".dat",
+                       "Limits"+particle+suf[4]+".dat",
+                       "Limits"+particle+suf[5]+".dat"];
 
     
 #    case             =["$W^{+}W^{-}$","$b\overline{b}$",r"$\mu^{+}\mu^{-}$",
 #                       r"$\tau^{+}\tau^{-}$",r"$e^{+}e^{-}$","gg","$Z^{+}Z^{-}$","$t\overline{t}$"]
-    case             =["NFW","gamma=1.5","Isothermal(mean)","Isothermal(min)"]
+    case             =["NFW","gamma=0.5","gamma=1.5","Isothermal(mean)","Isothermal(min)","Isothermal(max)"]
     #case             =["Full spectra","Cut 500GeV","Cut 1TeV"]
     # Call plot function
     plot_Limits(path+filename[0],case[0],True)
     plot_Limits(path+filename[1],case[1],False)
     plot_Limits(path+filename[2],case[2],False)
     plot_Limits(path+filename[3],case[3],False)
-    #plot_Limits(path+filename[4],case[4],False)
-    #plot_Limits(path+filename[5],case[5],False)
+    plot_Limits(path+filename[4],case[4],False)
+    plot_Limits(path+filename[5],case[5],False)
     #plot_Limits(path+filename[6],case[6],False)
     #plot_Limits(path+filename[7],case[7],False)
     plt.xscale('log')

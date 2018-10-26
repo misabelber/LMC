@@ -52,7 +52,7 @@ void ReadFits()
 Number ReadFits(VM &data,
               TString filename)
 {
- 
+  // cout << filename << endl; 
   data.clear();
   //Open the model component fits file
   TFITSHDU *hdu =  new TFITSHDU(filename);
@@ -546,7 +546,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
   
   int npoints = 100; 
 
-  for (int comp1=0; comp1<1/*Nbar*/; comp1++)
+  for (int comp1=0; comp1<3/*Nbar*/; comp1++)
     {
       for (int comp2=comp1; comp2<Nbar; comp2++)
         {
@@ -576,7 +576,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
         }
     }
   cout << "PLEASE, CHECK THAT PLOTS ARE CORRECT!" << endl;  
-  for (int comp1=0; comp1<1/*Nbar*/; comp1++)
+  for (int comp1=0; comp1<3/*Nbar*/; comp1++)
     {
       for (int comp2=comp1; comp2<Nbar; comp2++)
 	{

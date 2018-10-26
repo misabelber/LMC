@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<source_library title="source library">
+  <source name="J0535-691" type="PointSource" tscalc="1">
+    <spectrum type="SuperExponentialCutoffPowerLaw">
+      <parameter name="Prefactor"    scale="1e-18" value="0.16" min="1e-07" max="1000.0" free="1"/>
+      <parameter name="Index1"       scale="-1"    value="2.6" min="0.0"   max="+5.0"   free="1"/>
+      <parameter name="CutoffEnergy" scale="1e6"   value="1.0" min="0.01"  max="1000.0" free="1"/>
+      <parameter name="Index2"       scale="-1.0"   value="3" min="0.1"   max="5.0"    free="1"/>
+      <parameter name="PivotEnergy"  scale="1e6"   value="1.0" min="0.01"  max="1000.0" free="0"/>
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="83.9583" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-69.2061" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+</source_library>

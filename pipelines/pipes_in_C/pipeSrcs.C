@@ -36,7 +36,7 @@ void RunT(){
   TString suf = "_KSP_100GeV-100TeV";
   
   FillContainer_Bkg(extended,point,suf);
-  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"01");//true: modcube,false: cntcube
+  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"020");//true: modcube,false: cntcube
   //  Ntotal = DataSim(Obs_data);
     
   V Kpars; init(Kpars,Nbar);
@@ -50,7 +50,7 @@ void RunT(){
   cout << MaxlogL << endl;                                                                 
   for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";   
   cout << endl;
-  Number steps[Nbar]={0.001,1,1,1,1,0.5,0.01,0.5,0.01,0.01,0.01,0.01,0.01,0.01,0.01};
+  Number steps[Nbar]={0.001,0.5,0.5,0.5,0.5,0.5,0.01,0.5,0.01,0.01,0.01,0.01,0.01,0.01,0.01};
   MaxlogL = My_Minimizer(Kpars,steps,tol);
   for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";                        
   cout << endl;
@@ -104,7 +104,7 @@ void TS(){
 			"J0535-691",
 			"J0525-696"};
   TString suf = "_KSP_100GeV-100TeV";
-  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"099");  
+  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"010");  
   FillContainer_Bkg(extended,point,suf);
   //Ntotal = DataSim(Obs_data);
   V Kpars; init(Kpars,Nbar);
@@ -114,7 +114,9 @@ void TS(){
   //MaxlogL = Conjugate_Gradients(Kpars);
   MaxlogL = calc_MaxlogL(Kpars,steps,tol);
   cout <<"MaxlogL: " << "  " <<  MaxlogL << endl;
-  
+  for(int i=0; i<Nbar; i++)  cout << Kpars[i] << "  ";
+  cout << endl;
+
   vector<TString> extended_;
   vector<TString>  point_;
   
@@ -159,7 +161,7 @@ void TS(){
     Number tol=HUGE_VAL;
     //Number NullogL = Conjugate_Gradients(Kpars);
     Number NullogL = calc_MaxlogL(Kpars,new_steps);
-    cout << MaxlogL << "  " << NullogL << endl;
+    //cout << MaxlogL << "  " << NullogL << endl;
     cout << "Source: " << point[i] << "  TS: " << 2*fabs(MaxlogL-NullogL) << "  " << sqrt(2*fabs(MaxlogL-NullogL))<< endl;
     //for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";
     //cout << endl;

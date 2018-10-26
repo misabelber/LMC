@@ -17,13 +17,13 @@ psfcube = PATH_OBS+"psfcube_"+'LMC_'+Component+suf+'.fits'
 bkgcube = PATH_OBS+"bkgcube_"+'LMC_'+Component+suf+'.fits'
 bkgmodel = PATH_OBS+"bkgmodel_"+'LMC_'+Component+suf+'.xml'
 
-NObs = 6
+NObs = 100
 
 #f = open("TSresults.txt","w")
 f = open("TSresults.txt","a")
 f.write("\n")
 
-for i in range(5,NObs):
+for i in range(6,NObs):
 
     obstring = "%03d" % i
     cntcube = PATH_OBS+"cntcube_"+'LMC_'+Component+suf+obstring+'.fits'
