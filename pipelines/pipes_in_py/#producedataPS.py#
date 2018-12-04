@@ -68,7 +68,6 @@ for model in models:
         model = PATH_MODEL+'LMC_'+modelname+"_functions.xml"
         suf = "functions_KSP_100GeV-100TeV"
 
-        outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
         rndseed = random.randint(1,300000)
 
         for i in range(0,NObs):
@@ -79,6 +78,7 @@ for model in models:
             modcube = PATH_OBS+"modcube_"+"LMC_"+modelname+suf+obstring+'.fits'
             expcube = PATH_OBS+"expcube_"+'LMC_'+modelname+suf+obstring+'.fits'
             psfcube = PATH_OBS+"psfcube_"+'LMC_'+modelname+suf+obstring+'.fits'
+            
 
             file = open(outfile,'w')
 

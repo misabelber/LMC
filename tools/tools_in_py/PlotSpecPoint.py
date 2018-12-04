@@ -22,9 +22,7 @@ def plot_Spectra(filename,case,marker):
 # ======================== #
 # Main routine entry point #
 # ======================== #
-if __name__ == '__main__':
-    # Filepath to results
-    path = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/"
+
 
     sourcename = ["J0537-691",
                   "J0524.5-6937",          
@@ -47,4 +45,3 @@ if __name__ == '__main__':
         #plt.title("$\mu\overline{\mu}$ annihilation channel")
         plt.legend()
     plt.show()
-        

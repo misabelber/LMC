@@ -19,7 +19,7 @@ OUT_PATH = "../../spectra/DM/"
 
 filename = 'AtProduction_gammas.dat'
 
-finalstate = "W"  # choose particle W, b, etc
+finalstate = "b"  # choose particle W, b, etc
 
 with open(filename) as f:
     lines = (line for line in f if not line.startswith('#'))
@@ -80,7 +80,7 @@ for mass in masses:
     extravals = 10**np.linspace(-8.9,0,10000) 
 
     vector=[]
-    for x in np.nditer(extravals):
+    for x in np.nditer(xvals):
         vector.append(x)
     
         # dN/dE  = dNdx(x)/mass
@@ -95,8 +95,8 @@ for mass in masses:
     #OPTION 1: ADD ZEROS
     
     with foutfinal as fff:
-        #for x in vector[118:179]:
-        for x in vector:
+        for x in vector[118:179]:
+        #for x in vector:
             #for x in vector[119:180]:
             if x*mass*GeVtoMeV > 99999.:
                 print >> fff, x*mass*GeVtoMeV, dNdx(x)/mass/mass/mass/GeVtoMeV/8./3.14*sv*jfactor 

@@ -33,10 +33,10 @@ void RunT(){
                         "J0535-691",
 			"J0525-696"};
 
-  TString suf = "_KSP_100GeV-100TeV";
+  TString suf = "_functions_KSP_100GeV-100TeV";
   
   FillContainer_Bkg(extended,point,suf);
-  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"020");//true: modcube,false: cntcube
+  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf);//true: modcube,false: cntcube
   //  Ntotal = DataSim(Obs_data);
     
   V Kpars; init(Kpars,Nbar);
@@ -50,14 +50,14 @@ void RunT(){
   cout << MaxlogL << endl;                                                                 
   for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";   
   cout << endl;
-  Number steps[Nbar]={0.001,0.5,0.5,0.5,0.5,0.5,0.01,0.5,0.01,0.01,0.01,0.01,0.01,0.01,0.01};
+  Number steps[Nbar]={0.001,0.1,0.1,0.1,0.1,0.1,0.01,0.5,0.005,0.01,0.01,0.01,0.01,0.01,0.01};
   MaxlogL = My_Minimizer(Kpars,steps,tol);
   for (int ii=0; ii<Nbar; ii++) cout << Kpars[ii] << "  ";                        
   cout << endl;
   
   Number intervals[Nbar] = {0.00025,
+			    0.2,
 			    0.25,
-			    0.5,
 			    0.02,
 			    0.06,
 			    0.015,
@@ -103,8 +103,8 @@ void TS(){
 			"J0537.0-7113",
 			"J0535-691",
 			"J0525-696"};
-  TString suf = "_KSP_100GeV-100TeV";
-  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf+"010");  
+  TString suf = "_functions_KSP_100GeV-100TeV";
+  FillContainer_Obs("Irf+CR+DiffuseSources+PS",false,suf);  
   FillContainer_Bkg(extended,point,suf);
   //Ntotal = DataSim(Obs_data);
   V Kpars; init(Kpars,Nbar);

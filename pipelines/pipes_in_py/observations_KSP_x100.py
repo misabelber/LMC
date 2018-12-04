@@ -50,7 +50,7 @@ irf_ = 'South_z40_average_50h'
 
 debug = True
 
-Component = 'Leptonic' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
+Component = 'Irf+CR+DiffuseSources+PS' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
 PATH_HERE = "../pipes_in_py" #Path where we are running
@@ -61,7 +61,7 @@ if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create 
 
 #Set Filenames wisely:
 
-suf = "functions_KSP_100GeV-100TeV"
+suf = "_functions_KSP_100GeV-100TeV"
 input_model = PATH_MODEL+'LMC_'+Component+'.xml' 
 
 outfile = PATH_OBS+'observations_'+'LMC_'+Component+'_'+'.xml' #List of Observations file that will be produced ('.xml')
@@ -73,7 +73,7 @@ rndseed = random.randint(1,300000)
 
 NObs = 300
 
-for i in range(20,NObs):
+for i in range(166,NObs):
 
     Obs_list = gammalib.GObservations()
     xml = gammalib.GXml(outfile)

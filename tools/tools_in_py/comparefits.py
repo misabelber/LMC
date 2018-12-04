@@ -42,9 +42,9 @@ if __name__ == '__main__':
     
     for i in range(0,20):
         obstring = "%03d" % i
-        newcntcube = fits.open(filecntcube+obstring+'.fits')[0].data
-        cntcube = cntcube+newcntcube
-    
+        newcntcube = np.array(fits.open(filecntcube+obstring+'.fits')[0].data)
+        cntcube = np.array(cntcube+newcntcube)
+ 
     cntcube = cntcube/20
             
     #residuals = np.sqrt(((cntcube-modcube)/np.sqrt(modcube+0.5))**2)

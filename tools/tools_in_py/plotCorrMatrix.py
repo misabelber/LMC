@@ -2,7 +2,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib import cm as cm
 
-dat = pd.read_table("/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/CMatrix_rebin_0.1x100_Pointin5deg_OnlyExtended.dat",sep=" ")
+dat = pd.read_table("/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/CMatrix_modelHM.dat",sep=" ")
 
 fig = plt.figure()
 ax1 = fig.add_subplot(111)

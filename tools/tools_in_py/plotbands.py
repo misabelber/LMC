@@ -112,31 +112,38 @@ def plotbands(filepath, masses, particle,suf, bestCase=True, tol=0.01):
 if __name__ == '__main__':
     # DM masses
     #masses           = [0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
-    masses           = [0.2,0.5,1,2,4,5,7,10,40,50,100]
+    #masses           = [0.2,0.5,1,2,5,10,20,50,100]
+    masses           = [0.2,0.5,1,5,10,50,100]
     # Annihilated final particle
-    particle         = "W";
+    particle         = "Tau";
     # Filepath to results
     filepath_to_here = os.getcwd()
     filepath         = filepath_to_here + "/../../results/"
-    suf = "_poisson"
+    suf = "_modelHM"
     # Call plotbands function
     plotbands(filepath, masses, particle, suf,False)
-
-
-#    masses           = [0.2,0.5,1,10,40,50,100]
+    #plt.title("$W^{+}W^{-}$ annihilation channel")
+    #plt.title("$b\overline{b}$ annihilation channel")
+    plt.title(r"$\tau\overline{\tau}$ annihilation channel")
+    
+    """
+    masses           = [0.2,0.5,1,5,10,50,100]
     # Annihilated final particle
     particle         = "b";
     # Filepath to results
     filepath_to_here = os.getcwd()
     filepath         = filepath_to_here + "/../../results/"
-    suf = "_poisson"
+    suf = "_modelHM"
     # Call plotbands function
     plt.legend(frameon=False)
     plotbands(filepath, masses, particle, suf,False)
+    """ 
     plt.yscale("log")
     plt.xscale("log")
     plt.ylabel("$\\langle\\sigma v \\rangle$ $\\rm [cm^3s^{-1}]$")
     plt.xlabel("DM mass [TeV]")
+    plt.legend(frameon=False)
     plt.grid(True, which="both", ls="--", alpha=0.5)
-
     plt.show()
+
+

@@ -52,6 +52,7 @@ void ReadFits()
 Number ReadFits(VM &data,
 		TString filename)
 {
+  //cout << filename << endl;
   data.clear();
   //Open the model component fits file
   TFITSHDU *hdu =  new TFITSHDU(filename);
@@ -109,7 +110,8 @@ void FillContainer_Bkg(TString ext[], TString ps[], TString suf)
   for (int i=0; i<N_ext; i++)
     {
       if (N_ext==0) break;
-      TString filename = dir + ext[i] + "/modcube_LMC_" + ext[i] + suf + ".fits";
+      TString filename = dir + ext[i] + "/Model_" + ext[i] + suf + ".fits";
+      //TString filename = dir + ext[i] + "/modcube_LMC_" + ext[i] + suf + ".fits";
       VM data;
       N_bkg.push_back(ReadFits(data,filename));
       Bkg_model.push_back(data);
@@ -118,7 +120,8 @@ void FillContainer_Bkg(TString ext[], TString ps[], TString suf)
   for (int i=0; i<N_ps; i++)
     {
       if (N_ps==0) break;
-      TString filename =  dir_PS + "/modcube_LMC_" + ps[i] + suf + ".fits";
+      //TString filename =  dir_PS + "/modcube_LMC_" + ps[i] + suf + ".fits";
+      TString filename =  dir_PS + "/Model_" + ps[i] + suf + ".fits";
       VM data;
       N_bkg.push_back(ReadFits(data,filename));
       Bkg_model.push_back(data);
@@ -182,7 +185,7 @@ void FillContainer_Obs(TString obsname, bool modcube, TString suf)
   TString filename;
   if (modcube)
     {
-      filename = dir + obsname + "/modcube_LMC_" + obsname + suf + ".fits";
+      filename = dir + obsname + "/Model_" + obsname + suf + ".fits";
     }
   else
     {
@@ -520,7 +523,7 @@ Number My_Minimizer(V &Kpars,
   
   //gRandom          -> SetSeed(0); 
   V K_0            = Kpars;
-  int niter        = 600;
+  int niter        = 1000;
   V x; 
   x                = Kpars;
   
@@ -889,7 +892,7 @@ Number Upper_Function(V Kpars,const int which_goal,const int which_nuis,Number n
   
   Number sign = 1;
   if (Kpars[which_goal] < 0) sign=-1;
-  Number goal_step = sign*3000.;
+  Number goal_step = sign*2000.;
     
   V K; init(K,Kpars.size());
   
@@ -968,7 +971,7 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
   
   Number maxlogL = logL(Kpars,firstebin,nebins);
   
-  int npoints = 50; 
+  int npoints = 100; 
 
   for (int comp1=0; comp1<1/*Nbar+1*/; comp1++)
     {

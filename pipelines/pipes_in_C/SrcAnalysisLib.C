@@ -52,7 +52,7 @@ void ReadFits()
 Number ReadFits(VM &data,
               TString filename)
 {
-  // cout << filename << endl; 
+  //cout << filename << endl; 
   data.clear();
   //Open the model component fits file
   TFITSHDU *hdu =  new TFITSHDU(filename);
@@ -110,7 +110,7 @@ void FillContainer_Bkg(TString ext[], TString ps[], TString suf)
   for (int i=0; i<N_ext; i++)
     {
       if (N_ext==0) break;
-      TString filename = dir + ext[i] + "/modcube_LMC_" + ext[i] + suf + ".fits";
+      TString filename = dir + ext[i] + "/Model_" + ext[i] + suf + ".fits";
       VM data;
       N_bkg.push_back(ReadFits(data,filename));
       Bkg_model.push_back(data);
@@ -119,7 +119,7 @@ void FillContainer_Bkg(TString ext[], TString ps[], TString suf)
   for (int i=0; i<N_ps; i++)
     {
       if (N_ps==0) break;
-      TString filename =  dir_PS + "/modcube_LMC_" + ps[i] + suf + ".fits";
+      TString filename =  dir_PS + "/Model_" + ps[i] + suf + ".fits";
       VM data;
       N_bkg.push_back(ReadFits(data,filename));
       Bkg_model.push_back(data);
@@ -141,11 +141,11 @@ void FillContainer_Obs(TString obsname, bool modcube, TString suf)
   TString filename;
   if (modcube)
     {
-      filename = dir + obsname + "/modcube_LMC_" + obsname + suf + ".fits";
+      filename = dir + obsname + "/Model_" + obsname + suf + ".fits";
     }
   else
     {
-      filename = dir + obsname + "/cntcube_LMC_" + obsname + suf + ".fits";     
+      filename = dir + obsname + "/Model_" + obsname + suf + ".fits";     
     }
   Ntotal = ReadFits(Obs_data,filename);
   
@@ -463,7 +463,7 @@ Number My_Minimizer(V &Kpars,
   
   gRandom          -> SetSeed(0); 
   V K_0            = Kpars;
-  int niter        = 300;
+  int niter        = 500;
   V x; 
   x                = Kpars;
   // Each baryonic sources is optimized for varying within a given range
@@ -546,9 +546,9 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
   
   int npoints = 100; 
 
-  for (int comp1=0; comp1<3/*Nbar*/; comp1++)
+  for (int comp1=0; comp1<6/*Nbar*/; comp1++)
     {
-      for (int comp2=comp1; comp2<Nbar; comp2++)
+      for (int comp2=comp1; comp2<6/*Nbar*/; comp2++)
         {
 	  V K = Kpars;
 	  Number step1 = intervals[comp1];
@@ -576,9 +576,10 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
         }
     }
   cout << "PLEASE, CHECK THAT PLOTS ARE CORRECT!" << endl;  
-  for (int comp1=0; comp1<3/*Nbar*/; comp1++)
+  for (int comp1=0; comp1<6/*Nbar*/; comp1++)
     {
-      for (int comp2=comp1; comp2<Nbar; comp2++)
+      Cfactors.clear();
+      for (int comp2=comp1; comp2<6/*Nbar*/; comp2++)
 	{
 	  if (comp1==comp2)
 	    {
@@ -595,23 +596,22 @@ void calc_CorrFactors(V Kpars, Number intervals[], V &Cfactors, TNtuple* &ParSpa
 	  h_cor -> SetMaximum(maxlogL);
 	  h_cor -> Fit(&f,"Q");
 	  
-	  Number cfactor = f.GetParameter(2)/sqrt(fabs(f.GetParameter(0)*f.GetParameter(1)));
-	  
+	    Number cfactor = f.GetParameter(2)/sqrt(fabs(f.GetParameter(0)*f.GetParameter(1)));
 	  
 	  Cfactors.push_back(cfactor);
 	  
+	  cout << "Correlation Factors: ";
+	  for (int ii=0; ii<Nbar; ii++) 
+	    {
+	      cout << Cfactors[ii] << "  ";
+	    }
+	  cout << endl;
 	  
 	  gPad->Update();
 	  gPad->Modified();
 	  gPad->WaitPrimitive();
 	}
     }
-  cout << "Correlation Factors: ";
-  for (int ii=0; ii<Nbar; ii++) 
-    {
-      cout << Cfactors[ii] << "  ";
-    }
-  cout << endl;
 }
 
 

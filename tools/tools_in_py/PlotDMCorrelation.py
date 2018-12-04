@@ -28,9 +28,9 @@ if __name__ == '__main__':
     # Filepath to results
     particle="W"
     path = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/results/"
-    filename         ="DMCorrelations_"+particle+".dat"
+    filename         ="Cfactors_b_modelHM.dat"
     
-    components = ["Irf",
+    components = ["CRBkg",
                   "Leptonic",                                                             
                   "Hadronic",                                                             
                   "3FHL_J0500.9-6945e",                                                   
@@ -44,8 +44,7 @@ if __name__ == '__main__':
                   "J0454.6-6825",                                                             
                   "J0537.0-7113",                                                             
                   "J0535-691",                                                                
-                  "J0525-696",                                                                
-                  "J0509.9-6418"]
+                  "J0525-696"]
     # Call plot function
     plot_Limits(path+filename,components,0)
     plot_Limits(path+filename,components,1)
@@ -56,7 +55,8 @@ if __name__ == '__main__':
     plt.xscale('log')
     plt.xlabel('Mass (TeV)')
     plt.ylabel('Correlation Factor')
-    plt.title("$W^{+}W^{-}$ annihilation channel")
+    #plt.title("$W^{+}W^{-}$ annihilation channel")
+    plt.title("$b\overline{b}$ annihilation channel")
     plt.legend()
     plt.show()
     plot_Limits(path+filename,components,6)
@@ -68,10 +68,10 @@ if __name__ == '__main__':
     plot_Limits(path+filename,components,12)
     plot_Limits(path+filename,components,13)
     plot_Limits(path+filename,components,14)
-    plot_Limits(path+filename,components,15)
     plt.xscale('log')
     plt.xlabel('Mass (TeV)')
     plt.ylabel('Correlation Factor')
-    plt.title("$W^{+}W^{-}$ annihilation channel")
+    #plt.title("$W^{+}W^{-}$ annihilation channel")
+    plt.title("$b\overline{b}$ annihilation channel")
     plt.legend()
     plt.show()
