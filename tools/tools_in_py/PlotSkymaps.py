@@ -51,14 +51,27 @@ dat = pd.read_table(filename,delim_whitespace=True)
 ax.scatter(dat['RA'],dat['dec'], transform=ax.get_transform('fk5'), s=300,
            edgecolor='white', facecolor='none',label='Point sources')
 
+for label, x, y in zip(dat['Sourcename'], dat['RA'], dat['dec']):
+
+    if label!='J0525-696' and label!='J0537-691':
+        ax.text(x-0.3,y+0.2,label,transform=ax.get_transform('fk5'),color='white')
+    else:
+        ax.text(x+4,y,label,transform=ax.get_transform('fk5'),color='white')
+
 #Plot Extended sources
 
 filename = 'extsourcespositions.txt'
 dat = pd.read_table(filename,delim_whitespace=True)
 s = (8000,4000,5000)
 
-ax.scatter(dat['RA'],dat['dec'], transform=ax.get_transform('fk5'),                                                                     
-           edgecolor='lawngreen', facecolor='none',label='Extended sources', s=s)
+ax.scatter(dat['RA'],dat['dec'], transform=ax.get_transform('fk5'),
+           edgecolor='cyan', facecolor='none',linestyle="-.",label='Extended sources', s=s)
+
+for label, x, y in zip(dat['Sourcename'], dat['RA'], dat['dec']):
+    
+        ax.text(x-0.3,y+0.2,label,transform=ax.get_transform('fk5'),color='cyan')
+    
+
 
 plt.legend(markerscale=0.2)
 plt.show()

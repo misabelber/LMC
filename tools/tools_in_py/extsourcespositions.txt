@@ -1,4 +1,4 @@
-SourcePosition RA dec
+Sourcename RA dec
 J0500.9-6945e 75.2500  -69.7500
 J0530.0-6900e 82.5000  -69.0000
 J0531.8-6639e 82.9700  -66.6500

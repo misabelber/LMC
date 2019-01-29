@@ -2,6 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+def plot_Spectra(filename,title):
+    data = np.genfromtxt(filename,unpack=True)
+    energy = data[0]
+    flux = data[1]
+    plt.plot(energy,flux)
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.xlabel('Energy (MeV)')
+    plt.ylabel('Flux $phcm^{-2}s^{-1}MeV^{-1}$')
+    plt.title(title)
 energies = np.logspace(4,8,100)
 
 #====================#
@@ -144,3 +154,26 @@ plt.ylabel('Flux $phcm^{-2}s^{-1}MeV^{-1}$')
 plt.title("J0525-696")
 plt.legend()
 plt.show()
+
+#===================#
+#Rest of Point Sources
+#===================#
+
+path = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/"
+sourcename       = ["J0530.0-6900e",
+                    "J0454.6-6825",
+                    "J0524.5-6937",
+                    "J0525.2-6614",
+                    "J0535.3-6559",
+                    "J0537.0-7113",
+                    "J0537-691",
+                    "J0525-696",
+                    "J0535-691",
+                    "J0534.1-6732"]
+    
+for src in sourcename:
+    title = "Spectrum of "+src
+    filename = path+"spec_"+src+".dat"
+    print(filename)
+    plot_Spectra(filename,title)
+    plt.show()
