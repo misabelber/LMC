@@ -50,20 +50,22 @@ irf_ = 'South_z40_average_50h'
 
 debug = True
 
-Component = 'CR+DiffuseSources+PS' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
+Component = 'test_ctools' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
 PATH_HERE = "../pipes_in_py" #Path where we are running
 PATH_MODEL = "../../models/" #Path where the model to simulate is stored
-PATH_OBS = config.DATA_PATH+"/Obs_"+Component+"/" #Path to store the observation files. I create a different directory to store  each component (or set of components) data. 
+#PATH_OBS = config.DATA_PATH+"/Obs_"+Component+"/" #Path to store the observation files. I create a different directory to store  each component (or set of components) data. 
+PATH_OBS = "/home/bernardos/LMC/test_ctools/" #Path to store the observation files. I create a different directory to store  each component (or set of components) data. 
+
 if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create it.
     os.makedirs(PATH_OBS)
 
 #Set Filenames wisely:
 
-suf = "_KSP_100GeV-100TeV"
-input_model = PATH_MODEL+'LMC_'+Component+'.xml' 
-cntcube = PATH_OBS+"cntcube_"+'LMC_'+Component+'_'+suf+'.fits'
+suf = "_empty"
+input_model = PATH_MODEL+'test_ctools/LMC_'+Component+suf+'.xml' 
+cntcube = PATH_OBS+"cntcube_"+'LMC_'+Component+'_'+suf+'_10.fits'
 modcube = PATH_OBS+"modcube_"+'LMC_'+Component+'_'+suf+'.fits'
 outfile = PATH_OBS+'observations_'+'LMC_'+Component+'_'+'.xml' #List of Observations file that will be produced ('.xml')
 file = open(outfile,'w') 

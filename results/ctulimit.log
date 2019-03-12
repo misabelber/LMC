@@ -1,0 +1,211 @@
+2019-02-18T11:52:11: ********************************************************************************
+2019-02-18T11:52:11: *                                   ctulimit                                   *
+2019-02-18T11:52:11: * ---------------------------------------------------------------------------- *
+2019-02-18T11:52:11: * Version: 1.5.2                                                               *
+2019-02-18T11:52:11: ********************************************************************************
+2019-02-18T11:55:08: +============+
+2019-02-18T11:55:08: | Parameters |
+2019-02-18T11:55:08: +============+
+2019-02-18T11:55:08:  inobs .....................: /pnfs/ciemat.es/data/cta/mabel/LMC/test_ctools/cntcube_LMC_test_ctools.fits
+2019-02-18T11:55:08:  inmodel ...................: /afs/ciemat.es/user/b/bernardos/GitHub/LMC/models/test_ctools/LMC_test_ctools_functions_bkgmodel+DM.xml
+2019-02-18T11:55:08:  srcname ...................: DM
+2019-02-18T11:55:08:  expcube ...................: /pnfs/ciemat.es/data/cta/mabel/LMC/test_ctools/expcube_LMC_test_ctools.fits
+2019-02-18T11:55:08:  psfcube ...................: /pnfs/ciemat.es/data/cta/mabel/LMC/test_ctools/psfcube_LMC_test_ctools.fits
+2019-02-18T11:55:08:  edispcube .................: [not queried]
+2019-02-18T11:55:08:  bkgcube ...................: /pnfs/ciemat.es/data/cta/mabel/LMC/test_ctools/bkgcube_LMC_test_ctools.fits
+2019-02-18T11:55:08:  caldb .....................: [not queried]
+2019-02-18T11:55:08:  irf .......................: [not queried]
+2019-02-18T11:55:08:  edisp .....................: no
+2019-02-18T11:55:08:  confidence ................: 0.95
+2019-02-18T11:55:08:  sigma_min .................: 0.0
+2019-02-18T11:55:08:  sigma_max .................: 10.0
+2019-02-18T11:55:08:  eref ......................: 1.0
+2019-02-18T11:55:08:  emin ......................: 1.0
+2019-02-18T11:55:08:  emax ......................: 100.0
+2019-02-18T11:55:08:  tol .......................: 1e-5
+2019-02-18T11:55:08:  statistic .................: DEFAULT
+2019-02-18T11:55:08:  max_iter ..................: 50
+2019-02-18T11:55:08:  chatter ...................: 2
+2019-02-18T11:55:08:  clobber ...................: yes
+2019-02-18T11:55:08:  debug .....................: yes
+2019-02-18T11:55:08:  mode ......................: ql
+2019-02-18T11:55:08:  logfile ...................: ctulimit.log
+2019-02-18T11:55:08: 
+2019-02-18T11:55:08: +===================+
+2019-02-18T11:55:08: | Input observation |
+2019-02-18T11:55:08: +===================+
+2019-02-18T11:55:08: === GObservations ===
+2019-02-18T11:55:08:  Number of observations ....: 1
+2019-02-18T11:55:08:  Number of models ..........: 8
+2019-02-18T11:55:08:  Number of observed events .: 28147915
+2019-02-18T11:55:08:  Number of predicted events : 0
+2019-02-18T11:55:08: 
+2019-02-18T11:55:08: +=============================+
+2019-02-18T11:55:08: | Compute best-fit likelihood |
+2019-02-18T11:55:08: +=============================+
+2019-02-18T11:56:48: === GOptimizerLM ===
+2019-02-18T11:56:48:  Optimized function value ..: -164237511.870
+2019-02-18T11:56:48:  Absolute precision ........: 0.005
+2019-02-18T11:56:48:  Acceptable value decrease .: 2
+2019-02-18T11:56:48:  Optimization status .......: converged
+2019-02-18T11:56:48:  Number of parameters ......: 42
+2019-02-18T11:56:48:  Number of free parameters .: 10
+2019-02-18T11:56:48:  Number of iterations ......: 21
+2019-02-18T11:56:48:  Lambda ....................: 10
+2019-02-18T11:56:48:  Maximum log likelihood ....: -164237511.870
+2019-02-18T11:56:48: === GModels ===
+2019-02-18T11:56:48:  Number of models ..........: 8
+2019-02-18T11:56:48:  Number of parameters ......: 42
+2019-02-18T11:56:48: === GModelSky ===
+2019-02-18T11:56:48:  Name ......................: J0537-691
+2019-02-18T11:56:48:  Instruments ...............: all
+2019-02-18T11:56:48:  Test Statistic ............: Computation requested
+2019-02-18T11:56:48:  Instrument scale factors ..: unity
+2019-02-18T11:56:48:  Observation identifiers ...: all
+2019-02-18T11:56:48:  Model type ................: PointSource
+2019-02-18T11:56:48:  Model components ..........: "SkyDirFunction" * "SmoothBrokenPowerLaw" * "Constant"
+2019-02-18T11:56:48:  Number of parameters ......: 9
+2019-02-18T11:56:48:  Number of spatial par's ...: 2
+2019-02-18T11:56:48:   RA .......................: 84.4375 [0,360] deg (fixed,scale=1)
+2019-02-18T11:56:48:   DEC ......................: -69.1858 [-90,90] deg (fixed,scale=1)
+2019-02-18T11:56:48:  Number of spectral par's ..: 6
+2019-02-18T11:56:48:   Prefactor ................: 2.08672747046912e-09 +/- 9.87436022344088e-12 [1e-16,1e-06] ph/cm2/s/MeV (free,scale=1e-09,gradient)
+2019-02-18T11:56:48:   Index1 ...................: -1.502 [-0,-5]  (fixed,scale=-1,gradient)
+2019-02-18T11:56:48:   Index2 ...................: -2.8 [-0.01,-5]  (fixed,scale=-1,gradient)
+2019-02-18T11:56:48:   PivotEnergy ..............: 1 [0.01,1000] MeV (fixed,scale=1,gradient)
+2019-02-18T11:56:48:   BreakEnergy ..............: 1000000 [10000,1000000000] MeV (fixed,scale=1000000,gradient)
+2019-02-18T11:56:48:   BreakSmoothness ..........: 0.2 [0.01,10]  (fixed,scale=1,gradient)
+2019-02-18T11:56:48:  Number of temporal par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 1 (relative value) (fixed,scale=1,gradient)
+2019-02-18T11:56:48: === GModelSky ===
+2019-02-18T11:56:48:  Name ......................: J0524.5-6937
+2019-02-18T11:56:48:  Instruments ...............: all
+2019-02-18T11:56:48:  Test Statistic ............: Computation requested
+2019-02-18T11:56:48:  Instrument scale factors ..: unity
+2019-02-18T11:56:48:  Observation identifiers ...: all
+2019-02-18T11:56:48:  Model type ................: PointSource
+2019-02-18T11:56:48:  Model components ..........: "SkyDirFunction" * "SuperExponentialCutoffPowerLaw" * "Constant"
+2019-02-18T11:56:48:  Number of parameters ......: 8
+2019-02-18T11:56:48:  Number of spatial par's ...: 2
+2019-02-18T11:56:48:   RA .......................: 81.1278 [0,360] deg (fixed,scale=1)
+2019-02-18T11:56:48:   DEC ......................: -69.6294 [-90,90] deg (fixed,scale=1)
+2019-02-18T11:56:48:  Number of spectral par's ..: 5
+2019-02-18T11:56:48:   Prefactor ................: 4.72320605663418e-15 +/- 2.65192705566023e-16 [1e-21,1e-11] ph/cm2/s/MeV (free,scale=1e-14,gradient)
+2019-02-18T11:56:48:   Index1 ...................: -1.58767938236779 +/- 0.0134849050738414 [-0,-5]  (free,scale=-1,gradient)
+2019-02-18T11:56:48:   CutoffEnergy .............: 1000000 [10000,1000000000] MeV (fixed,scale=1000000,gradient)
+2019-02-18T11:56:48:   PivotEnergy ..............: 7467.335 [0.01,10000] MeV (fixed,scale=1,gradient)
+2019-02-18T11:56:48:   Index2 ...................: 3 [0.1,5]  (fixed,scale=1,gradient)
+2019-02-18T11:56:48:  Number of temporal par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 1 (relative value) (fixed,scale=1,gradient)
+2019-02-18T11:56:48: === GModelSky ===
+2019-02-18T11:56:48:  Name ......................: HadronicDiffuse
+2019-02-18T11:56:48:  Instruments ...............: all
+2019-02-18T11:56:48:  Test Statistic ............: Computation requested
+2019-02-18T11:56:48:  Instrument scale factors ..: unity
+2019-02-18T11:56:48:  Observation identifiers ...: all
+2019-02-18T11:56:48:  Model type ................: DiffuseSource
+2019-02-18T11:56:48:  Model components ..........: "SpatialMap" * "FileFunction" * "Constant"
+2019-02-18T11:56:48:  Number of parameters ......: 3
+2019-02-18T11:56:48:  Number of spatial par's ...: 1
+2019-02-18T11:56:48:   Prefactor ................: 1 [1,1]  (fixed,scale=1,gradient)
+2019-02-18T11:56:48:  Number of spectral par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 0 +/- 0.366702093807849 [0,1000]  (free,scale=1,gradient)
+2019-02-18T11:56:48:  Number of temporal par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 1 (relative value) (fixed,scale=1,gradient)
+2019-02-18T11:56:48: === GModelSky ===
+2019-02-18T11:56:48:  Name ......................: 3FHL J0530.0-6900e
+2019-02-18T11:56:48:  Instruments ...............: all
+2019-02-18T11:56:48:  Test Statistic ............: Computation requested
+2019-02-18T11:56:48:  Instrument scale factors ..: unity
+2019-02-18T11:56:48:  Observation identifiers ...: all
+2019-02-18T11:56:48:  Model type ................: DiffuseSource
+2019-02-18T11:56:48:  Model components ..........: "SpatialMap" * "PowerLaw" * "Constant"
+2019-02-18T11:56:48:  Number of parameters ......: 5
+2019-02-18T11:56:48:  Number of spatial par's ...: 1
+2019-02-18T11:56:48:   Prefactor ................: 1 [1,1]  (fixed,scale=1,gradient)
+2019-02-18T11:56:48:  Number of spectral par's ..: 3
+2019-02-18T11:56:48:   Prefactor ................: 1.87164628398266e-14 +/- 4.17841326815131e-16 [1e-21,1e-11] ph/cm2/s/MeV (free,scale=1e-14,gradient)
+2019-02-18T11:56:48:   Index ....................: -2.453 [-0,-5]  (fixed,scale=-1,gradient)
+2019-02-18T11:56:48:   PivotEnergy ..............: 17229 [10,1000000] MeV (fixed,scale=1000,gradient)
+2019-02-18T11:56:48:  Number of temporal par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 1 (relative value) (fixed,scale=1,gradient)
+2019-02-18T11:56:48: === GModelSky ===
+2019-02-18T11:56:48:  Name ......................: 3FHL J0531.8-6639e
+2019-02-18T11:56:48:  Instruments ...............: all
+2019-02-18T11:56:48:  Test Statistic ............: Computation requested
+2019-02-18T11:56:48:  Instrument scale factors ..: unity
+2019-02-18T11:56:48:  Observation identifiers ...: all
+2019-02-18T11:56:48:  Model type ................: DiffuseSource
+2019-02-18T11:56:48:  Model components ..........: "SpatialMap" * "PowerLaw" * "Constant"
+2019-02-18T11:56:48:  Number of parameters ......: 5
+2019-02-18T11:56:48:  Number of spatial par's ...: 1
+2019-02-18T11:56:48:   Prefactor ................: 1 [1,1]  (fixed,scale=1,gradient)
+2019-02-18T11:56:48:  Number of spectral par's ..: 3
+2019-02-18T11:56:48:   Prefactor ................: 2.23283247871047e-15 +/- 2.20114884794705e-17 [1e-22,1e-12] ph/cm2/s/MeV (free,scale=1e-15,gradient)
+2019-02-18T11:56:48:   Index ....................: -1.985 [-0,-5]  (fixed,scale=-1,gradient)
+2019-02-18T11:56:48:   PivotEnergy ..............: 29942 [10,1000000] MeV (fixed,scale=1000,gradient)
+2019-02-18T11:56:48:  Number of temporal par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 1 (relative value) (fixed,scale=1,gradient)
+2019-02-18T11:56:48: === GModelSky ===
+2019-02-18T11:56:48:  Name ......................: 3FHL J0500.9-6945e
+2019-02-18T11:56:48:  Instruments ...............: all
+2019-02-18T11:56:48:  Test Statistic ............: Computation requested
+2019-02-18T11:56:48:  Instrument scale factors ..: unity
+2019-02-18T11:56:48:  Observation identifiers ...: all
+2019-02-18T11:56:48:  Model type ................: DiffuseSource
+2019-02-18T11:56:48:  Model components ..........: "SpatialMap" * "PowerLaw" * "Constant"
+2019-02-18T11:56:48:  Number of parameters ......: 5
+2019-02-18T11:56:48:  Number of spatial par's ...: 1
+2019-02-18T11:56:48:   Prefactor ................: 1 [1,1]  (fixed,scale=1,gradient)
+2019-02-18T11:56:48:  Number of spectral par's ..: 3
+2019-02-18T11:56:48:   Prefactor ................: 1.52266568072836e-15 +/- 3.3826249286383e-17 [1e-22,1e-12] ph/cm2/s/MeV (free,scale=1e-15,gradient)
+2019-02-18T11:56:48:   Index ....................: -1.9123 [-0,-5]  (fixed,scale=-1,gradient)
+2019-02-18T11:56:48:   PivotEnergy ..............: 17229 [10,1000000] MeV (fixed,scale=1000,gradient)
+2019-02-18T11:56:48:  Number of temporal par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 1 (relative value) (fixed,scale=1,gradient)
+2019-02-18T11:56:48: === GModelSky ===
+2019-02-18T11:56:48:  Name ......................: DM
+2019-02-18T11:56:48:  Instruments ...............: all
+2019-02-18T11:56:48:  Instrument scale factors ..: unity
+2019-02-18T11:56:48:  Observation identifiers ...: all
+2019-02-18T11:56:48:  Model type ................: DiffuseSource
+2019-02-18T11:56:48:  Model components ..........: "DiffuseMap" * "FileFunction" * "Constant"
+2019-02-18T11:56:48:  Number of parameters ......: 3
+2019-02-18T11:56:48:  Number of spatial par's ...: 1
+2019-02-18T11:56:48:   Normalization ............: 1 [0.001,1000]  (fixed,scale=1,gradient)
+2019-02-18T11:56:48:  Number of spectral par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 0 +/- 286.27672509585 [0,1000]  (free,scale=1,gradient)
+2019-02-18T11:56:48:  Number of temporal par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 1 (relative value) (fixed,scale=1,gradient)
+2019-02-18T11:56:48: === GCTAModelCubeBackground ===
+2019-02-18T11:56:48:  Name ......................: BackgroundModel
+2019-02-18T11:56:48:  Instruments ...............: CTA, HESS, MAGIC, VERITAS
+2019-02-18T11:56:48:  Instrument scale factors ..: unity
+2019-02-18T11:56:48:  Observation identifiers ...: all
+2019-02-18T11:56:48:  Model type ................: "PowerLaw" * "Constant"
+2019-02-18T11:56:48:  Number of parameters ......: 4
+2019-02-18T11:56:48:  Number of spectral par's ..: 3
+2019-02-18T11:56:48:   Prefactor ................: 1.0104242285929 +/- 0.000604344433540161 [0.01,100] ph/cm2/s/MeV (free,scale=1,gradient)
+2019-02-18T11:56:48:   Index ....................: -0.0155921791763617 +/- 0.000314722071037546 [-5,5]  (free,scale=1,gradient)
+2019-02-18T11:56:48:   PivotEnergy ..............: 1000000 MeV (fixed,scale=1000000,gradient)
+2019-02-18T11:56:48:  Number of temporal par's ..: 1
+2019-02-18T11:56:48:   Normalization ............: 1 (relative value) (fixed,scale=1,gradient)
+2019-02-18T11:56:48: 
+2019-02-18T11:56:48: +=====================+
+2019-02-18T11:56:48: | Compute upper limit |
+2019-02-18T11:56:48: +=====================+
+2019-02-18T11:56:48:  Model name ................: DM
+2019-02-18T11:56:48:  Parameter name ............: Normalization
+2019-02-18T11:56:48:  Confidence level ..........: 95%
+2019-02-18T11:56:48:  Log-likelihood difference .: 1.92073
+2019-02-18T11:56:48:  Initial parameter range ...: [0, 1000]
+2019-02-18T12:00:57:  Final parameter ...........: 22.8693
+2019-02-18T12:00:57: 
+2019-02-18T12:00:57: +=====================+
+2019-02-18T12:00:57: | Upper limit results |
+2019-02-18T12:00:57: +=====================+
+2019-02-18T12:00:57:  Differential flux limit ...: 2.2869348526001e-299 ph/cm2/s/MeV at 1 TeV
+2019-02-18T12:00:57:  Integral flux limit .......: 2.2640655040741e-291 ph/cm2/s within [1-100] TeV
+2019-02-18T12:00:57:  Energy flux limit .........: 1.83185343526953e-289 erg/cm2/s within [1-100] TeV
+2019-02-18T12:00:57: 
+2019-02-18T12:00:57: Application "ctulimit" terminated after 526 wall clock seconds, consuming 477.35 seconds of CPU time.

@@ -7,19 +7,20 @@
 #from astropy.io import ascii
 from scipy.interpolate import interp1d
 import numpy as np
-#from io importpython StringIO
+#from io import StringIO
 from StringIO import StringIO
 from matplotlib import pyplot as plt
 import io
 import math
+import sys
 
 #Define output path to store DM spectra
 
 OUT_PATH = "../../spectra/DM/"
 
-filename = 'AtProduction_gammas.dat'
+filename = 'AtProductionNoEW_gammas.dat'
 
-finalstate = "b"  # choose particle W, b, etc
+finalstate = sys.argv[1]  # choose particle W, b, etc
 
 with open(filename) as f:
     lines = (line for line in f if not line.startswith('#'))
@@ -29,8 +30,7 @@ with open(filename) as f:
 #masses = [0.300,0.400,0.600,0.700,0.800,0.900,2,3,4,5,6,7,8,9,10]
 #masses = [0.100,0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]     
 #masses = [20,30,40,50,60,70,80,90,100] #Mab: Masses of dark matter particle in TeV
-masses = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100]
-#masses=[1]
+masses = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.,2.,3.,4.,5.,6.,7.,8.,9.,10.,20.,30.,50.,100.]
 
 massvals = data["mDM"]
 #units in GeV
@@ -43,7 +43,7 @@ for mass in masses:
     mass = mass*1000 #Mab: Convert mass from TeV to GeV
     index = np.where(np.abs( (massvals - mass) / mass) < 1.e-3)
     xvals = 10**(data["Log10x"][index])
-
+    
     flux = data[finalstate][index]/(np.log(10)*xvals)
     loadspec = interp1d(xvals,flux)
     def dNdx(x):
@@ -52,6 +52,7 @@ for mass in masses:
             return 0
         else:
             return fluxval
+    
     #Mab: I don't want to plot anything here, so I commented it out.    
     #plt.plot(mass*GeVtoMeV*xvals,[np.log10(dNdx(x)/mass/GeVtoMeV) for x in xvals],color='dimgray')
     #plt.title('Ex. 3: Gamma Direct Spectrum into '+finalstate+ ' for $m_{\chi}=$'+massname,fontsize=14)
@@ -82,7 +83,11 @@ for mass in masses:
     vector=[]
     for x in np.nditer(xvals):
         vector.append(x)
-    
+    xrange = xvals[xvals*mass >= 10]
+    xmin = xrange[0]
+    xmax = xrange[xrange.shape[0]-1]
+    new_x = np.linspace(xmin,xmax,500)
+
         # dN/dE  = dNdx(x)/mass
         # prints two lines E , dark matter flux (multiplied by J_tot)
                 
@@ -95,16 +100,21 @@ for mass in masses:
     #OPTION 1: ADD ZEROS
     
     with foutfinal as fff:
-        for x in vector[118:179]:
+        #for x in xvals[:180]:
         #for x in vector:
-            #for x in vector[119:180]:
-            if x*mass*GeVtoMeV > 99999.:
+        #for x in vector[:180]:
+        for x in new_x:
+            #if x*mass*GeVtoMeV > 99999.:
+            if (dNdx(x)/mass/mass/mass/GeVtoMeV/8./3.14*sv*jfactor)==0.0:
+                print >> fff, x*mass*GeVtoMeV, 1e-300
+            else:
                 print >> fff, x*mass*GeVtoMeV, dNdx(x)/mass/mass/mass/GeVtoMeV/8./3.14*sv*jfactor 
             #print >> fff, x*mass*GeVtoMeV, dNdx(x)/mass/GeVtoMeV   # E  and dN/dE                
         
         for i in range(len(zeros)-1):
             print >> fff,zeros[i+1],1e-300 #Mab: Add zeros
     # OPTION 2: ERASE THE BUMP FOR W+ADD ZEROS
+    
     """
     nbin=1
     with foutfinal as fff:

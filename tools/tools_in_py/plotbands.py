@@ -115,7 +115,7 @@ if __name__ == '__main__':
     #masses           = [0.2,0.5,1,2,5,10,20,50,100]
     masses           = [0.2,0.5,1,5,10,50,100]
     # Annihilated final particle
-    particle         = "Tau";
+    particle         = "b";
     # Filepath to results
     filepath_to_here = os.getcwd()
     filepath         = filepath_to_here + "/../../results/"

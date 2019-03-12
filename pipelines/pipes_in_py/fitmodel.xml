@@ -1,140 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <source_library title="source library">
-  <source name="J0537-691" type="PointSource" ts="211985.226" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0537-691.dat">
-      <parameter name="Normalization" value="0.852916909683454" error="0.00344218228522597" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="84.4375" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-69.1858" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="J0524.5-6937" type="PointSource" ts="43534.420" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0524.5-6937.dat">
-      <parameter name="Normalization" value="0.922793761504602" error="0.00678995707361158" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="81.1278" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-69.6294" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="J0534.1-6732" type="PointSource" ts="2446.486" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0534.1-6732.dat">
-      <parameter name="Normalization" value="0.690245629772914" error="0.0210719905225354" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="83.54" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-67.54" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="J0525.2-6614" type="PointSource" ts="2948.122" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0525.2-6614.dat">
-      <parameter name="Normalization" value="0.524263424598895" error="0.0138620946804129" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="81.324" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-66.2436" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="J0535.3-6559" type="PointSource" ts="1766.228" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0535.3-6559.dat">
-      <parameter name="Normalization" value="0.51510448363281" error="0.018516944519183" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="83.8283" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-65.9973" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="J0454.6-6825" type="PointSource" ts="2566.651" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0454.6-6825.dat">
-      <parameter name="Normalization" value="0.606475713476837" error="0.0186216938589242" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="73.6591" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-68.4317" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="J0537.0-7113" type="PointSource" ts="83.148" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0537.0-7113.dat">
-      <parameter name="Normalization" value="0.523619749164114" error="0.0647952688074704" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="84.2537" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-71.2207" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="J0535-691" type="PointSource" ts="2117.869" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0535-691.dat">
-      <parameter name="Normalization" value="1.00343059551314" error="0.0297133465253864" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="83.9583" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-69.2061" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="J0525-696" type="PointSource" ts="3052.463" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0525-696.dat">
-      <parameter name="Normalization" value="0.50916059510198" error="0.0143975990149445" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SkyDirFunction">
-      <parameter name="RA" value="81.2583" scale="1" min="0" max="360" free="0" />
-      <parameter name="DEC" value="-69.6442" scale="1" min="-90" max="90" free="0" />
-    </spatialModel>
-  </source>
-  <source name="LeptonicDiffuse" type="DiffuseSource" ts="-0.089" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/diffuse/Spec_IC_LMC.dat">
-      <parameter name="Normalization" value="0" error="0.215074274920116" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-lepto.fits">
-      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
-    </spatialModel>
-  </source>
-  <source name="HadronicDiffuse" type="DiffuseSource" ts="-0.062" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/diffuse/Spec_Pion_LMC.dat">
-      <parameter name="Normalization" value="0" error="0.472623230420814" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits">
-      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
-    </spatialModel>
-  </source>
-  <source name="3FHL J0530.0-6900e" type="DiffuseSource" ts="1639.445" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0530.0-6900e.dat">
-      <parameter name="Normalization" value="0.945762494603776" error="0.0286974771307398" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-30DorWest.fits">
-      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
-    </spatialModel>
-  </source>
-  <source name="3FHL J0531.8-6639e" type="DiffuseSource" ts="13528.156" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0531.8-6639e.dat">
-      <parameter name="Normalization" value="0.889532730583131" error="0.00936719305231707" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-North.fits">
-      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
-    </spatialModel>
-  </source>
-  <source name="3FHL J0500.9-6945e" type="DiffuseSource" ts="22889.254" tscalc="1">
-    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/spec_J0500.9-6945e.dat">
-      <parameter name="Normalization" value="0.873143717865026" error="0.00709514240932497" scale="1" min="0" max="1000" free="1" />
-    </spectrum>
-    <spatialModel type="SpatialMap" file="/scratch/bernardos/LMC/ExtendedSources/countsmaps/LMC-FarWest.fits">
-      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
-    </spatialModel>
-  </source>
   <source name="BackgroundModel" type="CTACubeBackground" instrument="CTA,HESS,MAGIC,VERITAS">
     <spectrum type="PowerLaw">
-      <parameter name="Prefactor" value="1.03577569704905" error="0.000262968744341401" scale="1" min="0.01" max="100" free="1" />
-      <parameter name="Index" value="0" scale="1" min="-5" max="5" free="0" />
+      <parameter name="Prefactor" value="1" error="0" scale="1" min="0.01" max="100" free="1" />
+      <parameter name="Index" value="0" error="0" scale="1" min="-5" max="5" free="1" />
       <parameter name="PivotEnergy" value="1" scale="1000000" free="0" />
     </spectrum>
   </source>
   <source name="DM" type="DiffuseSource">
-    <spectrum type="PowerLaw">
-      <parameter name="Prefactor" value="1e+16" error="0" scale="1e-16" min="0" free="1" />
-      <parameter name="Index" value="-2" scale="1" min="-10" max="10" free="0" />
-      <parameter name="PivotEnergy" value="0.0001" scale="1000000" free="0" />
+    <spectrum type="FileFunction" file="../../spectra/DM/fluxMu100TeV.txt">
+      <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
     </spectrum>
-    <spatialModel type="DiffuseMap" file="/scratch/bernardos/LMC//DM/jfactor/annihil_LMC2D_FOVdiameter10.0deg_alphaint0.10deg_nside1024NFW-JFACTOR-Jsmooth-image.fits">
+    <spatialModel type="DiffuseMap" file="/pnfs/ciemat.es/data/cta/mabel/LMC/DM/jfactor/annihil_LMC2D_FOVdiameter10.0deg_alphaint0.10deg_nside1024NFW-JFACTOR-Jsmooth-image.fits">
       <parameter name="Normalization" value="1" scale="1" min="0.001" max="1000" free="0" />
     </spatialModel>
   </source>

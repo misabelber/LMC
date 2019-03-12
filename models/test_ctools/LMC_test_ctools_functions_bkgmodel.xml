@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<source_library title="source library">
+  <source name="J0537-691" type="PointSource" tscalc="1">
+    <spectrum type="SmoothBrokenPowerLaw">
+      <parameter name="Prefactor" value="2.67" error="0" scale="1e-09" min="1e-07" max="1000" free="1" />
+      <parameter name="Index1" value="1.502" error="0" scale="-1" min="0" max="5" free="0" />
+      <parameter name="Index2" value="2.8" error="0" scale="-1" min="0.01" max="5" free="0" />
+      <parameter name="PivotEnergy" value="1" scale="1" min="0.01" max="1000" free="0" />
+      <parameter name="BreakEnergy" value="1" error="0" scale="1000000" min="0.01" max="1000" free="0" />
+      <parameter name="BreakSmoothness" value="0.2" scale="1" min="0.01" max="10" free="0" />
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="84.4375" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-69.1858" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="J0524.5-6937" type="PointSource" tscalc="1">
+    <spectrum type="SuperExponentialCutoffPowerLaw">
+      <parameter name="Prefactor" value="0.626" error="0" scale="1e-14" min="1e-07" max="1000" free="1" />
+      <parameter name="Index1" value="1.633" error="0" scale="-1" min="0" max="5" free="1" />
+      <parameter name="CutoffEnergy" value="1" error="0" scale="1000000" min="0.01" max="1000" free="0" />
+      <parameter name="Index2" value="3" error="0" scale="1" min="0.1" max="5" free="0" />
+      <parameter name="PivotEnergy" value="7467.335" scale="1" min="0.01" max="10000" free="0" />
+    </spectrum>
+    <spatialModel type="SkyDirFunction">
+      <parameter name="RA" value="81.1278" scale="1" min="0" max="360" free="0" />
+      <parameter name="DEC" value="-69.6294" scale="1" min="-90" max="90" free="0" />
+    </spatialModel>
+  </source>
+  <source name="HadronicDiffuse" type="DiffuseSource" tscalc="1">
+    <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/diffuse/Spec_Pion_LMC.dat">
+      <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
+    </spectrum>
+    <spatialModel type="SpatialMap" file="/pnfs/ciemat.es/data/cta/mabel/LMC/DiffuseEmission/countsmaps/large-scale-hadro.fits">
+      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
+    </spatialModel>
+  </source>
+  <source name="3FHL J0530.0-6900e" type="DiffuseSource" tscalc="1">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor" value="1.64" error="0" scale="1e-14" min="1e-07" max="1000" free="1" />
+      <parameter name="Index" value="2.453" error="0" scale="-1" min="0" max="5" free="0" />
+      <parameter name="PivotEnergy" value="17.229" scale="1000" min="0.01" max="1000" free="0" />
+    </spectrum>
+    <spatialModel type="SpatialMap" file="/pnfs/ciemat.es/data/cta/mabel/LMC/ExtendedSources/countsmaps/LMC-30DorWest.fits">
+      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
+    </spatialModel>
+  </source>
+  <source name="3FHL J0531.8-6639e" type="DiffuseSource" tscalc="1">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor" value="2.377" error="0" scale="1e-15" min="1e-07" max="1000" free="1" />
+      <parameter name="Index" value="1.985" error="0" scale="-1" min="0" max="5" free="0" />
+      <parameter name="PivotEnergy" value="29.942" scale="1000" min="0.01" max="1000" free="0" />
+    </spectrum>
+    <spatialModel type="SpatialMap" file="/pnfs/ciemat.es/data/cta/mabel/LMC/ExtendedSources/countsmaps/LMC-North.fits">
+      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
+    </spatialModel>
+  </source>
+  <source name="3FHL J0500.9-6945e" type="DiffuseSource" tscalc="1">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor" value="1.518" error="0" scale="1e-15" min="1e-07" max="1000" free="1" />
+      <parameter name="Index" value="1.9123" error="0" scale="-1" min="0" max="5" free="0" />
+      <parameter name="PivotEnergy" value="17.229" scale="1000" min="0.01" max="1000" free="0" />
+    </spectrum>
+    <spatialModel type="SpatialMap" file="/pnfs/ciemat.es/data/cta/mabel/LMC/ExtendedSources/countsmaps/LMC-FarWest.fits">
+      <parameter name="Prefactor" value="1" scale="1" min="1" max="1" free="0" />
+    </spatialModel>
+  </source>
+  <source name="BackgroundModel" type="CTACubeBackground" instrument="CTA,HESS,MAGIC,VERITAS">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor" value="1" error="0" scale="1" min="0.01" max="100" free="1" />
+      <parameter name="Index" value="0" error="0" scale="1" min="-5" max="5" free="1" />
+      <parameter name="PivotEnergy" value="1" scale="1000000" free="0" />
+    </spectrum>
+  </source>
+</source_library>
