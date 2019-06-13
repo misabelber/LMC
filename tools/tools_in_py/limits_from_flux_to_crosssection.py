@@ -20,7 +20,7 @@ TeVtoGeV=1000
 GeVtoMeV=1000
 TeVtoMeV=1e6
 
-fileresults = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/pipelines/pipes_in_py/Ulimitsresults_empty_"+finalstate+suf+".txt"
+fileresults = "/afs/ciemat.es/user/b/bernardos/GitHub/LMC/pipelines/pipes_in_py/Ulimitsresults_"+finalstate+suf+".txt"
 with open(fileresults) as fr:
     results = np.genfromtxt(fr,unpack=True)
 

@@ -10,6 +10,7 @@
 #include "TF2.h"
 #include "TRandom.h"
 #include "TFile.h"
+#include "TString.h"
 #include <ctime>
 
 #include <iostream>
@@ -52,7 +53,7 @@ void ReadFits()
 Number ReadFits(VM &data,
 		TString filename)
 {
-  //cout << filename << endl;
+  cout << filename << endl;
   data.clear();
   //Open the model component fits file
   TFITSHDU *hdu =  new TFITSHDU(filename);
@@ -110,8 +111,10 @@ void FillContainer_Bkg(TString ext[], TString ps[], TString suf)
   for (int i=0; i<N_ext; i++)
     {
       if (N_ext==0) break;
-      TString filename = dir + ext[i] + "/Model_" + ext[i] + suf + ".fits";
+      //TString filename = dir + ext[i] + "/Model_" + ext[i] + suf + ".fits";
       //TString filename = dir + ext[i] + "/modcube_LMC_" + ext[i] + suf + ".fits";
+      //TString filename = "/home/bernardos/LMC/test_ctools/test_ctools_call/modcube_LMC_" + ext[i] +".fits";
+      TString filename = "/home/bernardos/LMC/test_ctools/test_ctools_call/multipleobs/Model_" + ext[i] +".fits";
       VM data;
       N_bkg.push_back(ReadFits(data,filename));
       Bkg_model.push_back(data);
@@ -121,7 +124,9 @@ void FillContainer_Bkg(TString ext[], TString ps[], TString suf)
     {
       if (N_ps==0) break;
       //TString filename =  dir_PS + "/modcube_LMC_" + ps[i] + suf + ".fits";
-      TString filename =  dir_PS + "/Model_" + ps[i] + suf + ".fits";
+      //TString filename =  dir_PS + "/Model_" + ps[i] + suf + ".fits";
+      //TString filename = "/home/bernardos/LMC/test_ctools/test_ctools_call/modcube_LMC_" + ps[i] +".fits";
+      TString filename = "/home/bernardos/LMC/test_ctools/test_ctools_call/multipleobs/Model_" + ps[i] +".fits";
       VM data;
       N_bkg.push_back(ReadFits(data,filename));
       Bkg_model.push_back(data);
@@ -139,18 +144,20 @@ void FillContainer_DM()
   cout << "suf: String with suffix of fits file" << endl;
 }
 
-void FillContainer_DM(Number dm_mass, TString particle, TString suf)
+void FillContainer_DM(TString dm_mass, TString particle, TString suf)
 {
   N_dm = 0;
   DM_model.clear();
   TString masstr;
-  
+  masstr=dm_mass;
+  /*
   //Build wisely the name of the file model from DM
   if (dm_mass < 1.0 && dm_mass > 0.0)
     {
       ostringstream os;
       os << dm_mass*1000;
       masstr = os.str() + "GeV";
+      cout << masstr << endl;
     }
   if (dm_mass >= 1.0)
     {
@@ -158,16 +165,18 @@ void FillContainer_DM(Number dm_mass, TString particle, TString suf)
       os << dm_mass;
       masstr = os.str() + "TeV"; 
     }
+  */
   
   TString modelname = "dm_LMC_" + particle + masstr;
   if (dm_mass==0){
     modelname = "dm_LMC_Crab";
   }
-
-  TString filename = dir_DM + "/modcube_" + modelname + suf + ".fits";
-
+  
+  //TString filename = dir_DM + "/modcube_" + modelname + suf + ".fits";
+  TString filename = "/home/bernardos/LMC/test_ctools/test_ctools_call/DMobs/modcube_" + modelname + suf + ".fits";
+  
   N_dm = ReadFits(DM_model,filename);
-    
+  
 }
 
 void FillContainer_Obs()
@@ -185,11 +194,13 @@ void FillContainer_Obs(TString obsname, bool modcube, TString suf)
   TString filename;
   if (modcube)
     {
-      filename = dir + obsname + "/Model_" + obsname + suf + ".fits";
+      //filename = dir + obsname + "/Model_" + obsname + suf + ".fits";
+      //filename = "/home/bernardos/LMC/test_ctools/test_ctools_call/modcube_LMC_" + obsname +".fits";
+      filename = "/home/bernardos/LMC/test_ctools/test_ctools_call/multipleobs/Model_" + obsname +".fits";
     }
   else
     {
-      filename = dir + obsname + "/cntcube_LMC_" + obsname + suf + ".fits";     
+      filename = "/home/bernardos/LMC/test_ctools/test_ctools_call/cntcube_LMC_" + obsname +".fits";     
     }
   Ntotal = ReadFits(Obs_data,filename);
   

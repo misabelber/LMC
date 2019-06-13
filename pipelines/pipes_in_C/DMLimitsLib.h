@@ -48,7 +48,7 @@ void FillContainer_Bkg();
 void FillContainer_Bkg(TString ext[],TString ps[],TString suf);
 
 void FillContainer_DM();
-void FillContainer_DM(Number dm_mass, TString particle, TString suf);
+void FillContainer_DM(TString dm_mass, TString particle, TString suf);
 
 void FillContainer_Obs();
 void FillContainer_Obs(TString obsname, bool modcube, TString suf);

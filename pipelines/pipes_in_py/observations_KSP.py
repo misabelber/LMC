@@ -50,7 +50,7 @@ irf_ = 'South_z40_average_50h'
 
 debug = True
 
-Component = 'test_ctools' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
+Component = 'CTABackgroundModel' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
 PATH_HERE = "../pipes_in_py" #Path where we are running
@@ -63,11 +63,11 @@ if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create 
 
 #Set Filenames wisely:
 
-suf = "_empty"
-input_model = PATH_MODEL+'test_ctools/LMC_'+Component+suf+'.xml' 
-cntcube = PATH_OBS+"cntcube_"+'LMC_'+Component+'_'+suf+'_10.fits'
-modcube = PATH_OBS+"modcube_"+'LMC_'+Component+'_'+suf+'.fits'
-outfile = PATH_OBS+'observations_'+'LMC_'+Component+'_'+'.xml' #List of Observations file that will be produced ('.xml')
+suf = ""
+input_model = PATH_MODEL+'test_ctools/sources/LMC_'+Component+suf+'.xml' 
+cntcube = PATH_OBS+"cntcube_"+'LMC_'+Component+suf+'.fits'
+modcube = PATH_OBS+"modcube_"+'LMC_'+Component+suf+'.fits'
+outfile = PATH_OBS+'observations_'+'LMC_'+Component+'.xml' #List of Observations file that will be produced ('.xml')
 file = open(outfile,'w') 
 
 Obs_list = gammalib.GObservations()

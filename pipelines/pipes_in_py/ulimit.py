@@ -23,7 +23,7 @@ def fitspectra(filename):
 
 particle=sys.argv[1]
 suf = sys.argv[2]
-f = open("Ulimitsresults_empty_"+particle+suf+".txt","a")
+f = open("Ulimitsresults_"+particle+suf+".txt","a")
 
 #masses = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100]
 masses = [0.2,0.3,0.5,0.6,0.8,1.,2.,3.,5.,6.,8.,10.,20.,30.,50.,100.]
@@ -52,15 +52,15 @@ for mass in masses:
 
     PATH_HERE = "../pipes_in_py" #Path where we are running
     PATH_MODEL = "../../models/test_ctools/" #Path where the model to simulate is stored
-    PATH_OBS = "/home/bernardos/LMC/test_ctools/" 
+    PATH_OBS = "/home/bernardos/LMC/test_ctools/test_ctools_call/" 
 #    suf = "_KSP_100GeV-100TeV"
-    suf = "_empty"
+    suf = "_hesssources"
     expcube = PATH_OBS+"expcube_"+'LMC_'+Component+'_'+suf+'.fits'
     psfcube = PATH_OBS+"psfcube_"+'LMC_'+Component+'_'+suf+'.fits'
     bkgcube = PATH_OBS+"bkgcube_"+'LMC_'+Component+'_'+suf+'.fits'
     cntcube = PATH_OBS+"cntcube_"+'LMC_'+Component+'_'+suf+'.fits'
     
-    bkgmodel = gammalib.GModels(PATH_MODEL+"LMC_test_ctools_empty_bkgmodel.xml")
+    bkgmodel = gammalib.GModels(PATH_MODEL+"LMC_"+Component+suf+"_bkgmodel.xml")
     
     jfactor ='/pnfs/ciemat.es/data/cta/mabel/LMC/DM/jfactor/annihil_LMC2D_FOVdiameter10.0deg_alphaint0.10deg_nside1024NFW-JFACTOR-Jsmooth-image.fits'
     

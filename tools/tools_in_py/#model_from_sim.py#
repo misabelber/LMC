@@ -38,11 +38,15 @@ if __name__ == '__main__':
     component=args.component
     nobs=args.nobs
     
-    suf = ""
-    PATH = "/scratch/bernardos/LMC/Obs_"+component+suf+"/" #Para extended srcs, CR(Irf), Diffuse
+    #suf = "_hesssources"
+    suf = "_jfactorNFW"
+    #PATH="/home/bernardos/LMC/test_ctools/test_ctools_call/multipleobs/"
+    PATH="/home/bernardos/LMC/test_ctools/test_ctools_call/DMobs/"
+    #PATH = "/scratch/bernardos/LMC/Obs_"+component+suf+"/" #Para extended srcs, CR(Irf), Diffuse
     #PATH = "/scratch/bernardos/LMC/Obs_PS/" #Para Point Sources
     #PATH = "/scratch/bernardos/LMC/Obs_DM/" #Para DM
-    filecntcube=PATH+"cntcube_LMC_"+component+"_functions_KSP_100GeV-100TeV"
+    #filecntcube=PATH+"cntcube_LMC_"+component+suf
+    filecntcube=PATH+"cntcube_dm_LMC_"+component+suf
     #filecntcube=PATH+"cntcube_dm_LMC_"+component+"_KSP_100GeV-100TeV" #Para DM
     hdul = fits.open(filecntcube+"000.fits")
     hdu = hdul[0]
@@ -71,7 +75,7 @@ if __name__ == '__main__':
     ebins = hdul[2]
     newhdul = fits.HDUList([hdumean,ebins])
 
-    newhdul.writeto(PATH+"Model_"+component+"_functions_KSP_100GeV-100TeV.fits",overwrite=True)
+    newhdul.writeto(PATH+"Model_"+component+suf,overwrite=True)
 
     plt.subplot(131)
     cmap = plt.get_cmap('inferno')

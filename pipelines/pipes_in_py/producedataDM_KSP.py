@@ -1,4 +1,3 @@
-
 # This program simulates, bins and creates model cubes for several Dark Matter models using a Pointing pattern similar to the one propopsed in the CTA KSP for LMC.
 
 import gammalib
@@ -11,14 +10,16 @@ import shutil
 import os
 import random
 import config
+import sys
 
 PATH_MODEL = "../../models/" #Path where models are stored
-PATH_OBS = config.DATA_PATH+"/Obs_DM/" #Path to store resulting .fits files.
+PATH_OBS = "/home/bernardos/LMC/test_ctools/test_ctools_call/DMobs/" #Path to store resulting .fits files.
 PATH_HERE = "../pipes_in_py/" #Path where we are running
-
 # If the observation path doesn't exist, create it.
 if not os.path.exists(PATH_OBS): 
     os.makedirs(PATH_OBS)
+
+particle = sys.argv[1] #Final state particle
 
 #Pointing
 centerx = 80.0
@@ -54,14 +55,13 @@ irf = "irf_file.fits"
 caldb_ = 'prod3b-v1' #Calibration files for ctobssim
 irf_ = 'South_z40_average_50h'
 
-particle = 'b' #Final state particle
 #masses = [0]
 #masses = [0.100,0.200,0.500,1,5,10,50,100]
 #masses = [0.200,0.300,0.400,0.500,0.600,0.800,1,4,5,8,10,40,50,80,100]
 masses = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100]
 #masses = [0]
 
-NObs = 300
+NObs = 10
 
 for mass in masses:
     rndseed = random.randint(1,300000)
@@ -73,10 +73,10 @@ for mass in masses:
         masstr = str(mass)+'TeV'
     specname = 'flux'+particle+masstr+'.txt'
     modelname = 'dm_LMC_'+particle+masstr
-    suf = "_jfactorNFW_KSP_100GeV-100TeV"
+    suf = "_jfactorNFW"
     #modelname = 'dm_LMC_Crab.xml'
     
-    model = PATH_MODEL+modelname+'_jfactorNFW'+'.xml'
+    model = PATH_MODEL+modelname+suf+'.xml'
     time = str(int(duration/3600))
     outfile = PATH_OBS+'observations_'+'LMC_'+modelname+suf+'.xml' #List of Observations file that will be produced ('.xml')
 
@@ -186,7 +186,7 @@ for mass in masses:
             for file in files:
                 src_file = os.path.join(PATH_HERE,file)
                 dst_file = os.path.join(PATH_OBS,file)
-                if file.endswith('.fits'):
+                if file.startswith('events_'+'LMC_'+modelname):
                     if os.path.exists(dst_file):
                         os.remove(dst_file)
                     shutil.move(src_file,PATH_OBS)

@@ -50,30 +50,30 @@ irf_ = 'South_z40_average_50h'
 
 debug = True
 
-Component = 'Irf+CR+DiffuseSources+PS' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
+Component = 'test_ctools' #Components that we are simulating: IRF, DM, Leptonic, Leptonic+Irf, etc. This is needed to read and write consistent filenames to be used by other programs.
 
 #Define Paths
 PATH_HERE = "../pipes_in_py" #Path where we are running
 PATH_MODEL = "../../models/" #Path where the model to simulate is stored
-PATH_OBS = config.DATA_PATH+"/Obs_"+Component+"/" #Path to store the observation files. I create a different directory to store  each component (or set of components) data. 
+PATH_OBS = "/home/bernardos/LMC/test_ctools/" #Path to store the observation files. I create a different directory to store  each component (or set of components) data. 
 if not os.path.exists(PATH_OBS): #If the observation path doesn't exist, create it.
     os.makedirs(PATH_OBS)
 
 #Set Filenames wisely:
 
-suf = "_functions_KSP_100GeV-100TeV"
-input_model = PATH_MODEL+'LMC_'+Component+'.xml' 
+suf = "_hesssources"
+input_model = PATH_MODEL+'test_ctools/LMC_'+Component+suf+'.xml' 
 
-outfile = PATH_OBS+'observations_'+'LMC_'+Component+'_'+'.xml' #List of Observations file that will be produced ('.xml')
+outfile = PATH_OBS+'observations_'+'LMC_'+Component+suf+'.xml' #List of Observations file that will be produced ('.xml')
 file = open(outfile,'w') 
 
 
 rndseed = random.randint(1,300000)
 
 
-NObs = 300
+NObs = 10
 
-for i in range(166,NObs):
+for i in range(0,NObs):
 
     Obs_list = gammalib.GObservations()
     xml = gammalib.GXml(outfile)
@@ -182,7 +182,7 @@ for i in range(166,NObs):
         for file in files:
             src_file = os.path.join(PATH_HERE,file)
             dst_file = os.path.join(PATH_OBS,file)
-            if file.endswith('.fits'):
+            if file.startswith('events_'+'LMC_'+Component):
                 if os.path.exists(dst_file):
                     os.remove(dst_file)
                 shutil.move(src_file,PATH_OBS)
@@ -216,7 +216,7 @@ for i in range(166,NObs):
         exp["irf"]=irf_
         exp["outcube"] = expcube 
         exp["debug"]=True 
-        exp.execute()
+        #exp.execute()
     
         psf = ctools.ctpsfcube()
         psf["inobs"] = outfile
@@ -225,7 +225,7 @@ for i in range(166,NObs):
         psf["irf"]=irf_
         psf["outcube"] = psfcube 
         psf["debug"]=True 
-        psf.execute()
+        #psf.execute()
     
         bkg = ctools.ctbkgcube()
         bkg["inobs"] = outfile
@@ -250,7 +250,7 @@ for i in range(166,NObs):
         mod["caldb"]=caldb_
         mod["irf"]=irf_
         mod["debug"]=True
-        mod.execute()
+        #mod.execute()
         
     
     

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <source_library title="source library">
-  <source name="30DorC/0535-691" type="PointSource" tscalc="1">
+  <source name="30DorC/0535-691" type="PointSource" ts="3843.601" tscalc="1">
     <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/30DorC.txt">
-      <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
+      <parameter name="Normalization" value="1.06411028230534" error="0.0232779905544337" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
       <parameter name="RA" value="83.9583" scale="1" min="0" max="360" free="0" />
       <parameter name="DEC" value="-69.2061" scale="1" min="-90" max="90" free="0" />
     </spatialModel>
   </source>
-<source name="N132D/J0525-696" type="PointSource" tscalc="1">
+  <source name="N132D/J0525-696" type="PointSource" ts="4310.958" tscalc="1">
     <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/N132D.txt">
-      <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
+      <parameter name="Normalization" value="0.581696985945538" error="0.0127908666781127" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
       <parameter name="RA" value="81.2583" scale="1" min="0" max="360" free="0" />
       <parameter name="DEC" value="-69.6442" scale="1" min="-90" max="90" free="0" />
     </spatialModel>
   </source>
-  <source name="CTABackgroundModel" type="CTAIrfBackground" instrument="CTA">
-    <spectrum type="PowerLaw">
-      <parameter name="Prefactor"   scale="1"  value="1"  min="0.001" max="1000"   free="1"/>
-      <parameter name="Index"   scale="1"  value="0"  min="-5" max="5"   free="0"/>
-      <parameter name="PivotEnergy"   scale="1000000"  value="1"  min="0.01" max="1000"   free="0"/>
-    </spectrum>
-  </source>
-  <source name="N157BD/J0537-691" type="PointSource" tscalc="1">
+  <source name="N157BD/J0537-691" type="PointSource" ts="118955.084" tscalc="1">
     <spectrum type="FileFunction" file="/afs/ciemat.es/user/b/bernardos/GitHub/LMC/spectra/sources/N157B.txt">
-      <parameter name="Normalization" value="1" error="0" scale="1" min="0" max="1000" free="1" />
+      <parameter name="Normalization" value="0.797959755931576" error="0.00422939324520132" scale="1" min="0" max="1000" free="1" />
     </spectrum>
     <spatialModel type="SkyDirFunction">
       <parameter name="RA" value="84.4375" scale="1" min="0" max="360" free="0" />
       <parameter name="DEC" value="-69.1858" scale="1" min="-90" max="90" free="0" />
     </spatialModel>
+  </source>
+  <source name="BackgroundModel" type="CTACubeBackground" instrument="CTA,HESS,MAGIC,VERITAS">
+    <spectrum type="PowerLaw">
+      <parameter name="Prefactor" value="1.00822253244586" error="0.000432140937618611" scale="1" min="0.01" max="100" free="1" />
+      <parameter name="Index" value="-0.0164772816869965" error="0.000258784923404221" scale="1" min="-5" max="5" free="1" />
+      <parameter name="PivotEnergy" value="1" scale="1000000" free="0" />
+    </spectrum>
   </source>
 </source_library>
